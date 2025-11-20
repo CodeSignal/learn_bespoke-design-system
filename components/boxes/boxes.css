@@ -1,0 +1,101 @@
+/**
+ * Box Component Styles
+ * Matches CodeSignal Design System
+ */
+
+:root {
+  /* Box Variables */
+  --Colors-Box-Background: var(--Colors-Base-Neutral-00);
+  --Colors-Box-Background-Hover: var(--Colors-Base-Neutral-00);
+  --Colors-Box-Stroke: var(--Colors-Base-Neutral-150);
+  --Colors-Box-Stroke-Hover: var(--Colors-Base-Neutral-300);
+  --Colors-Box-Stroke-Selected-Emphasis: var(--Colors-Base-Primary-600);
+  --Colors-Box-Stroke-Selected-Hover: var(--Colors-Base-Primary-750);
+  --Colors-Box-Stroke-Active: var(--Colors-Base-Neutral-300);
+  --Colors-Box-Stroke-Active-Hover: var(--Colors-Base-Neutral-400);
+  --Colors-Box-Focus: rgba(200, 205, 219, 0.30);
+  --Colors-Shadow-Soft: rgba(76, 90, 123, 0.04);
+  --Colors-Shadow-Card: rgba(76, 90, 123, 0.09);
+  --Colors-Box-Focus-Shadow: rgba(200, 205, 219, 0.30);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --Colors-Box-Background: var(--Colors-Base-Neutral-1200);
+        --Colors-Box-Background-Hover: var(--Colors-Base-Neutral-1150);
+        --Colors-Box-Stroke: rgba(45, 56, 85, 0.00);
+        --Colors-Box-Stroke-Hover: var(--Colors-Base-Neutral-1250);
+        --Colors-Box-Stroke-Selected-Hover: var(--Colors-Base-Primary-500);
+        --Colors-Box-Stroke-Active: var(--Colors-Base-Neutral-1100);
+        --Colors-Box-Stroke-Active-Hover: var(--Colors-Base-Neutral-1000);
+        --Colors-Box-Focus: rgba(17, 25, 46, .40);
+        --Colors-Shadow-Soft: rgba(13, 21, 40, 0.16);
+        --Colors-Shadow-Card: rgba(13, 21, 40, 0.32);
+        --Colors-Box-Focus-Shadow: rgba(17, 25, 46, 0.40);
+    }
+}
+
+
+.box {
+  display: flex;
+  padding: var(--UI-Spacing-spacing-mxl);
+  justify-content: center;
+  align-items: center;
+  gap: var(--UI-Spacing-spacing-none);
+  align-self: stretch;
+  
+  border-radius: var(--UI-Radius-radius-s);
+  border: 1.5px solid var(--Colors-Box-Border);
+  background: var(--Colors-Box-Background);
+  border: 1.5px solid transparent;
+}
+
+.box:hover,
+.box.hover {
+  border: 1.5px solid var(--Colors-Box-Stroke-Hover);
+  background: var(--Colors-Box-Background-Hover);
+}
+
+.box:focus,
+.box.focus {
+  border: 1.5px solid var(--Colors-Box-Stroke-Hover);
+  box-shadow: 0 0 0 4px var(--Colors-Box-Focus-Shadow);
+  background: var(--Colors-Box-Background-Hover);
+}
+
+.box:active,
+.box.selected {
+  border: 1.5px solid var(--Colors-Box-Stroke-Selected-Emphasis);
+}
+
+.box.selected:hover,
+.box.selected.hover {
+  border: 1.5px solid var(--Colors-Box-Stroke-Selected-Hover);
+}
+
+.box.emphasized {
+  border: 1.5px solid var(--Colors-Box-Stroke-Active);
+}
+
+.box.emphasized:hover,
+.box.emphasized.hover {
+  border: 1.5px solid var(--Colors-Box-Stroke-Active-Hover);
+}
+
+.box.shadowed {
+  box-shadow: 0 5px 0 -2px var(--Colors-Shadow-Soft);
+}
+
+.box.shadowed:focus,
+.box.shadowed.focus {
+  box-shadow: 0 0 0 4px var(--Colors-Box-Focus);
+}
+
+.box.card {
+    box-shadow: 0 3px 2px 0 var(--Colors-Shadow-Card);
+}
+
+.box.card:focus,
+.box.card.focus {
+    box-shadow: 0 0 0 4px var(--Colors-Box-Focus);
+}

@@ -19,6 +19,7 @@ Base definitions that drive the visual style.
 Reusable UI elements built using the foundations.
 
 - **[Button](components/button/README.md)**: Primary, secondary, and utility buttons.
+- **[Boxes](components/boxes/README.md)**: Container components.
 - **[Dropdown](components/dropdown/README.md)**: Customizable dropdown menus.
 
 ## Usage

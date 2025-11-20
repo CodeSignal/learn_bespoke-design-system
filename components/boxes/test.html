@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Box Component Test</title>
+    <link rel="stylesheet" href="/design-system/colors/colors.css">
+    <link rel="stylesheet" href="/design-system/spacing/spacing.css">
+    <link rel="stylesheet" href="/design-system/typography/typography.css">
+    <link rel="stylesheet" href="boxes.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background-color: var(--Colors-Backgrounds-Main-Default);
+            font-family: var(--body-family);
+            color: var(--Colors-Text-Body-Default);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            margin-bottom: 24px;
+            color: var(--Colors-Text-Body-Strong);
+        }
+        
+        h2 {
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: var(--Colors-Text-Body-Strong);
+        }
+        
+        .variant-card {
+            padding: 24px;
+            border: 1px solid var(--Colors-Stroke-Default);
+            border-radius: 8px;
+            /* background: var(--Colors-Backgrounds-Main-Light); */
+            margin-bottom: 24px;
+        }
+
+        .box {
+            height: 160px;
+            width: 160px;
+            margin: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Box Component Test</h1>
+
+    <div class="section">
+        <h2>Default Box</h2>
+        <div class="box">
+            <p class="body-medium">This is a default box with content inside.</p>
+        </div>
+        <div class="box hover">
+            <p class="body-medium">This is a default box with content inside. (hover)</p>
+        </div>
+        <div class="box focus">
+            <p class="body-medium">This is a default box with content inside. (focus)</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Selected Box</h2>
+        <div class="box selected">
+            <p class="body-medium">This is a default box with content inside. (selected)</p>
+        </div>
+        <div class="box selected hover">
+            <p class="body-medium">This is a default box with content inside. (selected hover)</p>
+        </div>
+        <div class="box selected focus">
+            <p class="body-medium">This is a default box with content inside. (selected focus)</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Emphasized Box</h2>
+        <div class="box emphasized">
+            <p class="body-medium">This is a default box with content inside. (emphasized)</p>
+        </div>
+        <div class="box emphasized hover">
+            <p class="body-medium">This is a default box with content inside. (emphasized hover)</p>
+        </div>
+        <div class="box emphasized focus">
+            <p class="body-medium">This is a default box with content inside. (emphasized focus)</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Shadowed Box</h2>
+        <div class="box shadowed">
+            <p class="body-medium">This is a default box with content inside. (shadowed)</p>
+        </div>
+        <div class="box shadowed hover">
+            <p class="body-medium">This is a default box with content inside. (shadowed hover)</p>
+        </div>
+        <div class="box shadowed focus">
+            <p class="body-medium">This is a default box with content inside. (shadowed focus)</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Card Box</h2>
+        <div class="box card">
+            <p class="body-medium">This is a default box with content inside. (card)</p>
+        </div>
+        <div class="box card hover">
+            <p class="body-medium">This is a default box with content inside. (card hover)</p>
+        </div>
+        <div class="box card focus">
+            <p class="body-medium">This is a default box with content inside. (card focus)</p>
+        </div>
+    </div>
+</body>
+</html>
+

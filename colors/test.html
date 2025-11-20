@@ -303,7 +303,7 @@
                         const darkModeCSS = extractBracedContent(darkMediaContent, darkRootIndex);
                         cssVariableReferences.dark = {};
                         
-                        const regex = /(--Colors-[^:]+):\s*var\(([^)]+)\)/g;
+                        const regex = /(--Colors[^:]+):\s*var\(([^)]+)\)/g;
                         let match;
                         while ((match = regex.exec(darkModeCSS)) !== null) {
                             const semanticVar = match[1].trim();
@@ -460,10 +460,10 @@
         // Semantic colors
         const semanticColors = {
             'primary-semantic': [
-                '--Colors-Base-Primary-default', '--Colors-Base-Primary-lightest', '--Colors-Base-Primary-lighter',
-                '--Colors-Base-Primary-light', '--Colors-Base-Primary-medium-light', '--Colors-Base-Primary-medium',
-                '--Colors-Base-Primary-medium-dark', '--Colors-Base-Primary-dark', '--Colors-Base-Primary-darker',
-                '--Colors-Base-Primary-darkest'
+                '--Colors-Primary-Default', '--Colors-Primary-Lightest', '--Colors-Primary-Lighter',
+                '--Colors-Primary-Light', '--Colors-Primary-Medium-Light', '--Colors-Primary-Medium',
+                '--Colors-Primary-Medium-Dark', '--Colors-Primary-Dark', '--Colors-Primary-Darker',
+                '--Colors-Primary-Darkest'
             ],
             'background-colors': [
                 '--Colors-Backgrounds-Main-Default', '--Colors-Backgrounds-Main-Light', '--Colors-Backgrounds-Main-Medium',
