@@ -27,6 +27,8 @@ or
 - `.button-tertiary`: Tertiary/Ghost button (Subtle background).
 - `.button-danger`: Destructive action button (Red).
 - `.button-success`: Positive action button (Green).
+- `.button-text`: Default Text button (Neutral text, no background).
+- `.button-text-primary`: Primary Text button (Brand color text, no background).
 
 ### Sizes
 - `.button-xsmall`: Extra small size (32px height).
@@ -52,6 +54,9 @@ The component supports standard pseudo-classes (`:hover`, `:focus`, `:active`, `
 
 <!-- Disabled Danger Button -->
 <button class="button button-danger" disabled>Delete</button>
+
+<!-- Text Button -->
+<button class="button button-text">Read More</button>
 ```
 
 ## Dependencies

@@ -7,7 +7,7 @@
     --Colors-Shadow-Focus-Button: rgba(92, 148, 255, 0.20);
 
     --Colors-Buttons-Primary-Default: var(--Colors-Base-Primary-700);
-    --Colors-Buttons-Primary-Default-Text: var(--Colors-Text-Body-White);
+    --Colors-Buttons-Primary-Default-Text: var(--Colors-Base-Neutral-00);
     --Colors-Buttons-Primary-Hover: var(--Colors-Base-Primary-700);
     --Colors-Buttons-Primary-Pressed: var(--Colors-Base-Primary-900);
     --Colors-Buttons-Primary-Stroke-Focus: var(--Colors-Base-Primary-900);
@@ -26,7 +26,6 @@
     --Colors-Buttons-Tertiary-Pressed: var(--Colors-Base-Neutral-750);
     --Colors-Buttons-Tertiary-Pressed-Text: var(--Colors-Base-Neutral-1200);
     --Colors-Button-Danger-Default: var(--Colors-Base-Accent-Red-600);
-    --Colors-Buttons-Primary-Default-Text: var(--Colors-Base-Neutral-00);
     --Colors-Buttons-Danger-Hover: var(--Colors-Base-Accent-Red-700);
     --Colors-Buttons-Danger-Stroke-Focus: var(--Colors-Base-Accent-Red-800);
     --Colors-Shadow-Focus-Button-Danger: rgba(184, 6, 44, 0.12);
@@ -36,6 +35,12 @@
     --Colors-Buttons-Success-Stroke-Focus: var(--Colors-Base-Accent-Green-800);
     --Colors-Shadow-Focus-Button-Success: rgba(25, 158, 89, 0.14);
     --Colors-Buttons-Success-Pressed: var(--Colors-Base-Accent-Green-800);
+
+    --Colors-Buttons-Text-Default: var(--Colors-Base-Neutral-1000);
+    --Colors-Buttons-Text-Primary: var(--Colors-Base-Primary-700);
+    --Colors-Buttons-Text-Primary-Hover: var(--Colors-Base-Primary-800);
+    --Colors-Buttons-Text-Pressed: var(--Colors-Base-Neutral-1300);
+    --Colors-Buttons-Text-Primary-Pressed: var(--Colors-Base-Primary-900);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -53,6 +58,12 @@
         --Colors-Buttons-Tertiary-Hover-Background: var(--Colors-Base-Neutral-Alphas-1050-25);
         --Colors-Buttons-Tertiary-Pressed: var(--Colors-Base-Neutral-1000);
         --Colors-Buttons-Tertiary-Pressed-Text: var(--Colors-Base-Neutral-300);
+
+        --Colors-Buttons-Text-Default: var(--Colors-Base-Neutral-700);
+        --Colors-Buttons-Text-Primary: var(--Colors-Base-Primary-500);
+        --Colors-Buttons-Text-Primary-Hover: var(--Colors-Base-Primary-400);
+        --Colors-Buttons-Text-Pressed: var(--Colors-Base-Neutral-900);
+        --Colors-Buttons-Text-Primary-Pressed: var(--Colors-Base-Primary-700);
     }
 }
 
@@ -215,6 +226,96 @@
 .button-success:active,
 .button-success.active {
     background: var(--Colors-Buttons-Success-Pressed);
+}
+
+.button-text,
+.button-text.button-medium,
+.button-text.button-large,
+.button-text-primary,
+.button-text-primary.button-medium,
+.button-text-primary.button-large {
+    background: transparent;
+    display: flex;
+    gap: var(--UI-Spacing-spacing-xs);
+    align-items: stretch;
+    color: var(--Colors-Buttons-Text-Default);
+    text-align: center;
+    font-family: var(--body-family);
+    font-size: var(--Fonts-Body-Default-md);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 145%;
+    letter-spacing: -0.24px;
+    height: initial;
+    padding: 0;
+    border-radius: 0;
+}
+
+.button-text.button-small,
+.button-text.button-xsmall,
+.button-text-primary.button-small,
+.button-text-primary.button-xsmall {
+    height: initial;
+    padding: 0;
+    gap: var(--UI-Spacing-spacing-xs);
+    flex-shrink: 0;
+
+    font-size: var(--Fonts-Body-Default-xs);
+    line-height: 135%;
+    letter-spacing: -0.14px;
+}
+
+.button-text:hover,
+.button-text.hover {
+    color: var(--Colors-Buttons-Text-Primary);
+}
+
+.button-text:focus,
+.button-text.focus {
+    color: var(--Colors-Buttons-Text-Primary);
+    border-bottom: 1px solid var(--Colors-Buttons-Text-Primary);
+}
+
+.button-text:active,
+.button-text.active {
+    color: var(--Colors-Buttons-Text-Pressed);
+    border-bottom: 1px solid var(--Colors-Buttons-Text-Pressed);
+}
+
+.button-text:disabled,
+.button-text.disabled {
+    opacity: 0.3;
+}
+
+.button-text-primary,
+.button-text-primary.button-medium,
+.button-text-primary.button-large,
+.button-text-primary.button-xsmall,
+.button-text-primary.button-small {
+    color: var(--Colors-Buttons-Text-Primary);
+}
+
+.button-text-primary:hover,
+.button-text-primary.hover {
+    color: var(--Colors-Buttons-Text-Primary-Hover);
+}
+
+.button-text-primary:focus,
+.button-text-primary.focus {
+    color: var(--Colors-Buttons-Text-Primary-Hover);
+    border-bottom: 1px solid var(--Colors-Buttons-Text-Primary-Hover);
+}
+
+.button-text-primary:active,
+.button-text-primary.active {
+    color: var(--Colors-Buttons-Text-Primary-Pressed);
+    border-bottom: 1px solid var(--Colors-Buttons-Text-Primary-Pressed);
+}
+
+.button-text-primary:disabled,
+.button-text-primary.disabled {
+    color: var(--Colors-Buttons-Primary-Default);
+    opacity: 0.3;
 }
 
 .button-xsmall {
