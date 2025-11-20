@@ -126,6 +126,23 @@
   --Colors-Base-Accent-Sky-Blue-1100: #00435F;
   --Colors-Base-Accent-Sky-Blue-1200: #00364D;
 
+
+  /* Accent Midnight Blue Numbered Scale */
+  --Colors-Base-Accent-Midnight-Blue-20: #E4EAFF;
+  --Colors-Base-Accent-Midnight-Blue-50: #D6DEFF;
+  --Colors-Base-Accent-Midnight-Blue-100: #C7D0FF;
+  --Colors-Base-Accent-Midnight-Blue-200: #B9C3FE;
+  --Colors-Base-Accent-Midnight-Blue-300: #AAB5F9;
+  --Colors-Base-Accent-Midnight-Blue-400: #9BA7F3;
+  --Colors-Base-Accent-Midnight-Blue-500: #8E9AEC;
+  --Colors-Base-Accent-Midnight-Blue-600: #7E8CE7;
+  --Colors-Base-Accent-Midnight-Blue-700: #6E7DDE;
+  --Colors-Base-Accent-Midnight-Blue-800: #606FD2;
+  --Colors-Base-Accent-Midnight-Blue-900: #515FC8;
+  --Colors-Base-Accent-Midnight-Blue-1000: #4652B9;
+  --Colors-Base-Accent-Midnight-Blue-1100: #3E49A8;
+  --Colors-Base-Accent-Midnight-Blue-1200: #374095;
+
   /* Warning (Yellow) Numbered Scale */
   --Colors-Base-Accent-Yellow-20: #FDF8E8;
   --Colors-Base-Accent-Yellow-50: #FFF3CC;
