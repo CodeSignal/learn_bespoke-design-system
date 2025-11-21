@@ -1,0 +1,273 @@
+/**
+ * Tag Component Styles
+ * Matches CodeSignal Design System
+ */
+
+ :root {
+    /* Tag Variables */
+    --UI-Radius-tag-medium: var(--UI-Radius-radius-s);
+
+    --Colors-Tags-Primary: var(--Colors-Base-Primary-50);
+    --Colors-Tags-Primary-Text: var(--Colors-Base-Primary-950);
+    --Colors-Tags-Primary-Stroke: var(--Colors-Base-Primary-250);
+    --Colors-Tags-Primary-Hover: var(--Colors-Base-Primary-100);
+    --Colors-Tags-Primary-Focus: rgba(160, 193, 255, 0.20);
+
+    --Colors-Tags-Secondary: var(--Colors-Base-Neutral-150);
+    --Colors-Tags-Secondary-Text: var(--Colors-Base-Neutral-1200);
+    --Colors-Tags-Secondary-Stroke: var(--Colors-Base-Neutral-400);
+    --Colors-Tags-Secondary-Hover: var(--Colors-Base-Neutral-250);    
+    --Colors-Tags-Secondary-Focus: rgba(200, 205, 219, 0.25);
+
+    --Colors-Tags-Outline: var(--Colors-Base-Neutral-00);
+    --Colors-Tags-Outline-Text: var(--Colors-Base-Neutral-1200);
+    --Colors-Tags-Outline-Stroke: var(--Colors-Base-Neutral-200);
+    --Colors-Tags-Outline-Background-Hover: var(--Colors-Base-Neutral-20);
+    --Colors-Tags-Outline-Hover: var(--Colors-Base-Neutral-400);
+    --Colors-Tags-Outline-Focus: rgba(200, 205, 219, 0.25);
+    --Colors-Tags-Outline-Selected: var(--Colors-Base-Neutral-550);
+
+    --Colors-Tags-Success: var(--Colors-Base-Accent-Green-50);
+    --Colors-Tags-Success-Text: var(--Colors-Base-Accent-Green-1000);
+    --Colors-Tags-Success-Stroke: var(--Colors-Base-Accent-Green-300);
+    --Colors-Tags-Success-Hover: var(--Colors-Base-Accent-Green-100);
+    --Colors-Tags-Success-Focus: rgba(77, 217, 155, 0.16);
+
+    --Colors-Tags-Error: var(--Colors-Base-Accent-Red-50);
+    --Colors-Tags-Error-Text: var(--Colors-Base-Accent-Red-1000);
+    --Colors-Tags-Error-Stroke: var(--Colors-Base-Accent-Red-100);
+    --Colors-Tags-Error-Hover: var(--Colors-Base-Accent-Red-100);
+    --Colors-Tags-Error-Focus: rgba(255, 169, 180, 0.20);
+
+    --Colors-Tags-Warning: var(--Colors-Base-Accent-Yellow-50);
+    --Colors-Tags-Warning-Text: var(--Colors-Base-Accent-Yellow-1000);
+    --Colors-Tags-Warning-Stroke: var(--Colors-Base-Accent-Yellow-200);
+    --Colors-Tags-Warning-Hover: var(--Colors-Base-Accent-Yellow-100);
+    --Colors-Tags-Warning-Focus: rgba(255, 220, 102, 0.22);
+
+    --Colors-Tags-Info: var(--Colors-Base-Accent-Sky-Blue-50);
+    --Colors-Tags-Info-Text: var(--Colors-Base-Accent-Sky-Blue-1000);
+    --Colors-Tags-Info-Stroke: var(--Colors-Base-Accent-Sky-Blue-300);
+    --Colors-Tags-Info-Hover: var(--Colors-Base-Accent-Sky-Blue-200);
+    --Colors-Tags-Info-Focus: rgba(131, 220, 255, 0.25);
+}
+  
+@media (prefers-color-scheme: dark) {
+    :root {
+        --Colors-Tags-Primary: var(--Colors-Base-Primary-300);
+        --Colors-Tags-Primary-Text: var(--Colors-Base-Primary-1300);
+        --Colors-Tags-Primary-Stroke: var(--Colors-Base-Primary-150);
+        --Colors-Tags-Primary-Hover: var(--Colors-Base-Primary-400);
+        --Colors-Tags-Primary-Focus: var(--Colors-Base-Neutral-1150);
+    
+        --Colors-Tags-Secondary: var(--Colors-Base-Neutral-1150);
+        --Colors-Tags-Secondary-Text: var(--Colors-Base-Neutral-400);
+        --Colors-Tags-Secondary-Stroke: var(--Colors-Base-Neutral-950);
+        --Colors-Tags-Secondary-Hover: var(--Colors-Base-Neutral-1200);    
+        --Colors-Tags-Secondary-Focus: var(--Colors-Base-Neutral-1150);
+    
+        --Colors-Tags-Outline: var(--Colors-Base-Neutral-1300);
+        --Colors-Tags-Outline-Text: var(--Colors-Base-Neutral-450);
+        --Colors-Tags-Outline-Stroke: var(--Colors-Base-Neutral-1100);
+        --Colors-Tags-Outline-Background-Hover: var(--Colors-Base-Neutral-1250);
+        --Colors-Tags-Outline-Hover: var(--Colors-Base-Neutral-900);
+        --Colors-Tags-Outline-Focus: var(--Colors-Base-Neutral-1150);
+        --Colors-Tags-Outline-Selected: var(--Colors-Base-Neutral-700);
+
+        --Colors-Tags-Success: var(--Colors-Base-Accent-Green-200);
+        --Colors-Tags-Success-Text: var(--Colors-Base-Neutral-1300);
+        --Colors-Tags-Success-Stroke: var(--Colors-Base-Accent-Green-50);
+        --Colors-Tags-Success-Hover: var(--Colors-Base-Accent-Green-300);
+        --Colors-Tags-Success-Focus: var(--Colors-Base-Neutral-1150);
+
+        --Colors-Tags-Error: var(--Colors-Base-Accent-Red-100);
+        --Colors-Tags-Error-Text: var(--Colors-Base-Neutral-1300);
+        --Colors-Tags-Error-Stroke: var(--Colors-Base-Accent-Red-50);
+        --Colors-Tags-Error-Hover: var(--Colors-Base-Accent-Red-200);
+        --Colors-Tags-Error-Focus: var(--Colors-Base-Neutral-1150);
+
+        --Colors-Tags-Warning: var(--Colors-Base-Accent-Yellow-100);
+        --Colors-Tags-Warning-Text: var(--Colors-Base-Neutral-1300);
+        --Colors-Tags-Warning-Stroke: var(--Colors-Base-Accent-Yellow-50);
+        --Colors-Tags-Warning-Hover: var(--Colors-Base-Accent-Yellow-200);
+        --Colors-Tags-Warning-Focus: var(--Colors-Base-Neutral-1150);
+
+        --Colors-Tags-Info: var(--Colors-Base-Accent-Sky-Blue-300);
+        --Colors-Tags-Info-Text: var(--Colors-Base-Neutral-1300);
+        --Colors-Tags-Info-Stroke: var(--Colors-Base-Accent-Sky-Blue-50);
+        --Colors-Tags-Info-Hover: var(--Colors-Base-Accent-Sky-Blue-200);
+        --Colors-Tags-Info-Focus: var(--Colors-Base-Neutral-1150);
+    }
+}
+
+.tag,
+.tag.default {
+    display: inline-flex;
+    height: var(--UI-Input-sm);
+    padding: var(--UI-Spacing-spacing-none) var(--UI-Spacing-spacing-ms);
+    align-items: center;
+    gap: var(--UI-Spacing-spacing-xs);
+    flex-shrink: 0;
+    border-radius: var(--UI-Radius-tag-medium);
+    background: var(--Colors-Tags-Primary);
+    border: 1.5px solid transparent;
+
+    color: var(--Colors-Tags-Primary-Text);
+    
+    font-family: "Work Sans";
+    font-size: var(--Fonts-Body-Default-md);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 145%; /* 23.2px */
+    letter-spacing: -0.24px;
+}
+
+.tag:hover,
+.tag.hover,
+.tag.default:hover,
+.tag.default.hover {
+    background: var(--Colors-Tags-Primary-Hover);
+}
+
+.tag:active,
+.tag.active,
+.tag.default:active,
+.tag.default.active {
+    border: 1.5px solid var(--Colors-Tags-Primary-Stroke);
+}
+
+.tag:focus,
+.tag.focus,
+.tag.default:focus,
+.tag.default.focus {
+    border: 1.5px solid var(--Colors-Tags-Primary-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Primary-Focus);
+}
+
+.tag.secondary {
+    background: var(--Colors-Tags-Secondary);
+    color: var(--Colors-Tags-Secondary-Text);
+}
+
+.tag.secondary:hover,
+.tag.secondary.hover {
+    background: var(--Colors-Tags-Secondary-Hover);
+}
+
+.tag.secondary:active,
+.tag.secondary.active {
+    border: 1.5px solid var(--Colors-Tags-Secondary-Stroke);
+}
+
+.tag.secondary:focus,
+.tag.secondary.focus {
+    border: 1.5px solid var(--Colors-Tags-Secondary-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Secondary-Focus);
+}
+
+.tag.outline {
+    background: var(--Colors-Tags-Outline);
+    color: var(--Colors-Tags-Outline-Text);
+    border: 1.5px solid var(--Colors-Tags-Outline-Stroke);
+}
+
+.tag.outline:hover,
+.tag.outline.hover {
+    background: var(--Colors-Tags-Outline-Background-Hover);
+    border: 1.5px solid var(--Colors-Tags-Outline-Hover);
+}
+
+.tag.outline:active,
+.tag.outline.active {
+    border: 1.5px solid var(--Colors-Tags-Outline-Selected);
+}
+
+.tag.outline:focus,
+.tag.outline.focus {
+    border: 1.5px solid var(--Colors-Tags-Outline-Selected);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Outline-Focus);
+}
+
+.tag.success {
+    background: var(--Colors-Tags-Success);
+    color: var(--Colors-Tags-Success-Text);
+}
+
+.tag.success:hover,
+.tag.success.hover {
+    background: var(--Colors-Tags-Success-Hover);
+}
+
+.tag.success:active,
+.tag.success.active {
+    border: 1.5px solid var(--Colors-Tags-Success-Stroke);
+}
+
+.tag.success:focus,
+.tag.success.focus {
+    border: 1.5px solid var(--Colors-Tags-Success-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Success-Focus);
+}
+
+.tag.error {
+    background: var(--Colors-Tags-Error);
+    color: var(--Colors-Tags-Error-Text);
+}
+
+.tag.error:hover,
+.tag.error.hover {
+    background: var(--Colors-Tags-Error-Hover);
+}
+
+.tag.error:active,
+.tag.error.active {
+    border: 1.5px solid var(--Colors-Tags-Error-Stroke);
+}
+
+.tag.error:focus,
+.tag.error.focus {
+    border: 1.5px solid var(--Colors-Tags-Error-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Error-Focus);
+}
+
+.tag.warning {
+    background: var(--Colors-Tags-Warning);
+    color: var(--Colors-Tags-Warning-Text);
+}
+
+.tag.warning:hover,
+.tag.warning.hover {
+    background: var(--Colors-Tags-Warning-Hover);
+}
+
+.tag.warning:active,
+.tag.warning.active {
+    border: 1.5px solid var(--Colors-Tags-Warning-Stroke);
+}
+
+.tag.warning:focus,
+.tag.warning.focus {
+    border: 1.5px solid var(--Colors-Tags-Warning-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Warning-Focus);
+}
+
+.tag.info {
+    background: var(--Colors-Tags-Info);
+    color: var(--Colors-Tags-Info-Text);
+}
+
+.tag.info:hover,
+.tag.info.hover {
+    background: var(--Colors-Tags-Info-Hover);
+}
+
+.tag.info:active,
+.tag.info.active {
+    border: 1.5px solid var(--Colors-Tags-Info-Stroke);
+}
+
+.tag.info:focus,
+.tag.info.focus {
+    border: 1.5px solid var(--Colors-Tags-Info-Stroke);
+    box-shadow: 0 0 0 4px var(--Colors-Tags-Info-Focus);
+}

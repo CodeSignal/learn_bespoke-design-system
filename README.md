@@ -18,9 +18,10 @@ Base definitions that drive the visual style.
 
 Reusable UI elements built using the foundations.
 
-- **[Button](components/button/README.md)**: Primary, secondary, and utility buttons.
-- **[Boxes](components/boxes/README.md)**: Container components.
-- **[Dropdown](components/dropdown/README.md)**: Customizable dropdown menus.
+- **[Button](components/button/README.md)** ([CSS](components/button/button.css)): Primary, secondary, and utility buttons.
+- **[Boxes](components/boxes/README.md)** ([CSS](components/boxes/boxes.css)): Container components.
+- **[Dropdown](components/dropdown/README.md)** ([CSS](components/dropdown/dropdown.css), [JS](components/dropdown/dropdown.js)): Customizable dropdown menus.
+- **[Tags](components/tags/README.md)** ([CSS](components/tags/tags.css)): Label and status indicator tags.
 
 ## Usage
 
@@ -33,10 +34,17 @@ Include the relevant CSS files in your HTML. For a full integration, you typical
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Design System Styles -->
+<!-- Design System Foundations -->
 <link rel="stylesheet" href="/design-system/colors/colors.css">
 <link rel="stylesheet" href="/design-system/spacing/spacing.css">
 <link rel="stylesheet" href="/design-system/typography/typography.css">
+
+<!-- Design System Components -->
+<link rel="stylesheet" href="/design-system/components/button/button.css">
+<link rel="stylesheet" href="/design-system/components/boxes/boxes.css">
+<link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
+
+<link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
 **Note on Fonts:**
