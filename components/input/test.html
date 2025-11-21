@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Component Test</title>
+    <link rel="stylesheet" href="/design-system/colors/colors.css">
+    <link rel="stylesheet" href="/design-system/spacing/spacing.css">
+    <link rel="stylesheet" href="/design-system/typography/typography.css">
+    <link rel="stylesheet" href="input.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background-color: var(--Colors-Backgrounds-Main-Default);
+            font-family: var(--body-family);
+            color: var(--Colors-Text-Body-Default);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            margin-bottom: 24px;
+            color: var(--Colors-Text-Body-Strong);
+        }
+        
+        h2 {
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: var(--Colors-Text-Body-Strong);
+        }
+        
+        .variant-card {
+            padding: 24px;
+            border: 1px solid var(--Colors-Stroke-Default);
+            border-radius: 8px;
+            background: var(--Colors-Backgrounds-Main-Top);
+            margin-bottom: 24px;
+        }
+        
+        .input-group {
+            margin-bottom: 24px;
+        }
+        
+        .input-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: var(--Fonts-Body-Default-sm);
+            font-weight: 500;
+            color: var(--Colors-Text-Body-Strong);
+        }
+        
+        .input-wrapper {
+            max-width: 400px;
+        }
+        
+        .description {
+            margin-top: 8px;
+            font-size: var(--Fonts-Body-Default-xs);
+            color: var(--Colors-Text-Body-Light);
+        }
+    </style>
+</head>
+<body>
+    <h1>Input Component Test</h1>
+
+    <div class="section">
+        <h2>Text Input States</h2>
+        
+        <div class="variant-card">
+            <div class="input-group">
+                <label for="input-default">Default State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-default" class="input" >
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-hover">Hover State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-hover" class="input hover">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-focus">Focus State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-focus" class="input focus">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-filled">Filled State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-filled" class="input" value="Text input with value">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-placeholder">Placeholder State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-placeholder" class="input" placeholder="Enter your name...">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-disabled">Disabled State</label>
+                <div class="input-wrapper">
+                    <input type="text" id="input-disabled" class="input" disabled>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-numeric">Numeric Input</label>
+                <div class="input-wrapper">
+                    <input type="number" id="input-numeric" class="input">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label for="input-numeric-with-value">Numeric Input with Value</label>
+                <div class="input-wrapper">
+                    <input type="number" id="input-numeric-with-value" class="input" value="100">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

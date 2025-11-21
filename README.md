@@ -21,6 +21,7 @@ Reusable UI elements built using the foundations.
 - **[Button](components/button/README.md)** ([CSS](components/button/button.css)): Primary, secondary, and utility buttons.
 - **[Boxes](components/boxes/README.md)** ([CSS](components/boxes/boxes.css)): Container components.
 - **[Dropdown](components/dropdown/README.md)** ([CSS](components/dropdown/dropdown.css), [JS](components/dropdown/dropdown.js)): Customizable dropdown menus.
+- **[Input](components/input/README.md)** ([CSS](components/input/input.css)): Text and number input fields with various states.
 - **[Tags](components/tags/README.md)** ([CSS](components/tags/tags.css)): Label and status indicator tags.
 
 ## Usage
@@ -43,7 +44,7 @@ Include the relevant CSS files in your HTML. For a full integration, you typical
 <link rel="stylesheet" href="/design-system/components/button/button.css">
 <link rel="stylesheet" href="/design-system/components/boxes/boxes.css">
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
-
+<link rel="stylesheet" href="/design-system/components/input/input.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
