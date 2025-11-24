@@ -45,7 +45,6 @@
   align-self: stretch;
   
   border-radius: var(--UI-Radius-radius-s);
-  border: 1.5px solid var(--Colors-Box-Border);
   background: var(--Colors-Box-Background);
   border: 1.5px solid transparent;
 }
