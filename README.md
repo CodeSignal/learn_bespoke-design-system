@@ -2,6 +2,10 @@
 
 This directory contains the core design tokens and reusable components for the application.
 
+## Demo
+
+The demo of the design system can be found here: [Demo Site](https://codesignal.github.io/learn_bespoke-design-system/test.html)
+
 ## Structure
 
 The design system is organized into **Foundations** and **Components**.
