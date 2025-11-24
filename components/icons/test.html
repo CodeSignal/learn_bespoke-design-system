@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Icons Component Test</title>
+    <link rel="stylesheet" href="../../colors/colors.css">
+    <link rel="stylesheet" href="../../spacing/spacing.css">
+    <link rel="stylesheet" href="../../typography/typography.css">
+    <link rel="stylesheet" href="icons.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background-color: var(--Colors-Backgrounds-Main-Default);
+            font-family: var(--body-family);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        h1 {
+            margin-bottom: 24px;
+            color: var(--Colors-Text-Body-Default);
+        }
+        
+        h2 {
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: var(--Colors-Text-Body-Default);
+        }
+        
+        .icon-row {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .variant-card {
+            padding: 24px;
+            border: 1px solid var(--Colors-Stroke-Default);
+            border-radius: 8px;
+            background: var(--Colors-Base-Neutral-20);
+            margin-top: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .icon-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+        
+        .icon-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid var(--Colors-Stroke-Default);
+            border-radius: 4px;
+            background: var(--Colors-Base-Neutral-00);
+        }
+        
+        .icon-item .icon {
+            flex-shrink: 0;
+        }
+        
+        .icon-name {
+            font-family: 'Courier New', monospace;
+            font-size: 0.875rem;
+            color: var(--Colors-Text-Body-Default);
+            word-break: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>Icons Component Test</h1>
+
+    <div class="section">
+        <h2>Size Variants</h2>
+        <div class="variant-card">
+            <div class="icon-row">
+                <div class="icon-label">
+                    <span class="icon icon-academy icon-small"></span>
+                    <div>
+                        <div>Small (16px)</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-academy icon-small</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-academy icon-medium"></span>
+                    <div>
+                        <div>Medium (24px - default)</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-academy icon-medium</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-academy icon-large"></span>
+                    <div>
+                        <div>Large (32px)</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-academy icon-large</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-academy icon-xlarge"></span>
+                    <div>
+                        <div>XLarge (48px)</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-academy icon-xlarge</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Color Variants</h2>
+        <div class="variant-card">
+            <div class="icon-row">
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large"></span>
+                    <div>
+                        <div>Default (currentColor)</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large icon-primary"></span>
+                    <div>
+                        <div>Primary</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large icon-primary</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large icon-secondary"></span>
+                    <div>
+                        <div>Secondary</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large icon-secondary</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large icon-success"></span>
+                    <div>
+                        <div>Success</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large icon-success</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large icon-danger"></span>
+                    <div>
+                        <div>Danger</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large icon-danger</code>
+                    </div>
+                </div>
+                <div class="icon-label">
+                    <span class="icon icon-jobs icon-large icon-warning"></span>
+                    <div>
+                        <div>Warning</div>
+                        <code style="font-size: 0.75rem; color: var(--Colors-Text-Body-Secondary);">icon icon-jobs icon-large icon-warning</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h2>Example Usage</h2>
+        <div class="variant-card">
+            <div class="icon-row">
+                <span class="icon icon-academy icon-large icon-primary"></span>
+                <span class="icon icon-assessment icon-large icon-primary"></span>
+                <span class="icon icon-interview icon-large icon-primary"></span>
+                <span class="icon icon-jobs icon-large icon-primary"></span>
+                <span class="icon icon-course icon-large icon-primary"></span>
+            </div>
+        </div>
+
+        <h2>All Icons</h2>
+        <div class="variant-card">
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <span class="icon icon-academy icon-medium"></span>
+                    <span class="icon-name">icon-academy</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-account-executive icon-medium"></span>
+                    <span class="icon-name">icon-account-executive</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-ai-and-machine-learning icon-medium"></span>
+                    <span class="icon-name">icon-ai-and-machine-learning</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-analytics icon-medium"></span>
+                    <span class="icon-name">icon-analytics</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-app-icon icon-medium"></span>
+                    <span class="icon-name">icon-app-icon</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-app-icon-white icon-medium"></span>
+                    <span class="icon-name">icon-app-icon-white</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-application-security-engineer icon-medium"></span>
+                    <span class="icon-name">icon-application-security-engineer</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-assessment icon-medium"></span>
+                    <span class="icon-name">icon-assessment</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-back-end-eng icon-medium"></span>
+                    <span class="icon-name">icon-back-end-eng</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-chermark-badge icon-medium"></span>
+                    <span class="icon-name">icon-chermark-badge</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-cloud-engineering icon-medium"></span>
+                    <span class="icon-name">icon-cloud-engineering</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-cloud-infrastructure-engineer icon-medium"></span>
+                    <span class="icon-name">icon-cloud-infrastructure-engineer</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-cloud-security-engineer icon-medium"></span>
+                    <span class="icon-name">icon-cloud-security-engineer</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-content icon-medium"></span>
+                    <span class="icon-name">icon-content</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-cosmo-black icon-medium"></span>
+                    <span class="icon-name">icon-cosmo-black</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-cosmo-white icon-medium"></span>
+                    <span class="icon-name">icon-cosmo-white</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-course icon-medium"></span>
+                    <span class="icon-name">icon-course</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-course-filled icon-medium"></span>
+                    <span class="icon-name">icon-course-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-data-analytics icon-medium"></span>
+                    <span class="icon-name">icon-data-analytics</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-data-engineering icon-medium"></span>
+                    <span class="icon-name">icon-data-engineering</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-data-literacy icon-medium"></span>
+                    <span class="icon-name">icon-data-literacy</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-data-science icon-medium"></span>
+                    <span class="icon-name">icon-data-science</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-data-science-2 icon-medium"></span>
+                    <span class="icon-name">icon-data-science-2</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-database-administrator icon-medium"></span>
+                    <span class="icon-name">icon-database-administrator</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-engineering-manager icon-medium"></span>
+                    <span class="icon-name">icon-engineering-manager</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-expired-invite icon-medium"></span>
+                    <span class="icon-name">icon-expired-invite</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-front-end-eng icon-medium"></span>
+                    <span class="icon-name">icon-front-end-eng</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-full-stack-eng icon-medium"></span>
+                    <span class="icon-name">icon-full-stack-eng</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-general-programming icon-medium"></span>
+                    <span class="icon-name">icon-general-programming</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-hire-suite icon-medium"></span>
+                    <span class="icon-name">icon-hire-suite</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-hire-suite-select icon-medium"></span>
+                    <span class="icon-name">icon-hire-suite-select</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-interview icon-medium"></span>
+                    <span class="icon-name">icon-interview</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-interview-prep icon-medium"></span>
+                    <span class="icon-name">icon-interview-prep</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-jobs icon-medium"></span>
+                    <span class="icon-name">icon-jobs</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-labels icon-medium"></span>
+                    <span class="icon-name">icon-labels</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-learn-suite icon-medium"></span>
+                    <span class="icon-name">icon-learn-suite</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-learn-suite-select icon-medium"></span>
+                    <span class="icon-name">icon-learn-suite-select</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-learn-to-code icon-medium"></span>
+                    <span class="icon-name">icon-learn-to-code</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-lesson icon-medium"></span>
+                    <span class="icon-name">icon-lesson</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-lesson-filled icon-medium"></span>
+                    <span class="icon-name">icon-lesson-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-lesson-introduction icon-medium"></span>
+                    <span class="icon-name">icon-lesson-introduction</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-level-advanced icon-medium"></span>
+                    <span class="icon-name">icon-level-advanced</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-level-beginner icon-medium"></span>
+                    <span class="icon-name">icon-level-beginner</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-level-expert icon-medium"></span>
+                    <span class="icon-name">icon-level-expert</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-level-intermediate icon-medium"></span>
+                    <span class="icon-name">icon-level-intermediate</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-list icon-medium"></span>
+                    <span class="icon-name">icon-list</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-list-numbers icon-medium"></span>
+                    <span class="icon-name">icon-list-numbers</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-machine-learning icon-medium"></span>
+                    <span class="icon-name">icon-machine-learning</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-manage-org icon-medium"></span>
+                    <span class="icon-name">icon-manage-org</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-manage-org-select icon-medium"></span>
+                    <span class="icon-name">icon-manage-org-select</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-my-learning icon-medium"></span>
+                    <span class="icon-name">icon-my-learning</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-nlp icon-medium"></span>
+                    <span class="icon-name">icon-nlp</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-no-level icon-medium"></span>
+                    <span class="icon-name">icon-no-level</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-not-proctored icon-medium"></span>
+                    <span class="icon-name">icon-not-proctored</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-path icon-medium"></span>
+                    <span class="icon-name">icon-path</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-pending-invite icon-medium"></span>
+                    <span class="icon-name">icon-pending-invite</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice icon-medium"></span>
+                    <span class="icon-name">icon-practice</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-code icon-medium"></span>
+                    <span class="icon-name">icon-practice-code</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-code-filled icon-medium"></span>
+                    <span class="icon-name">icon-practice-code-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-conversation-1 icon-medium"></span>
+                    <span class="icon-name">icon-practice-conversation-1</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-conversation-2 icon-medium"></span>
+                    <span class="icon-name">icon-practice-conversation-2</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-conversation-2-filled icon-medium"></span>
+                    <span class="icon-name">icon-practice-conversation-2-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-conversation-3 icon-medium"></span>
+                    <span class="icon-name">icon-practice-conversation-3</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-generic icon-medium"></span>
+                    <span class="icon-name">icon-practice-generic</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-generic-filled icon-medium"></span>
+                    <span class="icon-name">icon-practice-generic-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-open-text icon-medium"></span>
+                    <span class="icon-name">icon-practice-open-text</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-practice-open-text-filled icon-medium"></span>
+                    <span class="icon-name">icon-practice-open-text-filled</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-proctored icon-medium"></span>
+                    <span class="icon-name">icon-proctored</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-profile icon-medium"></span>
+                    <span class="icon-name">icon-profile</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-prompt-engineering icon-medium"></span>
+                    <span class="icon-name">icon-prompt-engineering</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-rectangle-2698 icon-medium"></span>
+                    <span class="icon-name">icon-rectangle-2698</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-site-reliability-engineer icon-medium"></span>
+                    <span class="icon-name">icon-site-reliability-engineer</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-software-engineering icon-medium"></span>
+                    <span class="icon-name">icon-software-engineering</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-teams icon-medium"></span>
+                    <span class="icon-name">icon-teams</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-theme-light-state-hover icon-medium"></span>
+                    <span class="icon-name">icon-theme-light-state-hover</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-theme-light-state-open icon-medium"></span>
+                    <span class="icon-name">icon-theme-light-state-open</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-track icon-medium"></span>
+                    <span class="icon-name">icon-track</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-unit icon-medium"></span>
+                    <span class="icon-name">icon-unit</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-user-2 icon-medium"></span>
+                    <span class="icon-name">icon-user-2</span>
+                </div>
+                <div class="icon-item">
+                    <span class="icon icon-web-development icon-medium"></span>
+                    <span class="icon-name">icon-web-development</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
