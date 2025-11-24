@@ -1,0 +1,89 @@
+# CodeSignal Design System - LLM Reference
+
+## Quick Start
+
+Include these CSS files in order:
+1. colors/colors.css
+2. spacing/spacing.css  
+3. typography/typography.css
+4. components/[component]/[component].css
+
+Also include Work Sans font from Google Fonts.
+
+## Design Tokens
+
+### Colors
+- Base scales: `--Colors-Base-[Family]-[Step]` (e.g., `--Colors-Base-Primary-700`)
+- Semantic: `--Colors-[Category]-[Context]` (e.g., `--Colors-Text-Body-Default`)
+- Prefer semantic tokens over base scales for theming support
+
+### Spacing
+- Pattern: `--UI-Spacing-spacing-[size]` (none, min, xxs, xs, s, mxs, ms, m, ml, mxl, l, xl, xxl, xxxl, 4xl, max)
+- Radius: `--UI-Radius-radius-[size]` (none, min, xxs, xs, s, m, ml, mxl, l, xl)
+- Input heights: `--UI-Input-[size]` (min: 26px, xs: 32px, sm: 40px, md: 48px, lg: 60px)
+
+### Typography
+- Classes: `.body-[size]`, `.heading-[size]`, `.label-[size]`
+- Fonts: Work Sans (body), Founders Grotesk (headings), JetBrains Mono (code)
+
+## Components
+
+### Button
+- Base: `.button`
+- Variants: `.button-primary`, `.button-secondary`, `.button-tertiary`, `.button-danger`, `.button-success`, `.button-text`, `.button-text-primary`
+- Sizes: `.button-xsmall`, `.button-small`, `.button-large` (default: medium/48px)
+- Example: `<button class="button button-primary">Click</button>`
+
+### Box
+- Base: `.box`
+- Variants: `.box.selected`, `.box.emphasized`, `.box.shadowed`, `.box.card`
+- Example: `<div class="box">Content</div>`
+
+### Input
+- Base: `.input`
+- Types: `type="text"` or `type="number"`
+- States: `.hover`, `.focus`, `:disabled`
+- Example: `<input type="text" class="input" placeholder="...">`
+
+### Tag
+- Base: `.tag` or `.tag.default`
+- Variants: `.tag.secondary`, `.tag.outline`, `.tag.success`, `.tag.error`, `.tag.warning`, `.tag.info`
+- States: `.hover`, `.focus`, `.active`
+- Example: `<div class="tag success">Completed</div>`
+
+### Icon
+- Base: `.icon`
+- Icon names: `.icon-[name]` (e.g., `.icon-jobs`, `.icon-academy`)
+- Sizes: `.icon-small` (16px), `.icon-medium` (24px, default), `.icon-large` (32px), `.icon-xlarge` (48px)
+- Colors: `.icon-primary`, `.icon-secondary`, `.icon-success`, `.icon-danger`, `.icon-warning`
+- Example: `<span class="icon icon-jobs icon-large icon-primary"></span>`
+
+### Dropdown (JS Component)
+- Import: `import Dropdown from '/design-system/components/dropdown/dropdown.js'`
+- Initialize: `new Dropdown(selector, { items, placeholder, onSelect, ... })`
+- Methods: `getValue()`, `setValue(value)`, `open()`, `close()`, `toggleOpen()`, `destroy()`
+
+## Best Practices
+
+1. Always use semantic color tokens (e.g., `--Colors-Text-Body-Default`) over base scales
+2. Components support dark mode automatically via `prefers-color-scheme`
+3. Use spacing tokens for consistent padding/margins
+4. Include component CSS files after foundation CSS files
+5. Icons use `mask-image` with `background-color` for color control
+
+## File Structure
+
+```
+design-system/
+├── colors/colors.css
+├── spacing/spacing.css
+├── typography/typography.css
+└── components/
+    ├── button/button.css
+    ├── boxes/boxes.css
+    ├── dropdown/dropdown.css + dropdown.js
+    ├── icons/icons.css
+    ├── input/input.css
+    └── tags/tags.css
+```
+
