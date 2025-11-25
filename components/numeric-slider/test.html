@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component Tests - Numeric Slider</title>
+  <link rel="stylesheet" href="../../colors/colors.css">
+  <link rel="stylesheet" href="../../spacing/spacing.css">
+  <link rel="stylesheet" href="../../typography/typography.css">
+  <link rel="stylesheet" href="../../components/input/input.css">
+  <link rel="stylesheet" href="numeric-slider.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --test-bg: var(--Colors-Backgrounds-Main-Light);
+      --test-section-bg: var(--Colors-Backgrounds-Main-Top);
+      --test-section-shadow: rgba(0, 0, 0, 0.1);
+      --test-subheading-color: var(--Colors-Text-Body-Default);
+      --test-label-color: var(--Colors-Text-Body-Medium);
+      --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+      --test-output-text: var(--Colors-Text-Body-Default);
+      --test-output-strong: var(--Colors-Text-Body-Strong);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --test-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-section-bg: var(--Colors-Backgrounds-Main-Light);
+        --test-section-shadow: rgba(0, 0, 0, 0.3);
+        --test-subheading-color: var(--Colors-Text-Body-Default);
+        --test-label-color: var(--Colors-Text-Body-Default);
+        --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-output-text: var(--Colors-Text-Body-Default);
+        --test-output-strong: var(--Colors-Text-Body-Strong);
+      }
+    }
+
+    body {
+      background: var(--test-bg);
+      padding: 40px 20px;
+      font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+      color: var(--Colors-Text-Body-Strong);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-section {
+      background: var(--test-section-bg);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px var(--test-section-shadow);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .test-section h2 {
+      margin: 0 0 24px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--Colors-Text-Body-Strong);
+      letter-spacing: -0.24px;
+    }
+
+    .test-section h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--test-subheading-color);
+      letter-spacing: -0.18px;
+    }
+
+    .test-row {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .test-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .test-item label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--test-label-color);
+    }
+
+    .test-output {
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--test-output-bg);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--test-output-text);
+      font-family: 'Courier New', monospace;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-output strong {
+      color: var(--test-output-strong);
+    }
+
+    h1 {
+      transition: color 0.2s ease;
+    }
+
+    .slider-wrapper {
+      max-width: 400px;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 style="margin-bottom: 32px; font-size: 32px; font-weight: 700; color: var(--Colors-Text-Body-Strong);">
+      Component Tests - Numeric Slider
+    </h1>
+
+    <!-- Single Value Slider -->
+    <div class="test-section">
+      <h2>Single Value Slider</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Default (No Inputs)</label>
+          <div class="slider-wrapper">
+            <div id="slider-single-default"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>With Input Field</label>
+          <div class="slider-wrapper">
+            <div id="slider-single-input"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>Primary Theme</label>
+          <div class="slider-wrapper">
+            <div id="slider-single-primary"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Single Value (Default):</strong> <span id="output-single-default">50</span>
+        <br>
+        <strong>Single Value (With Input):</strong> <span id="output-single-input">50</span>
+        <br>
+        <strong>Single Value (Primary):</strong> <span id="output-single-primary">50</span>
+      </div>
+    </div>
+
+    <!-- Range Slider -->
+    <div class="test-section">
+      <h2>Range Slider</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Default (No Inputs)</label>
+          <div class="slider-wrapper">
+            <div id="slider-range-default"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>With Input Fields</label>
+          <div class="slider-wrapper">
+            <div id="slider-range-input"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>Primary Theme</label>
+          <div class="slider-wrapper">
+            <div id="slider-range-primary"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Range (Default):</strong> <span id="output-range-default">20 - 60</span>
+        <br>
+        <strong>Range (With Inputs):</strong> <span id="output-range-input">20 - 60</span>
+        <br>
+        <strong>Range (Primary):</strong> <span id="output-range-primary">20 - 60</span>
+      </div>
+    </div>
+
+    <!-- Custom Min/Max -->
+    <div class="test-section">
+      <h2>Custom Min/Max Values</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Range: 0-1000 (Step: 10)</label>
+          <div class="slider-wrapper">
+            <div id="slider-custom-range"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>Range: -50 to 50</label>
+          <div class="slider-wrapper">
+            <div id="slider-negative-range"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Custom Range (0-1000):</strong> <span id="output-custom-range">200 - 800</span>
+        <br>
+        <strong>Negative Range (-50 to 50):</strong> <span id="output-negative-range">-25 - 25</span>
+      </div>
+    </div>
+
+    <!-- Pre-set Values -->
+    <div class="test-section">
+      <h2>Pre-set Values</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Single Value: 75</label>
+          <div class="slider-wrapper">
+            <div id="slider-preset-single"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>Range: 30-70</label>
+          <div class="slider-wrapper">
+            <div id="slider-preset-range"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Pre-set Single:</strong> <span id="output-preset-single">75</span>
+        <br>
+        <strong>Pre-set Range:</strong> <span id="output-preset-range">30 - 70</span>
+      </div>
+    </div>
+
+    <!-- Disabled State -->
+    <div class="test-section">
+      <h2>Disabled State</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Disabled Single Value</label>
+          <div class="slider-wrapper">
+            <div id="slider-disabled-single"></div>
+          </div>
+        </div>
+        <div class="test-item">
+          <label>Disabled Range</label>
+          <div class="slider-wrapper">
+            <div id="slider-disabled-range"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import NumericSlider from './numeric-slider.js';
+
+    // Single value sliders
+    const sliderSingleDefault = new NumericSlider('#slider-single-default', {
+      type: 'single',
+      value: 50,
+      onChange: (value) => {
+        document.getElementById('output-single-default').textContent = Math.round(value);
+      }
+    });
+
+    const sliderSingleInput = new NumericSlider('#slider-single-input', {
+      type: 'single',
+      value: 50,
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-single-input').textContent = Math.round(value);
+      }
+    });
+
+    const sliderSinglePrimary = new NumericSlider('#slider-single-primary', {
+      type: 'single',
+      value: 50,
+      theme: 'primary',
+      onChange: (value) => {
+        document.getElementById('output-single-primary').textContent = Math.round(value);
+      }
+    });
+
+    // Range sliders
+    const sliderRangeDefault = new NumericSlider('#slider-range-default', {
+      type: 'range',
+      value: [20, 60],
+      onChange: (value) => {
+        document.getElementById('output-range-default').textContent = `${Math.round(value[0])} - ${Math.round(value[1])}`;
+      }
+    });
+
+    const sliderRangeInput = new NumericSlider('#slider-range-input', {
+      type: 'range',
+      value: [20, 60],
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-range-input').textContent = `${Math.round(value[0])} - ${Math.round(value[1])}`;
+      }
+    });
+
+    const sliderRangePrimary = new NumericSlider('#slider-range-primary', {
+      type: 'range',
+      value: [20, 60],
+      theme: 'primary',
+      onChange: (value) => {
+        document.getElementById('output-range-primary').textContent = `${Math.round(value[0])} - ${Math.round(value[1])}`;
+      }
+    });
+
+    // Custom ranges
+    const sliderCustomRange = new NumericSlider('#slider-custom-range', {
+      type: 'range',
+      min: 0,
+      max: 1000,
+      step: 10,
+      value: [200, 800],
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-custom-range').textContent = `${value[0]} - ${value[1]}`;
+      }
+    });
+
+    const sliderNegativeRange = new NumericSlider('#slider-negative-range', {
+      type: 'range',
+      min: -50,
+      max: 50,
+      value: [-25, 25],
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-negative-range').textContent = `${value[0]} - ${value[1]}`;
+      }
+    });
+
+    // Pre-set values
+    const sliderPresetSingle = new NumericSlider('#slider-preset-single', {
+      type: 'single',
+      value: 75,
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-preset-single').textContent = Math.round(value);
+      }
+    });
+
+    const sliderPresetRange = new NumericSlider('#slider-preset-range', {
+      type: 'range',
+      value: [30, 70],
+      showInputs: true,
+      onChange: (value) => {
+        document.getElementById('output-preset-range').textContent = `${Math.round(value[0])} - ${Math.round(value[1])}`;
+      }
+    });
+
+    // Disabled sliders
+    new NumericSlider('#slider-disabled-single', {
+      type: 'single',
+      value: 50,
+      showInputs: true,
+      disabled: true
+    });
+
+    new NumericSlider('#slider-disabled-range', {
+      type: 'range',
+      value: [20, 60],
+      showInputs: true,
+      disabled: true
+    });
+
+    // Make sliders available globally for debugging
+    window.testSliders = {
+      singleDefault: sliderSingleDefault,
+      singleInput: sliderSingleInput,
+      singlePrimary: sliderSinglePrimary,
+      rangeDefault: sliderRangeDefault,
+      rangeInput: sliderRangeInput,
+      rangePrimary: sliderRangePrimary,
+      customRange: sliderCustomRange,
+      negativeRange: sliderNegativeRange,
+      presetSingle: sliderPresetSingle,
+      presetRange: sliderPresetRange
+    };
+  </script>
+</body>
+</html>
+

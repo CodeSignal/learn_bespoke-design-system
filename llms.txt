@@ -63,6 +63,14 @@ Also include Work Sans font from Google Fonts.
 - Initialize: `new Dropdown(selector, { items, placeholder, onSelect, ... })`
 - Methods: `getValue()`, `setValue(value)`, `open()`, `close()`, `toggleOpen()`, `destroy()`
 
+### Numeric Slider (JS Component)
+- Import: `import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js'`
+- Initialize: `new NumericSlider(selector, { type, min, max, value, showInputs, theme, ... })`
+- Types: `'single'` (one handle) or `'range'` (two handles)
+- Methods: `getValue()`, `setValue(value)`, `setDisabled(disabled)`, `destroy()`
+- Themes: `'default'` (neutral track, primary filled/handles) or `'primary'` (all primary)
+- Can override individual parts: `trackTheme`, `filledTheme`, `handleTheme`
+
 ## Best Practices
 
 1. Always use semantic color tokens (e.g., `--Colors-Text-Body-Default`) over base scales
@@ -84,6 +92,7 @@ design-system/
     ├── dropdown/dropdown.css + dropdown.js
     ├── icons/icons.css
     ├── input/input.css
+    ├── numeric-slider/numeric-slider.css + numeric-slider.js
     └── tags/tags.css
 ```
 

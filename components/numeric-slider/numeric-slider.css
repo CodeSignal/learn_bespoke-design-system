@@ -1,0 +1,216 @@
+/**
+ * Numeric Slider Component Styles
+ * Matches CodeSignal Design System
+ */
+
+:root {
+  /* Slider Variables - Light Mode */
+  --Colors-Slider-Track-Neutral: var(--Colors-Base-Neutral-200);
+  --Colors-Slider-Track-Primary: var(--Colors-Base-Primary-100);
+  --Colors-Slider-Thumb-Neutral: var(--Colors-Base-Neutral-650);
+  --Colors-Slider-Thumb-Primary: var(--Colors-Base-Primary-600);
+  --Colors-Slider-Handle-Neutral: var(--Colors-Base-Neutral-400);
+  --Colors-Slider-Handle-Neutral-Inner: var(--Colors-Base-Neutral-100);
+  --Colors-Slider-Handle-Primary: var(--Colors-Base-Primary-400);
+  --Colors-Slider-Handle-Primary-Inner: var(--Colors-Base-Primary-100);
+  --Colors-Slider-Handle-Marker: var(--Colors-Base-Primary-600);
+  --Colors-Slider-Handle-Marker-Inner: var(--Colors-Base-Primary-400);
+  --Colors-Slider-Handle-Hover: var(--Colors-Base-Primary-600);
+  --Colors-Slider-Handle-Pressed: var(--Colors-Base-Primary-700);
+  --Colors-Input-Border-Default: var(--Colors-Base-Neutral-200);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Slider Variables - Dark Mode */
+    --Colors-Slider-Track-Neutral: rgba(6, 12, 28, 0.5);
+    --Colors-Slider-Track-Primary: rgba(6, 12, 28, 0.5);
+    --Colors-Slider-Thumb-Neutral: var(--Colors-Base-Neutral-800);
+    --Colors-Slider-Thumb-Primary: var(--Colors-Base-Primary-800);
+    --Colors-Slider-Handle-Neutral: var(--Colors-Base-Primary-600);
+    --Colors-Slider-Handle-Neutral-Inner: var(--Colors-Base-Primary-350);
+    --Colors-Slider-Handle-Primary: var(--Colors-Base-Primary-600);
+    --Colors-Slider-Handle-Primary-Inner: var(--Colors-Base-Primary-350);
+    --Colors-Slider-Handle-Marker: var(--Colors-Base-Primary-600);
+    --Colors-Slider-Handle-Marker-Inner: var(--Colors-Base-Primary-350);
+    --Colors-Slider-Handle-Hover: var(--Colors-Base-Primary-600);
+    --Colors-Slider-Handle-Pressed: var(--Colors-Base-Primary-700);
+    --Colors-Input-Border-Default: var(--Colors-Base-Neutral-1150);
+  }
+}
+
+.numeric-slider-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--UI-Spacing-spacing-xs);
+  width: 100%;
+}
+
+.numeric-slider-container.with-inputs {
+  gap: var(--UI-Spacing-spacing-xs);
+}
+
+/* Input fields - extends input component styles */
+.numeric-slider-input {
+  flex-shrink: 0;
+  min-width: 28px;
+  max-width: 30px;
+  height: var(--UI-Input-sm);
+  text-align: center;
+  font-weight: 500;
+  padding-left: var(--UI-Spacing-spacing-mxs);
+  padding-right: var(--UI-Spacing-spacing-mxs);
+  padding-top: var(--UI-Spacing-spacing-none);
+  padding-bottom: var(--UI-Spacing-spacing-none);
+  border: 1.5px solid var(--Colors-Input-Border-Default, #394563);
+}
+
+/* Hide spinner buttons for numeric slider inputs */
+/* WebKit browsers (Chrome, Safari, Edge) */
+.numeric-slider-input::-webkit-inner-spin-button,
+.numeric-slider-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  display: none;
+}
+
+/* Firefox */
+.numeric-slider-input {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
+/* Slider wrapper */
+.numeric-slider-wrapper {
+  position: relative;
+  flex: 1;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Slider track */
+.numeric-slider-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: var(--UI-Radius-radius-s);
+  background: var(--Colors-Slider-Track-Neutral);
+  transition: background-color 0.2s ease;
+}
+
+.numeric-slider-track.theme-primary {
+  background: var(--Colors-Slider-Track-Primary);
+}
+
+/* Filled track (between handles for range, or from start to handle for single) */
+.numeric-slider-filled {
+  position: absolute;
+  height: 8px;
+  border-radius: var(--UI-Radius-radius-s);
+  background: var(--Colors-Slider-Thumb-Neutral);
+  transition: background-color 0.2s ease;
+  pointer-events: none;
+}
+
+.numeric-slider-filled.theme-primary {
+  background: var(--Colors-Slider-Thumb-Primary);
+}
+
+/* Slider handle */
+.numeric-slider-handle {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: -4px;
+  border-radius: 50%;
+  background: var(--Colors-Slider-Handle-Neutral);
+  border: none;
+  cursor: grab;
+  transform: translateX(-50%);
+  transition: transform 0.1s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.numeric-slider-handle::before {
+  content: '';
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--Colors-Slider-Handle-Neutral-Inner);
+}
+
+.numeric-slider-handle.theme-primary {
+  background: var(--Colors-Slider-Handle-Primary);
+}
+
+.numeric-slider-handle.theme-primary::before {
+  background: var(--Colors-Slider-Handle-Primary-Inner);
+}
+
+/* Marker style handles always use marker colors, regardless of theme */
+.numeric-slider-handle.style-marker {
+  background: var(--Colors-Slider-Handle-Marker);
+}
+
+.numeric-slider-handle.style-marker::before {
+  background: var(--Colors-Slider-Handle-Marker-Inner);
+}
+
+/* Ensure marker style overrides theme-primary */
+.numeric-slider-handle.style-marker.theme-primary {
+  background: var(--Colors-Slider-Handle-Marker);
+}
+
+.numeric-slider-handle.style-marker.theme-primary::before {
+  background: var(--Colors-Slider-Handle-Marker-Inner);
+}
+
+.numeric-slider-handle:hover {
+  transform: translateX(-50%) scale(1.25);
+  background: var(--Colors-Slider-Handle-Hover);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.numeric-slider-handle:active,
+.numeric-slider-handle.dragging {
+  cursor: grabbing;
+  transform: translateX(-50%) scale(1.25);
+  background: var(--Colors-Slider-Handle-Pressed);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.numeric-slider-handle:focus {
+  outline: 2px solid var(--Colors-Primary-Medium);
+  outline-offset: 2px;
+}
+
+.numeric-slider-handle:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Disabled state */
+.numeric-slider-container.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.numeric-slider-container.disabled .numeric-slider-handle {
+  cursor: not-allowed;
+}
+
+/* Hide inputs when configured */
+.numeric-slider-container.hide-inputs .numeric-slider-input {
+  display: none;
+}
+
+

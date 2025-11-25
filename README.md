@@ -27,6 +27,7 @@ Reusable UI elements built using the foundations.
 - **[Dropdown](components/dropdown/README.md)** ([CSS](components/dropdown/dropdown.css), [JS](components/dropdown/dropdown.js)): Customizable dropdown menus.
 - **[Icons](components/icons/README.md)** ([CSS](components/icons/icons.css)): Scalable SVG icons with size and color variants.
 - **[Input](components/input/README.md)** ([CSS](components/input/input.css)): Text and number input fields with various states.
+- **[Numeric Slider](components/numeric-slider/README.md)** ([CSS](components/numeric-slider/numeric-slider.css), [JS](components/numeric-slider/numeric-slider.js)): Single value and range sliders with optional input fields.
 - **[Tags](components/tags/README.md)** ([CSS](components/tags/tags.css)): Label and status indicator tags.
 
 ## Usage
@@ -51,6 +52,7 @@ Include the relevant CSS files in your HTML. For a full integration, you typical
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
 <link rel="stylesheet" href="/design-system/components/icons/icons.css">
 <link rel="stylesheet" href="/design-system/components/input/input.css">
+<link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 

@@ -48,6 +48,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
 <link rel="stylesheet" href="/design-system/components/icons/icons.css">
 <link rel="stylesheet" href="/design-system/components/input/input.css">
+<link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
@@ -463,6 +464,90 @@ const currentValue = dropdown.getValue();
 
 ---
 
+### Numeric Slider (JavaScript Component)
+
+**Import:**
+```javascript
+import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js';
+```
+
+**Initialization:**
+```javascript
+const slider = new NumericSlider(selector, options);
+```
+
+**Configuration Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `type` | String | `'single'` | Slider type: `'single'` (one handle) or `'range'` (two handles) |
+| `min` | Number | `0` | Minimum value (must be less than `max`) |
+| `max` | Number | `100` | Maximum value (must be greater than `min`) |
+| `step` | Number | `1` | Step increment for value changes |
+| `value` | Number/Array | `null` | Initial value. For single: number. For range: `[minValue, maxValue]` array |
+| `showInputs` | Boolean | `false` | If `true`, displays input fields for direct value entry |
+| `theme` | String | `'default'` | Theme preset: `'default'` (neutral track, primary filled/handles) or `'primary'` (all primary) |
+| `trackTheme` | String | `null` | Override track color: `'neutral'` or `'primary'` |
+| `filledTheme` | String | `null` | Override filled track color: `'neutral'` or `'primary'` |
+| `handleTheme` | String | `null` | Override handle color: `'neutral'` or `'primary'` |
+| `disabled` | Boolean | `false` | If `true`, disables the slider |
+| `onChange` | Function | `null` | Callback `(value, source)` when value changes via slider |
+| `onInputChange` | Function | `null` | Callback `(value, source)` when value changes via input field |
+
+**API Methods:**
+- `getValue()`: Returns current value(s). For single: number. For range: `[min, max]` array
+- `setValue(value, source, triggerCallback)`: Sets value programmatically. Values are clamped and validated
+- `setDisabled(disabled)`: Enables or disables the slider
+- `destroy()`: Removes event listeners and cleans up DOM
+
+**Features:**
+- Single value mode (one handle) or range mode (two handles)
+- Optional input fields (positioned on either side for range sliders)
+- Mouse, touch, and keyboard interaction
+- Automatic value clamping and step snapping
+- Customizable themes (track, filled track, and handles can be themed separately)
+- Full accessibility support (ARIA attributes, keyboard navigation)
+
+**Example:**
+```javascript
+// Single value slider
+const slider = new NumericSlider('#slider', {
+  type: 'single',
+  min: 0,
+  max: 100,
+  value: 50,
+  showInputs: true,
+  onChange: (value) => {
+    console.log('Value:', value);
+  }
+});
+
+// Range slider with custom theme
+const rangeSlider = new NumericSlider('#range-slider', {
+  type: 'range',
+  min: 0,
+  max: 100,
+  value: [20, 60],
+  showInputs: true,
+  trackTheme: 'neutral',
+  filledTheme: 'primary',
+  handleTheme: 'primary',
+  onChange: (values) => {
+    console.log('Range:', values[0], '-', values[1]);
+  }
+});
+
+// Later...
+slider.setValue(75);
+rangeSlider.setValue([30, 70]);
+const currentValue = slider.getValue(); // 75
+const currentRange = rangeSlider.getValue(); // [30, 70]
+```
+
+**Dependencies:** colors.css, spacing.css, typography.css, input/input.css
+
+---
+
 ## Usage Patterns
 
 ### Component Composition
@@ -633,6 +718,11 @@ design-system/
 │   │   ├── input.css
 │   │   ├── README.md
 │   │   └── test.html
+│   ├── numeric-slider/
+│   │   ├── numeric-slider.css
+│   │   ├── numeric-slider.js
+│   │   ├── README.md
+│   │   └── test.html
 │   └── tags/
 │       ├── tags.css
 │       ├── README.md
@@ -666,7 +756,7 @@ This provides:
 - **Design System Version**: Current
 - **Browser Support**: Modern browsers (Chrome, Firefox, Safari, Edge)
 - **CSS Features Used**: CSS Custom Properties, CSS Grid, Flexbox, CSS Masks
-- **JavaScript**: ES6 Modules (Dropdown component only)
+- **JavaScript**: ES6 Modules (Dropdown and Numeric Slider components)
 
 ---
 
