@@ -1,7 +1,8 @@
 @font-face {
     font-family: 'Founders Grotesk';
     src: url('/design-system/fonts/FoundersGrotesk-Light.woff2') format('woff2'),
-         url('/fonts/FoundersGrotesk-Light.woff2') format('woff2');
+         url('/fonts/FoundersGrotesk-Light.woff2') format('woff2'),
+         url('../fonts/FoundersGrotesk-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
 }
@@ -9,7 +10,8 @@
 @font-face {
     font-family: 'Founders Grotesk';
     src: url('/design-system/fonts/FoundersGrotesk-Light-Italic.woff2') format('woff2'),
-         url('/fonts/FoundersGrotesk-Light-Italic.woff2') format('woff2');
+         url('/fonts/FoundersGrotesk-Light-Italic.woff2') format('woff2'),
+         url('../fonts/FoundersGrotesk-Light-Italic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
 }
@@ -17,7 +19,8 @@
 @font-face {
     font-family: 'Founders Grotesk';
     src: url('/design-system/fonts/FoundersGrotesk-Medium.woff2') format('woff2'),
-         url('/fonts/FoundersGrotesk-Medium.woff2') format('woff2');
+         url('/fonts/FoundersGrotesk-Medium.woff2') format('woff2'),
+         url('../fonts/FoundersGrotesk-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
 }
@@ -25,7 +28,8 @@
 @font-face {
     font-family: 'JetBrains Mono';
     src: url('/design-system/fonts/JetBrainsMono-MediumItalic.woff2') format('woff2'),
-         url('/fonts/JetBrainsMono-MediumItalic.woff2') format('woff2');
+         url('/fonts/JetBrainsMono-MediumItalic.woff2') format('woff2'),
+         url('../fonts/JetBrainsMono-MediumItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
 }
@@ -33,7 +37,8 @@
 @font-face {
     font-family: 'Founders Grotesk';
     src: url('/design-system/fonts/FoundersGrotesk-Medium-Italic.woff2') format('woff2'),
-         url('/fonts/FoundersGrotesk-Medium-Italic.woff2') format('woff2');
+         url('/fonts/FoundersGrotesk-Medium-Italic.woff2') format('woff2'),
+         url('../fonts/FoundersGrotesk-Medium-Italic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
   }
@@ -44,6 +49,7 @@
     --heading-family: "Founders Grotesk";
     --label-family: "Work Sans";
     --label-number-family: "Work Sans";
+    --code-family: "JetBrains Mono";
 
     --Fonts-Body-Default-xxs: 13px;
     --Fonts-Body-Default-xs: 14px;
@@ -289,3 +295,29 @@
     font-size: var(--Fonts-Special-xl);
 }
 
+.code,
+.code-small,
+.code-medium,
+.code-large {
+    color: var(--Colors-Text-Body-Medium);
+    font-family: var(--code-family);
+    font-style: normal;
+    font-weight: 600;
+    line-height: 140%;
+}
+
+.code {
+    font-size: var(--Fonts-Body-Default-xl);
+}
+
+.code-small {
+    font-size: var(--Fonts-Special-xs);
+}
+
+.code-medium {
+    font-size: var(--Fonts-Body-Default-md);
+}
+
+.code-large {
+    font-size: var(--Fonts-Body-Default-lg);
+}

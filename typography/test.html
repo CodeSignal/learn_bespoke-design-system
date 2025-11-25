@@ -161,6 +161,13 @@
         <div class="typography-grid" id="label-numbers"></div>
     </div>
 
+    <h2>Code Styles</h2>
+    <p class="intro">Code/monospace text styles using JetBrains Mono</p>
+
+    <div class="section">
+        <div class="typography-grid" id="code"></div>
+    </div>
+
     <script>
         const bodyText = "One ring to rule them all, one ring to find them, One ring to bring them all, and in the darkness bind them; In the Land of Mordor where the shadows lie.";
 
@@ -297,6 +304,20 @@
         const labelNumbersContainer = document.getElementById('label-numbers');
         labelNumberStyles.forEach(({ class: className, name, text }) => {
             createTypographySample(className, name, text, labelNumbersContainer);
+        });
+
+        // Code styles
+        const codeText = "const slider = new NumericSlider('#slider', { value: 50 });";
+        const codeStyles = [
+            { class: 'code-small', name: 'Code Small' },
+            { class: 'code-medium', name: 'Code Medium' },
+            { class: 'code-large', name: 'Code Large' },
+            { class: 'code', name: 'Code' }
+        ];
+
+        const codeContainer = document.getElementById('code');
+        codeStyles.forEach(({ class: className, name }) => {
+            createTypographySample(className, name, codeText, codeContainer);
         });
     </script>
 </body>

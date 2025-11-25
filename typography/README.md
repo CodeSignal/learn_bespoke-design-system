@@ -75,6 +75,14 @@ Numeric labels using `Work Sans` with medium weight (500).
 - `.label-number-medium` (14px)
 - `.label-number-large` (15px)
 
+### Code
+Code/monospace text styles using `JetBrains Mono` with semi-bold weight (600).
+
+- `.code-small` (11px)
+- `.code-medium` (16px)
+- `.code-large` (17px)
+- `.code` (19px)
+
 ## CSS Variables
 
 While classes are preferred for consistency, you can access the raw values via CSS variables if needed for custom components.

@@ -5,6 +5,7 @@
 
 :root {
   /* Box Variables */
+  --Colors-Backgrounds-Box-Default: var(--Colors-Base-Neutral-00);
   --Colors-Box-Background: var(--Colors-Base-Neutral-00);
   --Colors-Box-Background-Hover: var(--Colors-Base-Neutral-00);
   --Colors-Box-Stroke: var(--Colors-Base-Neutral-150);
@@ -21,6 +22,7 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
+        --Colors-Backgrounds-Box-Default: var(--Colors-Base-Neutral-1250);
         --Colors-Box-Background: var(--Colors-Base-Neutral-1200);
         --Colors-Box-Background-Hover: var(--Colors-Base-Neutral-1150);
         --Colors-Box-Stroke: rgba(45, 56, 85, 0.00);
@@ -97,4 +99,17 @@
 .box.card:focus,
 .box.card.focus {
     box-shadow: 0 0 0 4px var(--Colors-Box-Focus);
+}
+
+.box.input-group {
+  display: flex;
+  padding: var(--UI-Spacing-spacing-s) var(--UI-Spacing-spacing-ml);
+  align-items: flex-start;
+  gap: var(--UI-Spacing-spacing-xs);
+  align-self: stretch;
+  border-radius: var(--UI-Radius-radius-s);
+  background: var(--Colors-Backgrounds-Box-Default);
+  justify-content: flex-start; /* Left-align content */
+  text-align: left; /* Ensure text (and inline elements) are left-aligned */
+  border-left: 5px solid var(--Colors-Primary-Default);
 }
