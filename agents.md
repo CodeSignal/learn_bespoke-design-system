@@ -22,7 +22,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 
 - **Semantic over Primitive**: Always prefer semantic tokens (e.g., `--Colors-Text-Body-Default`) over base scale tokens
 - **Dark Mode Support**: All components automatically adapt to dark mode via `@media (prefers-color-scheme: dark)`
-- **CSS-First**: Components are primarily CSS-based with minimal JavaScript (only Dropdown requires JS)
+- **CSS-First**: Components are primarily CSS-based with minimal JavaScript (Dropdown, Numeric Slider, and Modal use JS)
 - **Accessibility**: Components follow WCAG guidelines and support keyboard navigation
 
 ---
@@ -48,6 +48,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
 <link rel="stylesheet" href="/design-system/components/icons/icons.css">
 <link rel="stylesheet" href="/design-system/components/input/input.css">
+<link rel="stylesheet" href="/design-system/components/modal/modal.css">
 <link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
@@ -548,6 +549,107 @@ const currentRange = rangeSlider.getValue(); // [30, 70]
 
 ---
 
+### Modal (JavaScript Component)
+
+**Import:**
+```javascript
+import Modal from '/design-system/components/modal/modal.js';
+```
+
+**Initialization:**
+```javascript
+const modal = new Modal(options);
+```
+
+**Configuration Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `size` | String | `'medium'` | Modal size: `'small'` (400px), `'medium'` (600px), `'large'` (900px), `'xlarge'` (1200px) |
+| `title` | String | `null` | Modal title text. If `null`, header is hidden |
+| `content` | String/Element | `null` | Modal content. Can be HTML string, DOM element, CSS selector (e.g., `'#my-content'`), or template content |
+| `showCloseButton` | Boolean | `true` | If `true`, displays close button (X) in header |
+| `footerButtons` | Array | `null` | Array of button configs `[{label, type, onClick}]`. If `null`, footer is hidden |
+| `closeOnOverlayClick` | Boolean | `true` | If `true`, clicking overlay closes modal |
+| `closeOnEscape` | Boolean | `true` | If `true`, pressing Escape closes modal |
+| `onOpen` | Function | `null` | Callback triggered when modal opens. Receives `(modal)` instance |
+| `onClose` | Function | `null` | Callback triggered when modal closes. Receives `(modal)` instance |
+
+**API Methods:**
+- `open()`: Opens the modal and locks body scroll
+- `close()`: Closes the modal and restores body scroll
+- `updateContent(content)`: Updates the modal content dynamically. Accepts same content types as constructor
+- `updateTitle(title)`: Updates the modal title. Creates title element if it doesn't exist
+- `destroy()`: Removes the modal from DOM and cleans up event listeners
+
+**Content Types:**
+- **HTML String**: `content: '<p>HTML content</p>'`
+- **DOM Element**: `content: document.createElement('div')`
+- **CSS Selector**: `content: '#my-content'` or `content: '.my-class'` (clones the element)
+- **Template Content**: `content: template.content.cloneNode(true)`
+
+**Features:**
+- Multiple content insertion methods (HTML string, DOM element, CSS selector, template)
+- Flexible sizing (small, medium, large, xlarge)
+- Optional header and footer
+- Customizable footer buttons with click handlers
+- Body scroll locking when open
+- Focus management for accessibility
+- Keyboard navigation (Escape to close)
+- ARIA attributes for screen readers
+
+**Example:**
+```javascript
+// Basic modal with HTML string
+const modal = new Modal({
+  title: 'Basic Modal',
+  content: '<p class="body-medium">This is a basic modal.</p>',
+  footerButtons: [
+    { label: 'Close', type: 'primary' }
+  ]
+});
+modal.open();
+
+// Modal with CSS selector content
+const modal2 = new Modal({
+  title: 'Selector Modal',
+  content: '#my-hidden-content',
+  footerButtons: [
+    { label: 'Cancel', type: 'secondary' },
+    { label: 'Save', type: 'primary', onClick: () => console.log('Saved!') }
+  ]
+});
+modal2.open();
+
+// Modal with form content
+const formHTML = `
+  <form>
+    <input type="text" class="input" placeholder="Name">
+    <input type="email" class="input" placeholder="Email">
+  </form>
+`;
+
+const formModal = new Modal({
+  size: 'large',
+  title: 'User Information',
+  content: formHTML,
+  footerButtons: [
+    { label: 'Cancel', type: 'secondary', onClick: () => formModal.close() },
+    { label: 'Submit', type: 'primary', onClick: () => { alert('Submitted!'); formModal.close(); } }
+  ]
+});
+formModal.open();
+
+// Later...
+modal.close();
+modal.updateContent('<p>Updated content</p>');
+modal.destroy();
+```
+
+**Dependencies:** colors.css, spacing.css, typography.css, button/button.css
+
+---
+
 ## Usage Patterns
 
 ### Component Composition
@@ -718,6 +820,11 @@ design-system/
 │   │   ├── input.css
 │   │   ├── README.md
 │   │   └── test.html
+│   ├── modal/
+│   │   ├── modal.css
+│   │   ├── modal.js
+│   │   ├── README.md
+│   │   └── test.html
 │   ├── numeric-slider/
 │   │   ├── numeric-slider.css
 │   │   ├── numeric-slider.js
@@ -756,7 +863,7 @@ This provides:
 - **Design System Version**: Current
 - **Browser Support**: Modern browsers (Chrome, Firefox, Safari, Edge)
 - **CSS Features Used**: CSS Custom Properties, CSS Grid, Flexbox, CSS Masks
-- **JavaScript**: ES6 Modules (Dropdown and Numeric Slider components)
+- **JavaScript**: ES6 Modules (Dropdown, Numeric Slider, and Modal components)
 
 ---
 

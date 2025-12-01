@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component Tests - Modal</title>
+  <link rel="stylesheet" href="../../colors/colors.css">
+  <link rel="stylesheet" href="../../spacing/spacing.css">
+  <link rel="stylesheet" href="../../typography/typography.css">
+  <link rel="stylesheet" href="../button/button.css">
+  <link rel="stylesheet" href="../input/input.css">
+  <link rel="stylesheet" href="modal.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --test-bg: var(--Colors-Backgrounds-Main-Light);
+      --test-section-bg: var(--Colors-Backgrounds-Main-Top);
+      --test-section-shadow: rgba(0, 0, 0, 0.1);
+      --test-subheading-color: var(--Colors-Text-Body-Default);
+      --test-label-color: var(--Colors-Text-Body-Medium);
+      --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+      --test-output-text: var(--Colors-Text-Body-Default);
+      --test-output-strong: var(--Colors-Text-Body-Strong);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --test-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-section-bg: var(--Colors-Backgrounds-Main-Light);
+        --test-section-shadow: rgba(0, 0, 0, 0.3);
+        --test-subheading-color: var(--Colors-Text-Body-Default);
+        --test-label-color: var(--Colors-Text-Body-Default);
+        --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-output-text: var(--Colors-Text-Body-Default);
+        --test-output-strong: var(--Colors-Text-Body-Strong);
+      }
+    }
+
+    body {
+      background: var(--test-bg);
+      padding: 40px 20px;
+      font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+      color: var(--Colors-Text-Body-Strong);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-section {
+      background: var(--test-section-bg);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px var(--test-section-shadow);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .test-section h2 {
+      margin: 0 0 24px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--Colors-Text-Body-Strong);
+      letter-spacing: -0.24px;
+    }
+
+    .test-section h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--test-subheading-color);
+      letter-spacing: -0.18px;
+    }
+
+    .test-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .test-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .test-item label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--test-label-color);
+    }
+
+    h1 {
+      transition: color 0.2s ease;
+      margin-bottom: 32px;
+    }
+
+    /* Hidden template content */
+    .hidden-content {
+      display: none;
+    }
+
+    .content-sample {
+      padding: 16px 0;
+    }
+
+    .content-sample p {
+      margin-bottom: 12px;
+    }
+
+    .content-sample p:last-child {
+      margin-bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 style="font-size: 32px; font-weight: 700; color: var(--Colors-Text-Body-Strong);">
+      Component Tests - Modal
+    </h1>
+
+    <!-- Basic Modals -->
+    <div class="test-section">
+      <h2>Basic Modals</h2>
+      
+      <div class="test-row">
+        <div class="test-item">
+          <label>Small Modal</label>
+          <button class="button button-primary" onclick="openBasicModal('small')">Open Small Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Medium Modal</label>
+          <button class="button button-primary" onclick="openBasicModal('medium')">Open Medium Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Large Modal</label>
+          <button class="button button-primary" onclick="openBasicModal('large')">Open Large Modal</button>
+        </div>
+        <div class="test-item">
+          <label>XLarge Modal</label>
+          <button class="button button-primary" onclick="openBasicModal('xlarge')">Open XLarge Modal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Declarative Content Examples -->
+    <div class="test-section">
+      <h2>Declarative Content Examples</h2>
+      
+      <div class="test-row">
+        <div class="test-item">
+          <label>HTML String Content</label>
+          <button class="button button-primary" onclick="openHTMLStringModal()">Open HTML String Modal</button>
+        </div>
+        <div class="test-item">
+          <label>DOM Element Content</label>
+          <button class="button button-primary" onclick="openDOMElementModal()">Open DOM Element Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Selector Content</label>
+          <button class="button button-primary" onclick="openSelectorModal()">Open Selector Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Template Content</label>
+          <button class="button button-primary" onclick="openTemplateModal()">Open Template Modal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal Variants -->
+    <div class="test-section">
+      <h2>Modal Variants</h2>
+      
+      <div class="test-row">
+        <div class="test-item">
+          <label>With Footer Buttons</label>
+          <button class="button button-primary" onclick="openFooterModal()">Open Modal with Footer</button>
+        </div>
+        <div class="test-item">
+          <label>Without Footer</label>
+          <button class="button button-primary" onclick="openNoFooterModal()">Open Modal without Footer</button>
+        </div>
+        <div class="test-item">
+          <label>Without Title</label>
+          <button class="button button-primary" onclick="openNoTitleModal()">Open Modal without Title</button>
+        </div>
+        <div class="test-item">
+          <label>Without Close Button</label>
+          <button class="button button-primary" onclick="openNoCloseButtonModal()">Open Modal without Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Complex Content Examples -->
+    <div class="test-section">
+      <h2>Complex Content Examples</h2>
+      
+      <div class="test-row">
+        <div class="test-item">
+          <label>Form Content</label>
+          <button class="button button-primary" onclick="openFormModal()">Open Form Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Long Content</label>
+          <button class="button button-primary" onclick="openLongContentModal()">Open Long Content Modal</button>
+        </div>
+        <div class="test-item">
+          <label>Rich Content</label>
+          <button class="button button-primary" onclick="openRichContentModal()">Open Rich Content Modal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden content for selector example -->
+    <div id="selector-content" class="hidden-content">
+      <div class="content-sample">
+        <p class="body-medium">This content is selected from a hidden element using a CSS selector.</p>
+        <p class="body-small">The modal clones this content when opened.</p>
+      </div>
+    </div>
+
+    <!-- Template for template example -->
+    <template id="modal-template">
+      <div class="content-sample">
+        <h3 class="heading-small">Template Content</h3>
+        <p class="body-medium">This content comes from an HTML template element.</p>
+        <p class="body-small">Templates are great for reusable modal content.</p>
+      </div>
+    </template>
+  </div>
+
+  <script type="module">
+    import Modal from './modal.js';
+
+    // Make Modal available globally for onclick handlers
+    window.Modal = Modal;
+
+    // Basic modal function
+    window.openBasicModal = function(size) {
+      const modal = new Modal({
+        size: size,
+        title: `${size.charAt(0).toUpperCase() + size.slice(1)} Modal`,
+        content: `<div class="content-sample">
+          <p class="body-medium">This is a ${size} modal (${getSizeWidth(size)}).</p>
+          <p class="body-small">You can put any content here.</p>
+        </div>`,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    function getSizeWidth(size) {
+      const sizes = {
+        small: '400px',
+        medium: '600px',
+        large: '900px',
+        xlarge: '1200px'
+      };
+      return sizes[size] || '600px';
+    }
+
+    // HTML String Content
+    window.openHTMLStringModal = function() {
+      const modal = new Modal({
+        title: 'HTML String Content',
+        content: `
+          <div class="content-sample">
+            <p class="body-medium">This modal content is defined as an HTML string.</p>
+            <p class="body-small">You can include any HTML markup here.</p>
+            <ul style="margin-top: 16px; padding-left: 24px;">
+              <li class="body-small">List item 1</li>
+              <li class="body-small">List item 2</li>
+              <li class="body-small">List item 3</li>
+            </ul>
+          </div>
+        `,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // DOM Element Content
+    window.openDOMElementModal = function() {
+      const contentDiv = document.createElement('div');
+      contentDiv.className = 'content-sample';
+      contentDiv.innerHTML = `
+        <p class="body-medium">This modal content is created from a DOM element.</p>
+        <p class="body-small">The element is created programmatically and passed to the modal.</p>
+      `;
+
+      const modal = new Modal({
+        title: 'DOM Element Content',
+        content: contentDiv,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // Selector Content
+    window.openSelectorModal = function() {
+      const modal = new Modal({
+        title: 'Selector Content',
+        content: '#selector-content',
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // Template Content
+    window.openTemplateModal = function() {
+      const template = document.querySelector('#modal-template');
+      const modal = new Modal({
+        title: 'Template Content',
+        content: template.content.cloneNode(true),
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // Footer Modal
+    window.openFooterModal = function() {
+      const modal = new Modal({
+        title: 'Modal with Footer',
+        content: `
+          <div class="content-sample">
+            <p class="body-medium">This modal has footer buttons.</p>
+            <p class="body-small">Footer buttons can have custom click handlers.</p>
+          </div>
+        `,
+        footerButtons: [
+          {
+            label: 'Cancel',
+            type: 'secondary',
+            onClick: () => {
+              console.log('Cancelled');
+              modal.close();
+            }
+          },
+          {
+            label: 'Save',
+            type: 'primary',
+            onClick: () => {
+              console.log('Saved!');
+              alert('Saved!');
+              modal.close();
+            }
+          }
+        ]
+      });
+      modal.open();
+    };
+
+    // No Footer Modal
+    window.openNoFooterModal = function() {
+      const modal = new Modal({
+        title: 'Modal without Footer',
+        content: `
+          <div class="content-sample">
+            <p class="body-medium">This modal has no footer buttons.</p>
+            <p class="body-small">Use the close button (X) or click outside to close.</p>
+          </div>
+        `,
+        footerButtons: null
+      });
+      modal.open();
+    };
+
+    // No Title Modal
+    window.openNoTitleModal = function() {
+      const modal = new Modal({
+        title: null,
+        content: `
+          <div class="content-sample">
+            <p class="body-medium">This modal has no title.</p>
+            <p class="body-small">The header is hidden when title is null.</p>
+          </div>
+        `,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // No Close Button Modal
+    window.openNoCloseButtonModal = function() {
+      const modal = new Modal({
+        title: 'Modal without Close Button',
+        content: `
+          <div class="content-sample">
+            <p class="body-medium">This modal has no close button (X).</p>
+            <p class="body-small">Use the footer button or click outside to close.</p>
+          </div>
+        `,
+        showCloseButton: false,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // Form Modal
+    window.openFormModal = function() {
+      const formHTML = `
+        <div class="content-sample">
+          <form style="display: flex; flex-direction: column; gap: 16px;">
+            <div>
+              <label class="body-small" style="display: block; margin-bottom: 8px; font-weight: 500;">Name</label>
+              <input type="text" class="input" placeholder="Enter your name" style="width: 100%;">
+            </div>
+            <div>
+              <label class="body-small" style="display: block; margin-bottom: 8px; font-weight: 500;">Email</label>
+              <input type="email" class="input" placeholder="Enter your email" style="width: 100%;">
+            </div>
+            <div>
+              <label class="body-small" style="display: block; margin-bottom: 8px; font-weight: 500;">Message</label>
+              <textarea class="input" placeholder="Enter your message" rows="4" style="width: 100%; resize: vertical;"></textarea>
+            </div>
+          </form>
+        </div>
+      `;
+
+      const modal = new Modal({
+        title: 'User Information',
+        content: formHTML,
+        footerButtons: [
+          {
+            label: 'Cancel',
+            type: 'secondary',
+            onClick: () => modal.close()
+          },
+          {
+            label: 'Submit',
+            type: 'primary',
+            onClick: () => {
+              alert('Form submitted!');
+              modal.close();
+            }
+          }
+        ]
+      });
+      modal.open();
+    };
+
+    // Long Content Modal
+    window.openLongContentModal = function() {
+      const longContent = `
+        <div class="content-sample">
+          <p class="body-medium">This modal has scrollable content.</p>
+          ${Array.from({ length: 20 }, (_, i) => `
+            <p class="body-small">Paragraph ${i + 1}: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          `).join('')}
+        </div>
+      `;
+
+      const modal = new Modal({
+        title: 'Long Content Modal',
+        content: longContent,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+
+    // Rich Content Modal
+    window.openRichContentModal = function() {
+      const richContent = `
+        <div class="content-sample">
+          <h3 class="heading-small">Rich Content Example</h3>
+          <p class="body-medium">This modal demonstrates rich content with various elements.</p>
+          
+          <div style="margin-top: 24px; padding: 16px; background: var(--Colors-Backgrounds-Main-Light); border-radius: 8px;">
+            <p class="body-small" style="margin-bottom: 8px;"><strong>Information Box</strong></p>
+            <p class="body-small">This is an information box with styled content.</p>
+          </div>
+
+          <div style="margin-top: 16px;">
+            <p class="body-small" style="margin-bottom: 8px;">Features:</p>
+            <ul style="padding-left: 24px; margin: 0;">
+              <li class="body-small">Supports HTML content</li>
+              <li class="body-small">Scrollable when content is long</li>
+              <li class="body-small">Responsive design</li>
+              <li class="body-small">Accessible keyboard navigation</li>
+            </ul>
+          </div>
+        </div>
+      `;
+
+      const modal = new Modal({
+        size: 'large',
+        title: 'Rich Content Modal',
+        content: richContent,
+        footerButtons: [
+          { label: 'Close', type: 'primary' }
+        ]
+      });
+      modal.open();
+    };
+  </script>
+</body>
+</html>
+

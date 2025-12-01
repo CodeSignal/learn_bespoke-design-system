@@ -1,0 +1,229 @@
+/**
+ * Modal Component Styles
+ * Matches CodeSignal Design System
+ */
+
+:root {
+  /* Modal Variables - Light Mode */
+  --Colors-Modal-Overlay: rgba(29, 38, 62, 0.4);
+  --Colors-Modal-Background: var(--Colors-Base-Neutral-00);
+  --Colors-Modal-Shadow-Float: rgba(22, 44, 96, 0.12);
+  --Colors-Modal-Close-Icon: var(--Colors-Base-Neutral-700);
+  --Colors-Modal-Close-Icon-Hover: var(--Colors-Base-Neutral-900);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Modal Variables - Dark Mode */
+    --Colors-Modal-Overlay: rgba(13, 21, 40, 0.94);
+    --Colors-Modal-Background: var(--Colors-Base-Neutral-1300);
+    --Colors-Modal-Shadow-Float: rgba(13, 21, 40, 0.3);
+    --Colors-Modal-Close-Icon: var(--Colors-Base-Neutral-700);
+    --Colors-Modal-Close-Icon-Hover: var(--Colors-Base-Neutral-500);
+  }
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--Colors-Modal-Overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: var(--UI-Spacing-spacing-xxxl);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Dialog */
+.modal-dialog {
+  position: relative;
+  background: var(--Colors-Modal-Background);
+  border-radius: var(--UI-Radius-radius-s);
+  padding: var(--UI-Spacing-spacing-none);
+  box-shadow: 0px 0px 48px 0px var(--Colors-Modal-Shadow-Float),
+              -35px 30px 38px 0px var(--Colors-Modal-Shadow-Float);
+  max-width: 100%;
+  max-height: calc(100vh - 2 * var(--UI-Spacing-spacing-xxxl));
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: var(--UI-Spacing-spacing-none);
+  min-height: 0;
+}
+
+.modal-overlay.open .modal-dialog {
+  transform: scale(1);
+}
+
+/* Modal Sizes */
+.modal-dialog.size-small {
+  width: 400px;
+}
+
+.modal-dialog.size-medium {
+  width: 600px;
+}
+
+.modal-dialog.size-large {
+  width: 900px;
+}
+
+.modal-dialog.size-xlarge {
+  width: 1200px;
+}
+
+/* Modal Header */
+.modal-header {
+  display: flex;
+  align-items: flex-end;
+  height: 48px;
+  position: relative;
+  gap: var(--UI-Spacing-spacing-4xl);
+  padding: var(--UI-Spacing-spacing-mxl) var(--UI-Spacing-spacing-xl) var(--UI-Spacing-spacing-mxl) var(--UI-Spacing-spacing-xl);
+  align-self: stretch;
+}
+
+.modal-header:empty {
+  display: none;
+}
+
+.modal-title {
+  font-family: var(--heading-family);
+  font-size: 20px;
+  font-weight: 500;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: -0.2px;
+  color: var(--Colors-Text-Body-Strongest);
+  margin: 0;
+  flex: 1;
+}
+
+.modal-close-button {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: var(--UI-Input-md);
+  height: var(--UI-Input-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--UI-Spacing-spacing-mxs);
+  border: none;
+  background: transparent;
+  border-radius: var(--UI-Radius-radius-xs);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modal-close-button:hover {
+  background: var(--Colors-Backgrounds-Main-Medium);
+}
+
+.modal-close-button:focus {
+  outline: 2px solid var(--Colors-Primary-Medium);
+  outline-offset: 2px;
+}
+
+.modal-close-button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.modal-close-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  color: var(--Colors-Modal-Close-Icon);
+  transition: color 0.2s ease;
+}
+
+.modal-close-button:hover .modal-close-icon {
+  color: var(--Colors-Modal-Close-Icon-Hover);
+}
+
+.modal-close-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Modal Content */
+.modal-content {
+  display: flex;
+  flex: 1 1 auto;
+  padding: var(--UI-Spacing-spacing-mxl) var(--UI-Spacing-spacing-xl) var(--UI-Spacing-spacing-xxxl) var(--UI-Spacing-spacing-xl);
+  overflow-y: auto;
+  min-height: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--UI-Spacing-spacing-xl);
+  align-self: stretch;
+}
+
+.modal-content:empty {
+  min-height: 200px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  padding: var(--UI-Spacing-spacing-mxl) var(--UI-Spacing-spacing-xl);
+  min-height: 48px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  align-self: stretch;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.modal-footer-buttons {
+  display: flex;
+  flex: 1;
+  gap: var(--UI-Spacing-spacing-mxs);
+  align-items: flex-start;
+  justify-content: flex-end;
+}
+
+.modal-footer-buttons .button {
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-overlay {
+    padding: var(--UI-Spacing-spacing-mxl);
+  }
+
+  .modal-dialog.size-small,
+  .modal-dialog.size-medium,
+  .modal-dialog.size-large,
+  .modal-dialog.size-xlarge {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal-header,
+  .modal-content,
+  .modal-footer {
+    padding-left: var(--UI-Spacing-spacing-mxl);
+    padding-right: var(--UI-Spacing-spacing-mxl);
+  }
+}
+
