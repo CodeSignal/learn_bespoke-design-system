@@ -260,6 +260,135 @@ setTimeout(() => {
 }, 2000);
 ```
 
+### Help Modal
+
+The Modal component includes a specialized `createHelpModal()` static method for creating help/documentation modals. It's a convenience method that sets sensible defaults (xlarge size, footer with close button) and applies appropriate styling for help content.
+
+**Use HTML `<template>` Elements**
+
+Help modals should use HTML `<template>` elements for content. This keeps your HTML organized and makes content reusable.
+
+```html
+<!-- 1. Create a template element in your HTML -->
+<template id="help-template">
+  <nav class="toc">
+    <strong>Contents</strong>
+    <ul>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#getting-started">Getting Started</a></li>
+      <li><a href="#features">Key Features</a></li>
+      <li><a href="#faq">Troubleshooting / FAQ</a></li>
+    </ul>
+  </nav>
+  
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>This page explains how to use the application.</p>
+  </section>
+  
+  <section id="getting-started">
+    <h2>Getting Started</h2>
+    <ol>
+      <li>First step...</li>
+      <li>Second step...</li>
+    </ol>
+  </section>
+  
+  <section id="features">
+    <h2>Key Features</h2>
+    <h3>Feature 1</h3>
+    <p>Description of feature 1.</p>
+  </section>
+  
+  <section id="faq">
+    <h2>Troubleshooting / FAQ</h2>
+    <details>
+      <summary>Common question?</summary>
+      <p>Answer to the question.</p>
+    </details>
+  </section>
+</template>
+
+<script type="module">
+  import Modal from './modal.js';
+  
+  // 2. Use the template content
+  const template = document.querySelector('#help-template');
+  const helpModal = Modal.createHelpModal({
+    title: 'Help',
+    content: template.content.cloneNode(true)
+  });
+  helpModal.open();
+</script>
+```
+
+#### With Custom Modal Options
+
+You can override the default modal options:
+
+```javascript
+const template = document.querySelector('#help-template');
+const helpModal = Modal.createHelpModal({
+  title: 'Help',
+  content: template.content.cloneNode(true),
+  size: 'large', // Override default xlarge size
+  closeOnOverlayClick: false // Prevent closing on overlay click
+});
+helpModal.open();
+```
+
+#### Help Modal Features
+
+- **Convenience Method**: Sets defaults optimized for help content (xlarge size, footer with close button)
+- **Styled Content**: Automatically applies styles for:
+  - Table of Contents (`.toc`) with navigation links
+  - Sections (`<section>`) with proper headings
+  - Details/FAQ sections (`<details>`) with expandable content
+  - Code blocks (`<code>`) with monospace styling
+  - Images with responsive sizing
+- **Template Support**: Works well with HTML `<template>` elements for reusable content
+- **Large Size**: Defaults to `xlarge` size (1200px) for better readability
+- **Footer Button**: Includes a "Close" button in the footer by default (can be customized or removed)
+
+#### Help Modal Template Structure
+
+Your help content template should follow this structure. See `help-modal-template.html` for a complete reference example.
+
+```html
+<!-- Table of Contents -->
+<nav class="toc">
+  <strong>Contents</strong>
+  <ul>
+    <li><a href="#overview">Overview</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <!-- More links... -->
+  </ul>
+</nav>
+
+<!-- Sections -->
+<section id="overview">
+  <h2>Overview</h2>
+  <p>Content...</p>
+</section>
+
+<section id="getting-started">
+  <h2>Getting Started</h2>
+  <ol>
+    <li>Step 1...</li>
+    <li>Step 2...</li>
+  </ol>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq">
+  <h2>Troubleshooting / FAQ</h2>
+  <details>
+    <summary>Question?</summary>
+    <p>Answer...</p>
+  </details>
+</section>
+```
+
 ## Button Types
 
 Footer buttons support the following types:

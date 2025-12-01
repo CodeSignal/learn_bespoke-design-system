@@ -216,6 +216,18 @@
       </div>
     </div>
 
+    <!-- Help Modal Examples -->
+    <div class="test-section">
+      <h2>Help Modal Examples</h2>
+      
+      <div class="test-row">
+        <div class="test-item">
+          <label>Help Modal</label>
+          <button class="button button-primary" onclick="openHelpModal()">Open Help Modal</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Hidden content for selector example -->
     <div id="selector-content" class="hidden-content">
       <div class="content-sample">
@@ -231,6 +243,65 @@
         <p class="body-medium">This content comes from an HTML template element.</p>
         <p class="body-small">Templates are great for reusable modal content.</p>
       </div>
+    </template>
+
+    <!-- Help Modal Template -->
+    <template id="help-modal-template">
+      <nav class="toc">
+        <strong>Contents</strong>
+        <ul>
+          <li><a href="#overview">Overview</a></li>
+          <li><a href="#features">Key Features</a></li>
+          <li><a href="#shortcuts">Shortcuts</a></li>
+          <li><a href="#faq">Troubleshooting / FAQ</a></li>
+        </ul>
+      </nav>
+      
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>This is a help modal example demonstrating the help modal functionality.</p>
+        <p>Help modals use HTML <code>&lt;template&gt;</code> elements for reusable content. See <code>help-modal-template.html</code> for a complete reference example.</p>
+      </section>
+      
+      <section id="features">
+        <h2>Key Features</h2>
+        <h3>Template Support</h3>
+        <p>Use HTML <code>&lt;template&gt;</code> elements for reusable help content.</p>
+        
+        <h3>Styled Content</h3>
+        <p>Includes automatic styling for table of contents, sections, and FAQ items.</p>
+        
+        <h3>Large Size</h3>
+        <p>Defaults to xlarge size for better readability of documentation.</p>
+      </section>
+      
+      <section id="shortcuts">
+        <h2>Shortcuts</h2>
+        <ul>
+          <li><strong>ESC</strong> - Close help modal</li>
+          <li><strong>Click outside</strong> - Close help modal</li>
+          <li><strong>Close button (X)</strong> - Close help modal</li>
+        </ul>
+      </section>
+      
+      <section id="faq">
+        <h2>Troubleshooting / FAQ</h2>
+        
+        <details>
+          <summary>How do I customize the help content?</summary>
+          <p>Create a <code>&lt;template&gt;</code> element with your help content and use it with <code>createHelpModal()</code>. See <code>help-modal-template.html</code> for a reference structure.</p>
+        </details>
+        
+        <details>
+          <summary>Can I change the modal size?</summary>
+          <p>Yes, pass <code>size</code> in the options to override the default xlarge size.</p>
+        </details>
+        
+        <details>
+          <summary>How do I add images to help content?</summary>
+          <p>Include <code>&lt;img&gt;</code> tags in your template. Images are automatically styled with responsive sizing.</p>
+        </details>
+      </section>
     </template>
   </div>
 
@@ -512,6 +583,16 @@
         ]
       });
       modal.open();
+    };
+
+    // Help Modal (using template)
+    window.openHelpModal = function() {
+      const template = document.querySelector('#help-modal-template');
+      const helpModal = Modal.createHelpModal({
+        title: 'Help',
+        content: template.content.cloneNode(true)
+      });
+      helpModal.open();
     };
   </script>
 </body>

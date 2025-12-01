@@ -203,6 +203,19 @@ class Modal {
     this.dialog.addEventListener('click', (e) => {
       e.stopPropagation();
     });
+
+    // Handle anchor link clicks within modal content for smooth scrolling
+    this.content.addEventListener('click', (e) => {
+      const link = e.target.closest('a[href^="#"]');
+      if (link && link.hash) {
+        e.preventDefault();
+        const targetId = link.hash.substring(1);
+        const targetElement = this.content.querySelector(`#${targetId}`);
+        if (targetElement) {
+          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+    });
   }
 
   open() {
@@ -311,6 +324,41 @@ class Modal {
     if (this.overlay && this.overlay.parentNode) {
       this.overlay.parentNode.removeChild(this.overlay);
     }
+  }
+
+  /**
+   * Static method to create a Help Modal
+   * Convenience method that creates a modal optimized for help/documentation content
+   * with sensible defaults (xlarge size, footer with close button)
+   * 
+   * @param {Object} options - Configuration options (same as Modal constructor)
+   * @param {string} options.title - Modal title (default: 'Help')
+   * @param {string|Element} options.content - Required: HTML content for the help modal
+   * @param {Array} options.footerButtons - Optional: Footer buttons (default: single 'Close' button)
+   * @param {Object} options.modalOptions - Optional: Additional modal options to override defaults
+   * @returns {Modal} The created Modal instance
+   */
+  static createHelpModal(options = {}) {
+    const {
+      title = 'Help',
+      content,
+      footerButtons,
+      ...modalOptions
+    } = options;
+
+    // Default to a single Close button if no footer buttons provided
+    const defaultFooterButtons = footerButtons !== undefined 
+      ? footerButtons 
+      : [{ label: 'Close', type: 'primary' }];
+
+    return new Modal({
+      size: 'xlarge',
+      title,
+      content,
+      footerButtons: defaultFooterButtons,
+      showCloseButton: true,
+      ...modalOptions
+    });
   }
 }
 

@@ -588,6 +588,13 @@ const modal = new Modal(options);
 - **CSS Selector**: `content: '#my-content'` or `content: '.my-class'` (clones the element)
 - **Template Content**: `content: template.content.cloneNode(true)`
 
+**Help Modal Variant:**
+- **Static Method**: `Modal.createHelpModal(options)` - Convenience method optimized for help/documentation content
+- **Defaults**: xlarge size, footer with close button
+- **Recommended**: Use HTML `<template>` elements for help content
+- **Styled Elements**: Automatically styles `.toc` (table of contents), `<section>`, `<details>` (FAQ), `<code>`, and images
+- **Example**: `const helpModal = Modal.createHelpModal({ title: 'Help', content: template.content.cloneNode(true) })`
+
 **Features:**
 - Multiple content insertion methods (HTML string, DOM element, CSS selector, template)
 - Flexible sizing (small, medium, large, xlarge)
@@ -597,6 +604,7 @@ const modal = new Modal(options);
 - Focus management for accessibility
 - Keyboard navigation (Escape to close)
 - ARIA attributes for screen readers
+- Help modal variant with specialized styling for documentation content
 
 **Example:**
 ```javascript
@@ -639,6 +647,14 @@ const formModal = new Modal({
   ]
 });
 formModal.open();
+
+// Help modal with template
+const template = document.querySelector('#help-template');
+const helpModal = Modal.createHelpModal({
+  title: 'Help',
+  content: template.content.cloneNode(true)
+});
+helpModal.open();
 
 // Later...
 modal.close();

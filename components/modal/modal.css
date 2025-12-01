@@ -175,6 +175,7 @@
   align-items: center;
   gap: var(--UI-Spacing-spacing-xl);
   align-self: stretch;
+  scroll-behavior: smooth;
 }
 
 .modal-content:empty {
@@ -205,6 +206,153 @@
   flex-shrink: 0;
 }
 
+/* Help Modal Styles */
+.modal-content .toc {
+  background: var(--Colors-Backgrounds-Main-Light);
+  border-radius: var(--UI-Radius-radius-s);
+  padding: var(--UI-Spacing-spacing-mxl);
+  margin-bottom: var(--UI-Spacing-spacing-mxs);
+  border-left: 3px solid var(--Colors-Primary-Default);
+  align-self: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-content .toc strong {
+  display: block;
+  font-family: var(--heading-family);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--Colors-Text-Body-Strongest);
+  margin: 0 0 var(--UI-Spacing-spacing-mxl) 0;
+  padding-bottom: var(--UI-Spacing-spacing-mxs);
+  border-bottom: 1px solid var(--Colors-Stroke-Default);
+}
+
+.modal-content .toc ul {
+  list-style: none;
+  padding: 0;
+  margin: var(--UI-Spacing-spacing-mxs) 0 0 0;
+}
+
+.modal-content .toc li {
+  margin: var(--UI-Spacing-spacing-xs) 0;
+}
+
+.modal-content .toc a {
+  color: var(--Colors-Primary-Default);
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.modal-content .toc a:hover {
+  color: var(--Colors-Primary-Strong);
+  text-decoration: underline;
+}
+
+.modal-content section {
+  margin-bottom: var(--UI-Spacing-spacing-mxs);
+  scroll-margin-top: var(--UI-Spacing-spacing-mxl);
+  align-self: flex-start;
+  width: 100%;
+}
+
+.modal-content section:last-child {
+  margin-bottom: 0;
+}
+
+.modal-content section h2 {
+  font-family: var(--heading-family);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--Colors-Text-Body-Strongest);
+  margin: 0 0 var(--UI-Spacing-spacing-mxl) 0;
+  padding-bottom: var(--UI-Spacing-spacing-mxs);
+  border-bottom: 1px solid var(--Colors-Stroke-Default);
+}
+
+.modal-content section h3 {
+  font-family: var(--heading-family);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--Colors-Text-Body-Strongest);
+  margin: var(--UI-Spacing-spacing-xl) 0 var(--UI-Spacing-spacing-mxs) 0;
+}
+
+.modal-content section p {
+  color: var(--Colors-Text-Body-Default);
+  margin: var(--UI-Spacing-spacing-mxs) 0;
+  line-height: 1.6;
+}
+
+.modal-content section ol,
+.modal-content section ul {
+  margin: var(--UI-Spacing-spacing-mxs) 0;
+  padding-left: var(--UI-Spacing-spacing-xl);
+  color: var(--Colors-Text-Body-Default);
+}
+
+.modal-content section li {
+  margin: var(--UI-Spacing-spacing-xs) 0;
+  line-height: 1.6;
+}
+
+.modal-content section li strong {
+  color: var(--Colors-Text-Body-Strongest);
+  font-weight: 600;
+}
+
+.modal-content section details {
+  margin: var(--UI-Spacing-spacing-mxs) 0;
+  padding: var(--UI-Spacing-spacing-mxs);
+  border-radius: var(--UI-Radius-radius-xs);
+  transition: background-color 0.2s ease;
+}
+
+.modal-content section details:hover {
+  background: var(--Colors-Backgrounds-Main-Light);
+}
+
+.modal-content section details summary {
+  font-weight: 500;
+  color: var(--Colors-Text-Body-Strong);
+  cursor: pointer;
+  padding: var(--UI-Spacing-spacing-xs);
+  margin: calc(-1 * var(--UI-Spacing-spacing-xs));
+  user-select: none;
+}
+
+.modal-content section details summary:hover {
+  color: var(--Colors-Primary-Default);
+}
+
+.modal-content section details[open] summary {
+  margin-bottom: var(--UI-Spacing-spacing-mxs);
+}
+
+.modal-content section details p {
+  margin: var(--UI-Spacing-spacing-mxs) 0 0 0;
+  padding-left: var(--UI-Spacing-spacing-mxs);
+}
+
+.modal-content section code {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  background: var(--Colors-Backgrounds-Main-Medium);
+  padding: 2px 6px;
+  border-radius: var(--UI-Radius-radius-xxs);
+  color: var(--Colors-Text-Body-Strong);
+}
+
+.modal-content section img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--UI-Radius-radius-s);
+  margin: var(--UI-Spacing-spacing-mxl) 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .modal-overlay {
@@ -224,6 +372,18 @@
   .modal-footer {
     padding-left: var(--UI-Spacing-spacing-mxl);
     padding-right: var(--UI-Spacing-spacing-mxl);
+  }
+
+  .modal-content section h2 {
+    font-size: 20px;
+  }
+
+  .modal-content section h3 {
+    font-size: 16px;
+  }
+
+  .modal-content .toc strong {
+    font-size: 20px;
   }
 }
 

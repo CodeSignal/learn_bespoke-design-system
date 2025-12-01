@@ -78,6 +78,7 @@ Also include Work Sans font from Google Fonts.
 - Content: HTML string, DOM element, CSS selector (e.g., `'#my-content'`), or template content
 - Methods: `open()`, `close()`, `updateContent(content)`, `updateTitle(title)`, `destroy()`
 - Footer buttons: Array of `{label, type, onClick}` configs
+- Help Modal: `Modal.createHelpModal({ title, content, ... })` - Convenience method for help/documentation modals (xlarge size, footer with close button, styled for help content)
 
 ## Best Practices
 
