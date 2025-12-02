@@ -24,6 +24,7 @@ or
 ### Input Types
 - `type="text"`: Standard text input (default).
 - `type="number"`: Numeric input with styled spinner buttons.
+- `type="checkbox"`: Checkbox input with custom styling (see Checkbox section below).
 
 ### States
 The component supports standard pseudo-classes (`:hover`, `:focus`, `:disabled`) and utility classes for manual state application:
@@ -55,6 +56,94 @@ The component supports standard pseudo-classes (`:hover`, `:focus`, `:disabled`)
 <!-- Number Input with Value -->
 <input type="number" class="input" value="100">
 ```
+
+## Checkbox Input
+
+The checkbox component provides a custom-styled checkbox input with support for multiple sizes and states.
+
+### Checkbox Structure
+
+Checkboxes require a specific HTML structure:
+
+```html
+<label class="input-checkbox">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+```
+
+### Checkbox Sizes
+
+- **Default**: 32px checkbox box, large label text (17px)
+- `.input-checkbox-small`: 26px checkbox box, medium label text (16px)
+- `.input-checkbox-xsmall`: 20px checkbox box, small label text (14px)
+
+### Checkbox States
+
+- **Default**: White background with gray border
+- **Hover**: Blue border (primary color)
+- **Checked**: Blue background with white checkmark icon
+- **Disabled**: Reduced opacity (0.45 for box, 0.2 for label)
+
+### Checkbox Examples
+
+```html
+<!-- Default Checkbox -->
+<label class="input-checkbox">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- Checked Checkbox -->
+<label class="input-checkbox">
+  <input type="checkbox" checked>
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- Small Checkbox -->
+<label class="input-checkbox input-checkbox-small">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- XSmall Checkbox -->
+<label class="input-checkbox input-checkbox-xsmall">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- Disabled Checkbox -->
+<label class="input-checkbox disabled">
+  <input type="checkbox" disabled>
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+```
+
+### Checkbox Features
+
+- **Custom Styling**: Native checkbox is hidden and replaced with a custom-styled box
+- **Checkmark Icon**: White checkmark appears when checked, using SVG mask for crisp rendering
+- **Focus Ring**: Accessible focus indicator with primary color ring
+- **Accessibility**: Proper label association and keyboard navigation support
+- **Responsive**: Adapts to dark mode automatically
 
 ## Features
 
