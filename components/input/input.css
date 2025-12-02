@@ -333,3 +333,182 @@
     }
 }
 
+/* ===== RADIO INPUT ===== */
+
+/* Radio Wrapper */
+.input-radio {
+    display: flex;
+    align-items: center;
+    gap: var(--UI-Spacing-spacing-mxs);
+    cursor: pointer;
+    user-select: none;
+}
+
+.input-radio.disabled {
+    cursor: not-allowed;
+}
+
+/* Hide native radio */
+.input-radio input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* Custom Radio Circle */
+.input-radio-circle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--Colors-Input-Background-Default);
+    border: 1.5px solid var(--Colors-Input-Border-Default);
+    border-radius: 50%;
+    transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    width: 32px;
+    height: 32px;
+}
+
+/* Small Size (26px) */
+.input-radio-small {
+    gap: var(--UI-Spacing-spacing-s);
+}
+
+.input-radio-small .input-radio-circle {
+    width: 26px;
+    height: 26px;
+}
+
+/* XSmall Size (20px) */
+.input-radio-xsmall {
+    gap: var(--UI-Spacing-spacing-xs);
+}
+
+.input-radio-xsmall .input-radio-circle {
+    width: 20px;
+    height: 20px;
+}
+
+/* Radio Inner Dot */
+.input-radio-dot {
+    display: none;
+    width: 14px;
+    height: 14px;
+    position: relative;
+}
+
+.input-radio-small .input-radio-dot {
+    width: 12px;
+    height: 12px;
+}
+
+.input-radio-xsmall .input-radio-dot {
+    width: 10px;
+    height: 10px;
+}
+
+.input-radio-dot::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: var(--Colors-Base-Neutral-00);
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%227%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
+    mask-image: url("data:image/svg+xml,%3Csvg%20width%3D%2214%22%20height%3D%2214%22%20viewBox%3D%220%200%2014%2014%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Ccircle%20cx%3D%227%22%20cy%3D%227%22%20r%3D%227%22%20fill%3D%22black%22%2F%3E%3C%2Fsvg%3E");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+}
+
+/* Checked State */
+.input-radio input[type="radio"]:checked + .input-radio-circle {
+    background: var(--Colors-Primary-Default);
+    border-color: var(--Colors-Primary-Default);
+}
+
+.input-radio input[type="radio"]:checked + .input-radio-circle .input-radio-dot {
+    display: block;
+}
+
+/* Hover State */
+.input-radio:not(.disabled):hover .input-radio-circle {
+    border-color: var(--Colors-Stroke-Primary);
+}
+
+.input-radio input[type="radio"]:checked + .input-radio-circle:hover {
+    border-color: var(--Colors-Primary-Default);
+}
+
+/* Focus State */
+.input-radio input[type="radio"]:focus + .input-radio-circle {
+    outline: none;
+    border-color: var(--Colors-Input-Border-Focus);
+}
+
+.input-radio input[type="radio"]:checked:focus + .input-radio-circle {
+    border-color: var(--Colors-Primary-Default);
+}
+
+/* Disabled State */
+.input-radio input[type="radio"]:disabled + .input-radio-circle {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.input-radio input[type="radio"]:disabled ~ .input-radio-label {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+.input-radio.disabled .input-radio-circle {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.input-radio.disabled .input-radio-label {
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+/* Radio Label */
+.input-radio-label {
+    font-family: var(--body-family);
+    font-size: var(--Fonts-Body-Default-lg);
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: -0.17px;
+    color: var(--Colors-Text-Body-Strong);
+    cursor: pointer;
+}
+
+.input-radio-small .input-radio-label {
+    font-size: var(--Fonts-Body-Default-md);
+    line-height: 1.45;
+    letter-spacing: -0.16px;
+}
+
+.input-radio-xsmall .input-radio-label {
+    font-size: var(--Fonts-Body-Default-xs);
+    line-height: 1.35;
+    letter-spacing: -0.14px;
+}
+
+.input-radio input[type="radio"]:disabled ~ .input-radio-label {
+    cursor: not-allowed;
+}
+
+/* Dark Mode Adjustments */
+@media (prefers-color-scheme: dark) {
+    .input-radio-circle {
+        background: var(--Colors-Input-Background-Default);
+        border-color: var(--Colors-Input-Border-Default);
+    }
+}
+

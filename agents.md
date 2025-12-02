@@ -339,6 +339,146 @@ height: var(--UI-Input-md);
 
 ---
 
+### Checkbox Input
+
+**Base Class:** `.input-checkbox` (required wrapper)
+
+**Structure:**
+Checkboxes require a specific HTML structure with a label wrapper:
+
+```html
+<label class="input-checkbox">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+```
+
+**Sizes:**
+- Default: 32px checkbox box, large label text (17px)
+- `.input-checkbox-small`: 26px checkbox box, medium label text (16px)
+- `.input-checkbox-xsmall`: 20px checkbox box, small label text (14px)
+
+**States:**
+- **Default**: White background with gray border
+- **Hover**: Blue border (primary color)
+- **Checked**: Blue background with white checkmark icon
+- **Disabled**: Reduced opacity (0.45 for box, 0.2 for label)
+
+**Example:**
+```html
+<!-- Default Checkbox -->
+<label class="input-checkbox">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- Checked Checkbox -->
+<label class="input-checkbox">
+  <input type="checkbox" checked>
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+
+<!-- Small Checkbox -->
+<label class="input-checkbox input-checkbox-small">
+  <input type="checkbox">
+  <span class="input-checkbox-box">
+    <span class="input-checkbox-checkmark"></span>
+  </span>
+  <span class="input-checkbox-label">Checkbox Label</span>
+</label>
+```
+
+**Dependencies:** colors.css, spacing.css, typography.css
+
+---
+
+### Radio Input
+
+**Base Class:** `.input-radio` (required wrapper)
+
+**Structure:**
+Radio buttons require a specific HTML structure and must share the same `name` attribute to function as a group:
+
+```html
+<label class="input-radio">
+  <input type="radio" name="group-name">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+```
+
+**Sizes:**
+- Default: 32px radio circle, large label text (17px)
+- `.input-radio-small`: 26px radio circle, medium label text (16px)
+- `.input-radio-xsmall`: 20px radio circle, small label text (14px)
+
+**States:**
+- **Default**: White background with gray border
+- **Hover**: Blue border (primary color)
+- **Checked**: Blue-filled circle with white inner dot (ellipse icon)
+- **Disabled**: Reduced opacity (0.45 for circle, 0.2 for label)
+
+**Example:**
+```html
+<!-- Default Radio -->
+<label class="input-radio">
+  <input type="radio" name="option">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- Checked Radio -->
+<label class="input-radio">
+  <input type="radio" name="option" checked>
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- Radio Group -->
+<div>
+  <label class="input-radio">
+    <input type="radio" name="size" value="small">
+    <span class="input-radio-circle">
+      <span class="input-radio-dot"></span>
+    </span>
+    <span class="input-radio-label">Small</span>
+  </label>
+  <label class="input-radio">
+    <input type="radio" name="size" value="medium" checked>
+    <span class="input-radio-circle">
+      <span class="input-radio-dot"></span>
+    </span>
+    <span class="input-radio-label">Medium</span>
+  </label>
+</div>
+```
+
+**Features:**
+- Custom-styled circular buttons with blue-filled checked state
+- White inner ellipse icon when checked
+- Group behavior (radio buttons with same `name` work as a group)
+- Focus ring for accessibility
+- Dark mode support
+
+**Dependencies:** colors.css, spacing.css, typography.css, icons/icons.css (for ellipse icon)
+
+---
+
 ### Tag
 
 **Base Class:** `.tag` or `.tag.default` (required)

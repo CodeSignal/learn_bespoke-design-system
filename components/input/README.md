@@ -25,6 +25,7 @@ or
 - `type="text"`: Standard text input (default).
 - `type="number"`: Numeric input with styled spinner buttons.
 - `type="checkbox"`: Checkbox input with custom styling (see Checkbox section below).
+- `type="radio"`: Radio button input with custom styling (see Radio section below).
 
 ### States
 The component supports standard pseudo-classes (`:hover`, `:focus`, `:disabled`) and utility classes for manual state application:
@@ -142,6 +143,120 @@ Checkboxes require a specific HTML structure:
 - **Custom Styling**: Native checkbox is hidden and replaced with a custom-styled box
 - **Checkmark Icon**: White checkmark appears when checked, using SVG mask for crisp rendering
 - **Focus Ring**: Accessible focus indicator with primary color ring
+- **Accessibility**: Proper label association and keyboard navigation support
+- **Responsive**: Adapts to dark mode automatically
+
+## Radio Input
+
+The radio component provides a custom-styled radio button input with support for multiple sizes and states. Radio buttons are used when only one option can be selected from a group.
+
+### Radio Structure
+
+Radio buttons require a specific HTML structure and must share the same `name` attribute to function as a group:
+
+```html
+<label class="input-radio">
+  <input type="radio" name="group-name">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+```
+
+### Radio Sizes
+
+- **Default**: 32px radio circle, large label text (17px)
+- `.input-radio-small`: 26px radio circle, medium label text (16px)
+- `.input-radio-xsmall`: 20px radio circle, small label text (14px)
+
+### Radio States
+
+- **Default**: White background with gray border
+- **Hover**: Blue border (primary color)
+- **Checked**: Blue border with blue inner dot
+- **Disabled**: Reduced opacity (0.45 for circle, 0.2 for label)
+
+### Radio Examples
+
+```html
+<!-- Default Radio -->
+<label class="input-radio">
+  <input type="radio" name="option">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- Checked Radio -->
+<label class="input-radio">
+  <input type="radio" name="option" checked>
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- Radio Group -->
+<div>
+  <label class="input-radio">
+    <input type="radio" name="size" value="small">
+    <span class="input-radio-circle">
+      <span class="input-radio-dot"></span>
+    </span>
+    <span class="input-radio-label">Small</span>
+  </label>
+  <label class="input-radio">
+    <input type="radio" name="size" value="medium" checked>
+    <span class="input-radio-circle">
+      <span class="input-radio-dot"></span>
+    </span>
+    <span class="input-radio-label">Medium</span>
+  </label>
+  <label class="input-radio">
+    <input type="radio" name="size" value="large">
+    <span class="input-radio-circle">
+      <span class="input-radio-dot"></span>
+    </span>
+    <span class="input-radio-label">Large</span>
+  </label>
+</div>
+
+<!-- Small Radio -->
+<label class="input-radio input-radio-small">
+  <input type="radio" name="option-small">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- XSmall Radio -->
+<label class="input-radio input-radio-xsmall">
+  <input type="radio" name="option-xsmall">
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+
+<!-- Disabled Radio -->
+<label class="input-radio disabled">
+  <input type="radio" name="option-disabled" disabled>
+  <span class="input-radio-circle">
+    <span class="input-radio-dot"></span>
+  </span>
+  <span class="input-radio-label">Radio Label</span>
+</label>
+```
+
+### Radio Features
+
+- **Custom Styling**: Native radio button is hidden and replaced with a custom-styled circle
+- **Inner Dot**: Blue dot appears when checked, indicating selection
+- **Focus Ring**: Accessible focus indicator with primary color ring
+- **Group Behavior**: Radio buttons with the same `name` attribute work as a group (only one can be selected)
 - **Accessibility**: Proper label association and keyboard navigation support
 - **Responsive**: Adapts to dark mode automatically
 

@@ -26,6 +26,7 @@ Use the specific icon class to set the SVG image. Icon names are derived from SV
 
 - `.icon-academy`
 - `.icon-assessment`
+- `.icon-ellipse`
 - `.icon-interview`
 - `.icon-jobs`
 - `.icon-course`

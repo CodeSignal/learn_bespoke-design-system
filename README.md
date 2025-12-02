@@ -26,7 +26,7 @@ Reusable UI elements built using the foundations.
 - **[Boxes](components/boxes/README.md)** ([CSS](components/boxes/boxes.css)): Container components.
 - **[Dropdown](components/dropdown/README.md)** ([CSS](components/dropdown/dropdown.css), [JS](components/dropdown/dropdown.js)): Customizable dropdown menus.
 - **[Icons](components/icons/README.md)** ([CSS](components/icons/icons.css)): Scalable SVG icons with size and color variants.
-- **[Input](components/input/README.md)** ([CSS](components/input/input.css)): Text and number input fields with various states.
+- **[Input](components/input/README.md)** ([CSS](components/input/input.css)): Text, number, checkbox, and radio button inputs with various states and sizes.
 - **[Modal](components/modal/README.md)** ([CSS](components/modal/modal.css), [JS](components/modal/modal.js)): Customizable modal dialogs with flexible content insertion. Includes a help modal variant optimized for documentation.
 - **[Numeric Slider](components/numeric-slider/README.md)** ([CSS](components/numeric-slider/numeric-slider.css), [JS](components/numeric-slider/numeric-slider.js)): Single value and range sliders with optional input fields.
 - **[Tags](components/tags/README.md)** ([CSS](components/tags/tags.css)): Label and status indicator tags.

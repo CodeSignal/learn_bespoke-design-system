@@ -45,6 +45,20 @@ Also include Work Sans font from Google Fonts.
 - States: `.hover`, `.focus`, `:disabled`
 - Example: `<input type="text" class="input" placeholder="...">`
 
+### Checkbox
+- Base: `.input-checkbox` wrapper with `input[type="checkbox"]`
+- Structure: `<label class="input-checkbox"><input type="checkbox"><span class="input-checkbox-box"><span class="input-checkbox-checkmark"></span></span><span class="input-checkbox-label">Label</span></label>`
+- Sizes: `.input-checkbox-small`, `.input-checkbox-xsmall` (default: 32px)
+- States: Default, Hover (blue border), Checked (blue background + white checkmark), Disabled
+- Example: `<label class="input-checkbox"><input type="checkbox" checked><span class="input-checkbox-box"><span class="input-checkbox-checkmark"></span></span><span class="input-checkbox-label">Checkbox Label</span></label>`
+
+### Radio
+- Base: `.input-radio` wrapper with `input[type="radio"]`
+- Structure: `<label class="input-radio"><input type="radio" name="group"><span class="input-radio-circle"><span class="input-radio-dot"></span></span><span class="input-radio-label">Label</span></label>`
+- Sizes: `.input-radio-small`, `.input-radio-xsmall` (default: 32px)
+- States: Default, Hover (blue border), Checked (blue filled circle + white inner dot), Disabled
+- Example: `<label class="input-radio"><input type="radio" name="option" checked><span class="input-radio-circle"><span class="input-radio-dot"></span></span><span class="input-radio-label">Radio Label</span></label>`
+
 ### Tag
 - Base: `.tag` or `.tag.default`
 - Variants: `.tag.secondary`, `.tag.outline`, `.tag.success`, `.tag.error`, `.tag.warning`, `.tag.info`
