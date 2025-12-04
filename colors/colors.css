@@ -4,7 +4,7 @@
  * Semantic names reference numbered scale variables for single source of truth
  */
 
-:root {
+ :root {
   /* ===== NUMBERED COLOR SCALES ===== */
   /* These are the base definitions - all other colors reference these */
 
@@ -216,6 +216,7 @@
   --Colors-Text-Body-Default: var(--Colors-Base-Neutral-1200);
   --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-1050);
   --Colors-Text-Body-Light: var(--Colors-Base-Neutral-900);
+  --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-800);
   --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-1350);
   --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-1450); 
 
@@ -300,6 +301,7 @@
     --Colors-Text-Body-Default: var(--Colors-Base-Neutral-450);
     --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-650);
     --Colors-Text-Body-Light: var(--Colors-Base-Neutral-750);
+    --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-900);
     --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-00);
     --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-00);
     

@@ -321,3 +321,7 @@
 .code-large {
     font-size: var(--Fonts-Body-Default-lg);
 }
+
+.strong {
+    font-weight: 500;
+}

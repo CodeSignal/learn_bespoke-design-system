@@ -72,6 +72,7 @@
   flex-shrink: 0;
   width: 480px;
   min-width: 480px;
+  min-height: 320px;
   background: var(--Colors-Horizontal-Cards-Card-Background);
   border-radius: var(--UI-Radius-radius-ml);
   padding: var(--UI-Spacing-spacing-ms);
@@ -93,24 +94,22 @@
   gap: var(--UI-Spacing-spacing-xl);
   flex: 1 0 0;
   padding: var(--UI-Spacing-spacing-xl) var(--UI-Spacing-spacing-mxl);
+  min-height: 0;
+}
+
+.horizontal-cards-card-description {
+  flex: 1 0 0;
+  min-height: 0;
 }
 
 .horizontal-cards-card-title {
-  font-family: var(--heading-family);
-  font-size: var(--Fonts-Headlines-sm);
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: -0.24px;
+  /* Uses .heading-small and .strong classes from typography.css */
   color: var(--Colors-Text-Body-Strong);
   margin: 0;
 }
 
 .horizontal-cards-card-description {
-  font-family: var(--body-family);
-  font-size: var(--Fonts-Body-Default-md);
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: -0.16px;
+  /* Uses .body-medium class from typography.css */
   color: var(--Colors-Text-Body-Default);
   margin: 0;
 }
@@ -118,7 +117,7 @@
 .horizontal-cards-card-action {
   border: 1.5px dashed var(--Colors-Stroke-Default);
   border-radius: var(--UI-Radius-radius-s);
-  min-height: 52px;
+  min-height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;

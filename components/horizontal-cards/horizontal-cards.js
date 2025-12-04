@@ -105,7 +105,7 @@ class HorizontalCards {
     // Title (supports HTML)
     if (cardData.title) {
       const title = document.createElement('h3');
-      title.className = 'horizontal-cards-card-title';
+      title.className = 'horizontal-cards-card-title heading-small strong';
       title.innerHTML = cardData.title;
       content.appendChild(title);
     }
@@ -113,7 +113,7 @@ class HorizontalCards {
     // Description (supports HTML)
     if (cardData.description) {
       const description = document.createElement('p');
-      description.className = 'horizontal-cards-card-description';
+      description.className = 'horizontal-cards-card-description body-medium';
       description.innerHTML = cardData.description;
       content.appendChild(description);
     }
