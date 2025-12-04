@@ -5,7 +5,7 @@
          url('../fonts/FoundersGrotesk-Light.woff') format('woff');
     font-weight: 300;
     font-style: normal;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
   
 @font-face {
@@ -15,7 +15,7 @@
          url('../fonts/FoundersGrotesk-Light-Italic.woff') format('woff');
     font-weight: 300;
     font-style: italic;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
   
 @font-face {
@@ -25,7 +25,7 @@
          url('../fonts/FoundersGrotesk-Medium.woff') format('woff');
     font-weight: 500;
     font-style: normal;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
   
 @font-face {
@@ -35,7 +35,7 @@
          url('../fonts/JetBrainsMono-MediumItalic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 @font-face {
@@ -45,7 +45,7 @@
          url('../fonts/FoundersGrotesk-Medium-Italic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
   }
 
 :root {
@@ -99,7 +99,7 @@
     font-family: var(--body-family);
     font-style: normal;
     font-weight: 400;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 .body-xxsmall {
@@ -196,7 +196,7 @@
     font-family: var(--heading-family);
     font-style: normal;
     font-weight: 500;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 .heading-xxlarge {
@@ -255,7 +255,7 @@
     font-style: normal;
     font-weight: 600;
     text-transform: uppercase;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 .label-large {
@@ -312,7 +312,7 @@
     font-style: normal;
     font-weight: 600;
     line-height: 140%;
-    --webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
 }
 
 .code {
