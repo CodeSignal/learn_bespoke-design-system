@@ -77,6 +77,13 @@ Also include Work Sans font from Google Fonts.
 - Initialize: `new Dropdown(selector, { items, placeholder, onSelect, ... })`
 - Methods: `getValue()`, `setValue(value)`, `open()`, `close()`, `toggleOpen()`, `destroy()`
 
+### Horizontal Cards (JS Component)
+- Import: `import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js'`
+- Initialize: `new HorizontalCards(selector, { cards, showNavigation, onCardChange, ... })`
+- Cards: Array of objects with `title` (HTML), `description` (HTML), `actionHtml`, or `actionPlaceholder`
+- Methods: `getCurrentIndex()`, `getCurrentCard()`, `scrollToNext()`, `scrollToPrevious()`, `scrollToIndex(index)`, `destroy()`
+- Features: Horizontal scrolling, card centering, navigation buttons, keyboard/touch support
+
 ### Numeric Slider (JS Component)
 - Import: `import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js'`
 - Initialize: `new NumericSlider(selector, { type, min, max, value, showInputs, theme, ... })`
@@ -113,6 +120,7 @@ design-system/
     ├── button/button.css
     ├── boxes/boxes.css
     ├── dropdown/dropdown.css + dropdown.js
+    ├── horizontal-cards/horizontal-cards.css + horizontal-cards.js
     ├── icons/icons.css
     ├── input/input.css
     ├── modal/modal.css + modal.js

@@ -46,6 +46,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 <link rel="stylesheet" href="/design-system/components/button/button.css">
 <link rel="stylesheet" href="/design-system/components/boxes/boxes.css">
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
+<link rel="stylesheet" href="/design-system/components/horizontal-cards/horizontal-cards.css">
 <link rel="stylesheet" href="/design-system/components/icons/icons.css">
 <link rel="stylesheet" href="/design-system/components/input/input.css">
 <link rel="stylesheet" href="/design-system/components/modal/modal.css">
@@ -62,11 +63,14 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 @import url('/design-system/components/button/button.css');
 ```
 
-### JavaScript (Only for Dropdown)
+### JavaScript (For JS Components)
 
 ```html
 <script type="module">
   import Dropdown from '/design-system/components/dropdown/dropdown.js';
+  import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js';
+  import Modal from '/design-system/components/modal/modal.js';
+  import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js';
 </script>
 ```
 
@@ -806,6 +810,86 @@ modal.destroy();
 
 ---
 
+### Horizontal Cards (JavaScript Component)
+
+**Import:**
+```javascript
+import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js';
+```
+
+**Initialization:**
+```javascript
+const horizontalCards = new HorizontalCards(container, options);
+```
+
+**Configuration Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `cards` | Array | `[]` | Array of card objects. Each card can have `title` (HTML), `description` (HTML), `actionPlaceholder`, or `actionHtml`. |
+| `cardWidth` | Number | `480` | Width of each card in pixels. |
+| `cardGap` | Number | `24` | Gap between cards in pixels (matches `--UI-Spacing-spacing-mxl`). |
+| `scrollOffset` | Number | `520` | Number of pixels to scroll per navigation action (typically `cardWidth + cardGap`). |
+| `showNavigation` | Boolean | `true` | If `true`, displays previous/next navigation buttons. |
+| `onCardChange` | Function | `null` | Callback function triggered when the visible card changes. Receives `(index, card)`. |
+
+**Card Object Structure:**
+
+| Property | Type | Required | Description |
+| :--- | :--- | :--- | :--- |
+| `title` | String | No | Card title displayed as a heading. Supports HTML content (e.g., `<strong>`, `<em>`, `<code>`, links, etc.). |
+| `description` | String | No | Card description text. Supports HTML content (e.g., `<strong>`, `<em>`, `<code>`, links, spans with styling, etc.). |
+| `actionPlaceholder` | String | No | Placeholder text for the action area (displays in a dashed border box). |
+| `actionHtml` | String | No | Custom HTML content for the action area. If provided, `actionPlaceholder` is ignored. |
+
+**API Methods:**
+- `getCurrentIndex()`: Returns the current visible card index (0-based).
+- `getCurrentCard()`: Returns the current visible card object.
+- `scrollToNext()`: Scrolls to the next card.
+- `scrollToPrevious()`: Scrolls to the previous card.
+- `scrollToIndex(index)`: Scrolls to a specific card by index.
+- `destroy()`: Removes event listeners and clears the container.
+
+**Features:**
+- Smooth horizontal scrolling with card centering
+- Optional navigation buttons (previous/next)
+- Keyboard navigation (arrow keys)
+- Touch/swipe support for mobile devices
+- Automatic card centering in viewport
+- HTML support in title and description fields
+- Responsive design
+- Dark mode support
+- Accessibility (ARIA attributes, keyboard support)
+
+**Example:**
+```javascript
+const cards = new HorizontalCards('#my-cards', {
+  cards: [
+    {
+      title: 'Boss 1',
+      description: 'You start your presentation with a bold vision and a simple chart showing the potential for rapid market growth.',
+      actionPlaceholder: 'Add label'
+    },
+    {
+      title: 'Card with <strong>HTML</strong>',
+      description: 'This description has <strong>bold text</strong> and <em>italic text</em>.',
+      actionHtml: '<button class="button button-primary">Click Me</button>'
+    }
+  ],
+  onCardChange: (index, card) => {
+    console.log('Current card:', index, card);
+  }
+});
+
+// Later...
+cards.scrollToIndex(2);
+const currentCard = cards.getCurrentCard();
+```
+
+**Dependencies:** colors.css, spacing.css, typography.css
+
+---
+
 ## Usage Patterns
 
 ### Component Composition
@@ -966,6 +1050,11 @@ design-system/
 │   ├── dropdown/
 │   │   ├── dropdown.css
 │   │   ├── dropdown.js
+│   │   ├── README.md
+│   │   └── test.html
+│   ├── horizontal-cards/
+│   │   ├── horizontal-cards.css
+│   │   ├── horizontal-cards.js
 │   │   ├── README.md
 │   │   └── test.html
 │   ├── icons/

@@ -25,6 +25,7 @@ Reusable UI elements built using the foundations.
 - **[Button](components/button/README.md)** ([CSS](components/button/button.css)): Primary, secondary, and utility buttons.
 - **[Boxes](components/boxes/README.md)** ([CSS](components/boxes/boxes.css)): Container components.
 - **[Dropdown](components/dropdown/README.md)** ([CSS](components/dropdown/dropdown.css), [JS](components/dropdown/dropdown.js)): Customizable dropdown menus.
+- **[Horizontal Cards](components/horizontal-cards/README.md)** ([CSS](components/horizontal-cards/horizontal-cards.css), [JS](components/horizontal-cards/horizontal-cards.js)): Horizontal scrolling card carousel with navigation buttons and card centering.
 - **[Icons](components/icons/README.md)** ([CSS](components/icons/icons.css)): Scalable SVG icons with size and color variants.
 - **[Input](components/input/README.md)** ([CSS](components/input/input.css)): Text, number, checkbox, and radio button inputs with various states and sizes.
 - **[Modal](components/modal/README.md)** ([CSS](components/modal/modal.css), [JS](components/modal/modal.js)): Customizable modal dialogs with flexible content insertion. Includes a help modal variant optimized for documentation.
@@ -51,6 +52,7 @@ Include the relevant CSS files in your HTML. For a full integration, you typical
 <link rel="stylesheet" href="/design-system/components/button/button.css">
 <link rel="stylesheet" href="/design-system/components/boxes/boxes.css">
 <link rel="stylesheet" href="/design-system/components/dropdown/dropdown.css">
+<link rel="stylesheet" href="/design-system/components/horizontal-cards/horizontal-cards.css">
 <link rel="stylesheet" href="/design-system/components/icons/icons.css">
 <link rel="stylesheet" href="/design-system/components/input/input.css">
 <link rel="stylesheet" href="/design-system/components/modal/modal.css">

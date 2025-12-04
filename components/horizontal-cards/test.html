@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component Tests - Horizontal Cards</title>
+  <link rel="stylesheet" href="../../colors/colors.css">
+  <link rel="stylesheet" href="../../spacing/spacing.css">
+  <link rel="stylesheet" href="../../typography/typography.css">
+  <link rel="stylesheet" href="../button/button.css">
+  <link rel="stylesheet" href="../tags/tags.css">
+  <link rel="stylesheet" href="../input/input.css">
+  <link rel="stylesheet" href="horizontal-cards.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --test-bg: var(--Colors-Backgrounds-Main-Light);
+      --test-section-bg: var(--Colors-Backgrounds-Main-Default);
+      --test-section-shadow: rgba(0, 0, 0, 0.1);
+      --test-subheading-color: var(--Colors-Text-Body-Default);
+      --test-label-color: var(--Colors-Text-Body-Medium);
+      --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+      --test-output-text: var(--Colors-Text-Body-Default);
+      --test-output-strong: var(--Colors-Text-Body-Strong);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --test-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-section-bg: var(--Colors-Backgrounds-Main-Light);
+        --test-section-shadow: rgba(0, 0, 0, 0.3);
+        --test-subheading-color: var(--Colors-Text-Body-Default);
+        --test-label-color: var(--Colors-Text-Body-Default);
+        --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-output-text: var(--Colors-Text-Body-Default);
+        --test-output-strong: var(--Colors-Text-Body-Strong);
+      }
+    }
+
+    body {
+      background: var(--test-bg);
+      padding: 40px 20px;
+      font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+      color: var(--Colors-Text-Body-Strong);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-section {
+      background: var(--test-section-bg);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px var(--test-section-shadow);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .test-section h2 {
+      margin: 0 0 24px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--Colors-Text-Body-Strong);
+      letter-spacing: -0.24px;
+    }
+
+    .test-section h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--test-subheading-color);
+      letter-spacing: -0.18px;
+    }
+
+    .test-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .test-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+
+    .test-item label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--test-label-color);
+    }
+
+    .test-output {
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--test-output-bg);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--test-output-text);
+      font-family: 'Courier New', monospace;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-output strong {
+      color: var(--test-output-strong);
+    }
+
+    h1 {
+      transition: color 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 style="margin-bottom: 32px; font-size: 32px; font-weight: 700; color: var(--Colors-Text-Body-Strong);">
+      Component Tests - Horizontal Cards
+    </h1>
+
+    <!-- Basic Horizontal Cards -->
+    <div class="test-section">
+      <h2>Basic Horizontal Cards</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Default with Navigation</label>
+          <div id="horizontal-cards-basic"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Index:</strong> <span id="output-basic-index">0</span><br>
+        <strong>Current Card:</strong> <span id="output-basic-card">Boss 1</span>
+      </div>
+    </div>
+
+    <!-- Cards without Navigation -->
+    <div class="test-section">
+      <h2>Cards without Navigation Buttons</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Scrollable Only (no nav buttons)</label>
+          <div id="horizontal-cards-no-nav"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <small style="color: var(--test-label-color);">
+          Scroll horizontally or use arrow keys to navigate
+        </small>
+      </div>
+    </div>
+
+    <!-- Many Cards -->
+    <div class="test-section">
+      <h2>Many Cards</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>5 Cards</label>
+          <div id="horizontal-cards-many"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Index:</strong> <span id="output-many-index">0</span><br>
+        <strong>Total Cards:</strong> <span id="output-many-total">5</span>
+      </div>
+    </div>
+
+    <!-- Custom Card Content -->
+    <div class="test-section">
+      <h2>Custom Card Content</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Cards with Custom Action Areas</label>
+          <div id="horizontal-cards-custom"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards without Action Area -->
+    <div class="test-section">
+      <h2>Cards without Action Area</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Cards with no actionHtml or actionPlaceholder</label>
+          <div id="horizontal-cards-no-action"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <small style="color: var(--test-label-color);">
+          These cards should display without any action area at the bottom.
+        </small>
+      </div>
+    </div>
+
+    <!-- Cards with HTML Content -->
+    <div class="test-section">
+      <h2>Cards with HTML Content</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Cards with HTML in title and description</label>
+          <div id="horizontal-cards-html"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <small style="color: var(--test-label-color);">
+          These cards demonstrate HTML support in title and description fields, including links, bold text, and other formatting.
+        </small>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import HorizontalCards from './horizontal-cards.js';
+
+    // Sample card data matching Figma design
+    const sampleCards = [
+      {
+        title: 'Boss 1',
+        description: 'You start your presentation with a bold vision and a simple chart showing the potential for rapid market growth. You avoid lengthy details and focus on the big win, using compelling visuals to capture attention.',
+        actionPlaceholder: 'Add label'
+      },
+      {
+        title: 'Boss 2',
+        description: 'You provide a detailed spreadsheet with raw data and multiple scenarios, allowing your boss to analyze the numbers independently. You avoid drawing conclusions for them and instead give them all the information they need to verify on their own.',
+        actionPlaceholder: 'Add label'
+      },
+      {
+        title: 'Boss 3',
+        description: 'You present a comprehensive analysis with clear recommendations, backed by data and expert opinions. You anticipate questions and prepare detailed answers, ensuring your boss has confidence in your proposal.',
+        actionPlaceholder: 'Add label'
+      }
+    ];
+
+    // Many cards
+    const manyCards = Array.from({ length: 5 }, (_, i) => ({
+      title: `Card ${i + 1}`,
+      description: `This is the description for card ${i + 1}. It contains some sample text to demonstrate how the horizontal cards component handles multiple cards with varying content lengths.`,
+      actionPlaceholder: 'Add label'
+    }));
+
+    // Custom cards with HTML action areas
+    const customCards = [
+      {
+        title: 'Card with Button',
+        description: 'This card has a custom action area with a button.',
+        actionHtml: '<button class="button button-primary button-small">Click Me</button>'
+      },
+      {
+        title: 'Card with Input',
+        description: 'This card has an input field in the action area.',
+        actionHtml: '<input type="text" class="input" placeholder="Enter text...">'
+      },
+      {
+        title: 'Card with Tag',
+        description: 'This card has a tag in the action area.',
+        actionHtml: '<div class="tag">Custom Tag</div>'
+      }
+    ];
+
+    // Basic horizontal cards
+    const cardsBasic = new HorizontalCards('#horizontal-cards-basic', {
+      cards: sampleCards,
+      onCardChange: (index, card) => {
+        document.getElementById('output-basic-index').textContent = index;
+        document.getElementById('output-basic-card').textContent = card.title;
+        console.log('Card changed:', index, card);
+      }
+    });
+
+    // Cards without navigation
+    const cardsNoNav = new HorizontalCards('#horizontal-cards-no-nav', {
+      cards: sampleCards,
+      showNavigation: false
+    });
+
+    // Many cards
+    const cardsMany = new HorizontalCards('#horizontal-cards-many', {
+      cards: manyCards,
+      onCardChange: (index, card) => {
+        document.getElementById('output-many-index').textContent = index;
+        document.getElementById('output-many-total').textContent = manyCards.length;
+        console.log('Card changed:', index, card);
+      }
+    });
+
+    // Custom cards
+    const cardsCustom = new HorizontalCards('#horizontal-cards-custom', {
+      cards: customCards
+    });
+
+    // Cards without action area
+    const cardsNoAction = [
+      {
+        title: 'Card without Action',
+        description: 'This card has no action area. It only displays the title and description.'
+      },
+      {
+        title: 'Another Card',
+        description: 'This is another card without an action area. The action area should not be rendered at all.'
+      },
+      {
+        title: 'Third Card',
+        description: 'All three cards in this example should display without any action area below the description.'
+      }
+    ];
+
+    const horizontalCardsNoAction = new HorizontalCards('#horizontal-cards-no-action', {
+      cards: cardsNoAction
+    });
+
+    // Cards with HTML content
+    const cardsWithHTML = [
+      {
+        title: 'Card with <strong>Bold Title</strong>',
+        description: 'This description has <strong>bold text</strong>, <em>italic text</em>, and a <a href="#" style="color: var(--Colors-Primary-Default); text-decoration: underline;">link</a>.',
+        actionPlaceholder: 'Add label'
+      },
+      {
+        title: 'Card with <em>Italic</em> and <code>Code</code>',
+        description: 'This card demonstrates <code>inline code</code>, <strong>bold emphasis</strong>, and <em>italic text</em> in the description.',
+        actionPlaceholder: 'Add label'
+      },
+      {
+        title: 'Card with <span style="color: var(--Colors-Alert-Success-Default);">Colored Text</span>',
+        description: 'You can use <span style="color: var(--Colors-Alert-Error-Default);">colored spans</span> and other HTML elements. This supports <strong>complex formatting</strong> and <em>styling</em>.',
+        actionPlaceholder: 'Add label'
+      }
+    ];
+
+    const horizontalCardsHTML = new HorizontalCards('#horizontal-cards-html', {
+      cards: cardsWithHTML
+    });
+
+    // Make instances available globally for debugging
+    window.testHorizontalCards = {
+      basic: cardsBasic,
+      noNav: cardsNoNav,
+      many: cardsMany,
+      custom: cardsCustom,
+      noAction: horizontalCardsNoAction,
+      html: horizontalCardsHTML
+    };
+  </script>
+</body>
+</html>
+
