@@ -184,8 +184,8 @@
     border: 1.5px solid var(--Colors-Input-Border-Default);
     border-radius: var(--UI-Radius-radius-s);
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
 }
 
 /* Small Size (26px) */
@@ -369,8 +369,8 @@
     border: 1.5px solid var(--Colors-Input-Border-Default);
     border-radius: 50%;
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-    width: 32px;
-    height: 32px;
+    width: 26px;
+    height: 26px;
 }
 
 /* Small Size (26px) */
