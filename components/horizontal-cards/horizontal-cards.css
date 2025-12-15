@@ -140,8 +140,9 @@
   display: flex;
   gap: var(--UI-Spacing-spacing-xs);
   align-items: center;
-  justify-content: center;
+  justify-content: flex-end;
   margin-top: var(--UI-Spacing-spacing-mxs);
+  width: 100%;
 }
 
 .horizontal-cards-nav-button {

@@ -55,7 +55,10 @@ class HorizontalCards {
     // Assemble scroll wrapper
     this.scrollWrapper.appendChild(this.track);
     
-    // Create navigation buttons if enabled
+    // Append scroll wrapper to container first
+    this.container.appendChild(this.scrollWrapper);
+    
+    // Create navigation buttons if enabled (after scroll wrapper so it appears below)
     if (this.config.showNavigation) {
       this.navContainer = document.createElement('div');
       this.navContainer.className = 'horizontal-cards-nav';
@@ -68,9 +71,6 @@ class HorizontalCards {
       
       this.container.appendChild(this.navContainer);
     }
-    
-    // Append scroll wrapper to container
-    this.container.appendChild(this.scrollWrapper);
     
     // Bind events
     this.bindEvents();
