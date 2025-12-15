@@ -160,6 +160,10 @@
   box-shadow: 0px 2px 3px 0px var(--Colors-Shadow-Medium-Soft);
 }
 
+.horizontal-cards-nav-button:last-child {
+  margin-right: var(--UI-Spacing-spacing-mxl);
+}
+
 .horizontal-cards-nav-button:hover:not(:disabled) {
   border-color: var(--Colors-Horizontal-Cards-Nav-Button-Hover-Border);
 }
