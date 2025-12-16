@@ -71,8 +71,10 @@ const rangeSlider = new NumericSlider('#my-range-slider', {
 | `trackTheme` | String | `null` | Override track color: `'neutral'` or `'primary'`. If provided, overrides the `theme` preset for the track. |
 | `filledTheme` | String | `null` | Override filled track color: `'neutral'` or `'primary'`. If provided, overrides the `theme` preset for the filled track. |
 | `handleTheme` | String | `null` | Override handle color: `'neutral'` or `'primary'`. If provided, overrides the `theme` preset for the handles. Note: Single value sliders use marker-style handles which are always primary colored. |
+| `continuousUpdates` | Boolean | `false` | If `true`, fires `onChange` continuously during dragging (throttled by `throttleMs`). If `false` (default), `onChange` only fires on drag end, track click, and keyboard interaction. Final value is always sent on drag end regardless of this setting. |
+| `throttleMs` | Number | `16` | Throttle interval in milliseconds for continuous updates during drag (~60fps at 16ms). Only applies when `continuousUpdates` is `true`. Lower values = more frequent updates but potentially lower performance. |
 | `disabled` | Boolean | `false` | If `true`, disables the slider and all input fields. |
-| `onChange` | Function | `null` | Callback triggered when value changes via slider interaction (dragging, clicking track, keyboard). Receives `(value, source)` where `value` is the new value(s) and `source` indicates the source of change (`'min'`, `'max'`, `'single'`, or `null`). |
+| `onChange` | Function | `null` | Callback triggered when value changes. Receives `(value, source)` where `value` is the new value(s) and `source` indicates the source of change (`'min'`, `'max'`, `'single'`, or `null`). By default, fires on drag end, track click, and keyboard interaction. If `continuousUpdates` is `true`, also fires during drag (throttled). |
 | `onInputChange` | Function | `null` | Callback triggered when value changes via input field. Receives `(value, source)` where `value` is the new value(s) and `source` indicates which input changed (`'min'`, `'max'`, or `'single'`). |
 
 ## API Methods
@@ -211,6 +213,36 @@ const allPrimarySlider = new NumericSlider('#all-primary-slider', {
 });
 ```
 
+### Continuous Updates During Drag
+
+Enable continuous `onChange` callbacks while dragging (useful for live previews):
+
+```javascript
+const liveSlider = new NumericSlider('#live-slider', {
+  type: 'single',
+  value: 50,
+  continuousUpdates: true, // Fire onChange during drag
+  throttleMs: 16, // ~60fps (default)
+  onChange: (value) => {
+    // This fires continuously while dragging (throttled)
+    // AND on drag end (always)
+    document.querySelector('#preview').textContent = value;
+  }
+});
+
+// Heavier updates? Increase throttle interval
+const heavySlider = new NumericSlider('#heavy-slider', {
+  type: 'range',
+  value: [20, 80],
+  continuousUpdates: true,
+  throttleMs: 100, // 10 updates per second
+  onChange: (values) => {
+    // Expensive operation (e.g., chart re-render)
+    updateComplexVisualization(values);
+  }
+});
+```
+
 ## Interaction
 
 ### Mouse/Touch
@@ -256,7 +288,7 @@ The slider automatically validates and corrects values:
 
 The slider component includes comprehensive accessibility features:
 
-- **ARIA Attributes**: 
+- **ARIA Attributes**:
   - `role="slider"` on the slider wrapper
   - `aria-valuemin`, `aria-valuemax`, `aria-valuenow` attributes
   - `aria-label` attributes on handles and wrapper for screen readers
