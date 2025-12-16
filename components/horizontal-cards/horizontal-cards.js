@@ -327,11 +327,27 @@ class HorizontalCards {
     const clientWidth = this.scrollWrapper.clientWidth;
     const maxScroll = scrollWidth - clientWidth;
     
+    // Get actual card width and gap from DOM (to account for CSS overrides)
+    const cards = this.track.querySelectorAll('.horizontal-cards-card');
+    let actualCardWidth = this.config.cardWidth;
+    let actualCardGap = this.config.cardGap;
+    
+    if (cards.length > 0) {
+      const firstCardRect = cards[0].getBoundingClientRect();
+      actualCardWidth = firstCardRect.width;
+      
+      // Calculate gap from actual card positions if we have multiple cards
+      if (cards.length > 1) {
+        const secondCardRect = cards[1].getBoundingClientRect();
+        actualCardGap = secondCardRect.left - firstCardRect.right;
+      }
+    }
+    
     // Calculate current card index based on scroll position
     // Account for center padding when calculating which card is visible
-    const adjustedScroll = scrollLeft + (clientWidth - this.config.cardWidth) / 2;
+    const adjustedScroll = scrollLeft + (clientWidth - actualCardWidth) / 2;
     const cardPosition = adjustedScroll - this.centerPadding;
-    const newIndex = Math.round(cardPosition / (this.config.cardWidth + this.config.cardGap));
+    const newIndex = Math.round(cardPosition / (actualCardWidth + actualCardGap));
     const clampedIndex = Math.max(0, Math.min(newIndex, this.config.cards.length - 1));
     
     // Update navigation buttons
@@ -344,8 +360,7 @@ class HorizontalCards {
     if (clampedIndex !== this.currentIndex) {
       this.currentIndex = clampedIndex;
       
-      // Update active card class
-      const cards = this.track.querySelectorAll('.horizontal-cards-card');
+      // Update active card class (cards already queried above)
       cards.forEach((card, index) => {
         if (index === clampedIndex) {
           card.classList.add('horizontal-cards-card-active');
