@@ -59,6 +59,7 @@
 /* Cards Track */
 .horizontal-cards-track {
   display: flex;
+  align-items: stretch;
   gap: var(--UI-Spacing-spacing-mxl);
   padding: var(--UI-Spacing-spacing-mxs) 0;
   width: max-content;
@@ -72,7 +73,6 @@
   flex-shrink: 0;
   width: 480px;
   min-width: 480px;
-  min-height: 320px;
   background: var(--Colors-Horizontal-Cards-Card-Background);
   border-radius: var(--UI-Radius-radius-ml);
   padding: var(--UI-Spacing-spacing-ms);
@@ -81,6 +81,7 @@
   flex-direction: column;
   gap: var(--UI-Spacing-spacing-none);
   transition: opacity 0.3s ease, transform 0.3s ease;
+  align-self: stretch;
 }
 
 .horizontal-cards-card:not(.horizontal-cards-card-active) {
@@ -91,27 +92,28 @@
 .horizontal-cards-card-content {
   display: flex;
   flex-direction: column;
-  gap: var(--UI-Spacing-spacing-xl);
-  flex: 1 0 0;
+  gap: 0;
+  flex: 1 0 auto;
   padding: var(--UI-Spacing-spacing-xl) var(--UI-Spacing-spacing-mxl);
-  min-height: 0;
-}
-
-.horizontal-cards-card-description {
-  flex: 1 0 0;
-  min-height: 0;
+  min-height: min-content;
 }
 
 .horizontal-cards-card-title {
   /* Uses .heading-small and .strong classes from typography.css */
   color: var(--Colors-Text-Body-Strong);
   margin: 0;
+  margin-bottom: 0;
+  flex-shrink: 0;
 }
 
 .horizontal-cards-card-description {
   /* Uses .body-medium class from typography.css */
   color: var(--Colors-Text-Body-Default);
   margin: 0;
+  margin-top: 32px;
+  flex-shrink: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .horizontal-cards-card-action {
@@ -123,6 +125,7 @@
   justify-content: center;
   padding: var(--UI-Spacing-spacing-s);
   background: transparent;
+  margin-top: var(--UI-Spacing-spacing-xl);
 }
 
 .horizontal-cards-card-action-placeholder {
