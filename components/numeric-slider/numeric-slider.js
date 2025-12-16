@@ -356,11 +356,17 @@ class NumericSlider {
 
   endDrag() {
     if (this.isDragging) {
+      const activeHandle = this.activeHandle;
       this.isDragging = false;
       this.activeHandle = null;
       
       if (this.minHandle) this.minHandle.classList.remove('dragging');
       if (this.maxHandle) this.maxHandle.classList.remove('dragging');
+
+      // Always fire onChange on drag end with final value
+      if (this.config.onChange) {
+        this.config.onChange(this.values, activeHandle || 'single');
+      }
       if (this.handle) this.handle.classList.remove('dragging');
     }
   }
