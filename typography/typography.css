@@ -30,9 +30,9 @@
   
 @font-face {
     font-family: 'JetBrains Mono';
-    src: url('/design-system/fonts/JetBrainsMono-MediumItalic.woff2') format('woff2'),
-         url('/fonts/JetBrainsMono-MediumItalic.woff2') format('woff2'),
-         url('../fonts/JetBrainsMono-MediumItalic.woff') format('woff');
+    src: url('/design-system/fonts/JetBrainsMono-Medium-Italic.woff2') format('woff2'),
+         url('/fonts/JetBrainsMono-Medium-Italic.woff2') format('woff2'),
+         url('../fonts/JetBrainsMono-Medium-Italic.woff') format('woff');
     font-weight: 500;
     font-style: italic;
     -webkit-font-smoothing: antialiased;
