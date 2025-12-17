@@ -635,8 +635,10 @@ const slider = new NumericSlider(selector, options);
 | `trackTheme` | String | `null` | Override track color: `'neutral'` or `'primary'` |
 | `filledTheme` | String | `null` | Override filled track color: `'neutral'` or `'primary'` |
 | `handleTheme` | String | `null` | Override handle color: `'neutral'` or `'primary'` |
+| `continuousUpdates` | Boolean | `false` | If `true`, fires `onChange` continuously during drag (throttled by `throttleMs`). Final value always sent on drag end. |
+| `throttleMs` | Number | `16` | Throttle interval in ms for continuous updates (~60fps at 16ms). Only applies when `continuousUpdates` is `true`. |
 | `disabled` | Boolean | `false` | If `true`, disables the slider |
-| `onChange` | Function | `null` | Callback `(value, source)` when value changes via slider |
+| `onChange` | Function | `null` | Callback `(value, source)` when value changes. Fires on drag end (always), track click, keyboard, and during drag if `continuousUpdates` is `true`. |
 | `onInputChange` | Function | `null` | Callback `(value, source)` when value changes via input field |
 
 **API Methods:**
@@ -679,6 +681,18 @@ const rangeSlider = new NumericSlider('#range-slider', {
   handleTheme: 'primary',
   onChange: (values) => {
     console.log('Range:', values[0], '-', values[1]);
+  }
+});
+
+// Continuous updates during drag (for live previews)
+const liveSlider = new NumericSlider('#live-slider', {
+  type: 'single',
+  value: 50,
+  continuousUpdates: true, // Fire onChange during drag
+  throttleMs: 16, // ~60fps (default)
+  onChange: (value) => {
+    // Fires continuously while dragging (throttled) AND on drag end
+    updatePreview(value);
   }
 });
 
@@ -924,7 +938,7 @@ You can extend components using CSS custom properties:
 .my-custom-button {
   /* Inherit button styles */
   composes: button button-primary;
-  
+
   /* Override with custom properties */
   --Colors-Base-Primary-700: #custom-color;
 }

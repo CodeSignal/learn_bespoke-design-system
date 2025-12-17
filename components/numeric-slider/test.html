@@ -236,6 +236,24 @@
       </div>
     </div>
 
+    <!-- Continuous Updates -->
+    <div class="test-section">
+      <h2>Continuous Updates</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Setting continuousUpdates to true will fire onChange during drag</label>
+          <div class="slider-wrapper">
+            <div id="slider-continuous"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Value:</strong> <span id="output-continuous">50</span>
+        <br>
+        <strong>Update count:</strong> <span id="output-continuous-count">0</span>
+      </div>
+    </div>
+
     <!-- Disabled State -->
     <div class="test-section">
       <h2>Disabled State</h2>
@@ -356,6 +374,21 @@
       }
     });
 
+    // Continuous updates
+    let continuousUpdateCount = 0;
+    const sliderContinuous = new NumericSlider('#slider-continuous', {
+      type: 'single',
+      value: 50,
+      showInputs: true,
+      continuousUpdates: true,
+      throttleMs: 16, // ~60fps
+      onChange: (value) => {
+        continuousUpdateCount++;
+        document.getElementById('output-continuous').textContent = Math.round(value);
+        document.getElementById('output-continuous-count').textContent = continuousUpdateCount;
+      }
+    });
+
     // Disabled sliders
     new NumericSlider('#slider-disabled-single', {
       type: 'single',
@@ -382,7 +415,8 @@
       customRange: sliderCustomRange,
       negativeRange: sliderNegativeRange,
       presetSingle: sliderPresetSingle,
-      presetRange: sliderPresetRange
+      presetRange: sliderPresetRange,
+      continuous: sliderContinuous
     };
   </script>
 </body>

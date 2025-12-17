@@ -5,20 +5,20 @@
 
 class NumericSlider {
   constructor(container, options = {}) {
-    this.container = typeof container === 'string' 
-      ? document.querySelector(container) 
+    this.container = typeof container === 'string'
+      ? document.querySelector(container)
       : container;
-    
+
     if (!this.container) {
       throw new Error('NumericSlider container not found');
     }
 
     // Configuration
     const defaultTheme = options.theme || 'default';
-    
+
     // Determine theme values - allow individual overrides or use theme preset
     let trackTheme, filledTheme, handleTheme;
-    
+
     if (options.trackTheme !== undefined || options.filledTheme !== undefined || options.handleTheme !== undefined) {
       // Individual overrides provided
       trackTheme = options.trackTheme || (defaultTheme === 'primary' ? 'primary' : 'neutral');
@@ -37,7 +37,7 @@ class NumericSlider {
         handleTheme = 'primary';
       }
     }
-    
+
     this.config = {
       type: options.type || 'single', // 'single' or 'range'
       min: options.min !== undefined ? options.min : 0,
@@ -49,6 +49,8 @@ class NumericSlider {
       trackTheme: trackTheme, // 'neutral' or 'primary'
       filledTheme: filledTheme, // 'neutral' or 'primary'
       handleTheme: handleTheme, // 'neutral' or 'primary'
+      continuousUpdates: options.continuousUpdates !== undefined ? options.continuousUpdates : false, // Fire onChange during drag
+      throttleMs: options.throttleMs !== undefined ? options.throttleMs : 16, // Throttle interval (~60fps)
       onChange: options.onChange || null,
       onInputChange: options.onInputChange || null,
       disabled: options.disabled || false,
@@ -60,10 +62,11 @@ class NumericSlider {
     this.activeHandle = null;
     this.startX = 0;
     this.startValue = null;
+    this.lastCallbackTime = 0; // For throttling continuous updates
 
     // Initialize values
     if (this.config.type === 'range') {
-      this.values = Array.isArray(this.config.value) 
+      this.values = Array.isArray(this.config.value)
         ? [Math.max(this.config.min, this.config.value[0]), Math.min(this.config.max, this.config.value[1])]
         : [this.config.min, this.config.max];
       // Ensure min <= max
@@ -84,12 +87,12 @@ class NumericSlider {
     // Create slider structure
     this.container.innerHTML = '';
     this.container.className = 'numeric-slider-container';
-    
+
     // Keep theme-primary class for backward compatibility
     if (this.config.theme === 'primary') {
       this.container.classList.add('theme-primary');
     }
-    
+
     if (this.config.disabled) {
       this.container.classList.add('disabled');
     }
@@ -142,7 +145,7 @@ class NumericSlider {
     this.wrapper.setAttribute('aria-valuemin', this.config.min);
     this.wrapper.setAttribute('aria-valuemax', this.config.max);
     this.wrapper.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
-    
+
     if (this.config.type === 'range') {
       this.wrapper.setAttribute('aria-valuenow', `${this.values[0]},${this.values[1]}`);
       this.wrapper.setAttribute('aria-label', `Range slider from ${this.values[0]} to ${this.values[1]}`);
@@ -157,14 +160,14 @@ class NumericSlider {
     if (this.config.trackTheme === 'primary') {
       this.track.classList.add('theme-primary');
     }
-    
+
     // Create filled track
     this.filled = document.createElement('div');
     this.filled.className = 'numeric-slider-filled';
     if (this.config.filledTheme === 'primary') {
       this.filled.classList.add('theme-primary');
     }
-    
+
     // Create handles
     if (this.config.type === 'range') {
       // Min handle
@@ -177,7 +180,7 @@ class NumericSlider {
       this.minHandle.setAttribute('aria-label', `Minimum value: ${this.values[0]}`);
       this.minHandle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
       this.minHandle.disabled = this.config.disabled;
-      
+
       // Max handle
       this.maxHandle = document.createElement('button');
       this.maxHandle.className = 'numeric-slider-handle';
@@ -188,7 +191,7 @@ class NumericSlider {
       this.maxHandle.setAttribute('aria-label', `Maximum value: ${this.values[1]}`);
       this.maxHandle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
       this.maxHandle.disabled = this.config.disabled;
-      
+
       this.track.appendChild(this.filled);
       this.track.appendChild(this.minHandle);
       this.track.appendChild(this.maxHandle);
@@ -203,11 +206,11 @@ class NumericSlider {
       this.handle.setAttribute('aria-label', `Value: ${this.values}`);
       this.handle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
       this.handle.disabled = this.config.disabled;
-      
+
       this.track.appendChild(this.filled);
       this.track.appendChild(this.handle);
     }
-    
+
     this.wrapper.appendChild(this.track);
     this.container.appendChild(this.wrapper);
 
@@ -299,7 +302,7 @@ class NumericSlider {
       // Determine which handle is closer
       const minDist = Math.abs(snappedValue - this.values[0]);
       const maxDist = Math.abs(snappedValue - this.values[1]);
-      
+
       if (minDist < maxDist) {
         this.setValue([snappedValue, this.values[1]], 'min');
       } else {
@@ -312,14 +315,14 @@ class NumericSlider {
 
   startDrag(e, handleType) {
     if (this.config.disabled) return;
-    
+
     e.preventDefault();
     e.stopPropagation();
-    
+
     this.isDragging = true;
     this.activeHandle = handleType;
     this.startX = e.clientX || (e.touches && e.touches[0].clientX);
-    
+
     if (handleType === 'min') {
       this.startValue = this.values[0];
       this.minHandle.classList.add('dragging');
@@ -334,42 +337,56 @@ class NumericSlider {
 
   handleDrag(e) {
     if (!this.isDragging || !this.activeHandle) return;
-    
+
     e.preventDefault();
-    
+
     const rect = this.track.getBoundingClientRect();
     const x = e.clientX || (e.touches && e.touches[0].clientX);
     const percent = Math.max(0, Math.min(1, (x - rect.left) / rect.width));
     const newValue = this.config.min + percent * (this.config.max - this.config.min);
     const snappedValue = this.snapToStep(newValue);
 
+    // Determine if we should trigger callback based on continuousUpdates and throttling
+    const shouldTrigger = this.config.continuousUpdates &&
+      (Date.now() - this.lastCallbackTime >= this.config.throttleMs);
+
+    if (shouldTrigger) {
+      this.lastCallbackTime = Date.now();
+    }
+
     if (this.activeHandle === 'min') {
       const newMin = Math.max(this.config.min, Math.min(snappedValue, this.values[1]));
-      this.setValue([newMin, this.values[1]], 'min', false);
+      this.setValue([newMin, this.values[1]], 'min', shouldTrigger);
     } else if (this.activeHandle === 'max') {
       const newMax = Math.min(this.config.max, Math.max(snappedValue, this.values[0]));
-      this.setValue([this.values[0], newMax], 'max', false);
+      this.setValue([this.values[0], newMax], 'max', shouldTrigger);
     } else {
-      this.setValue(snappedValue, 'single', false);
+      this.setValue(snappedValue, 'single', shouldTrigger);
     }
   }
 
   endDrag() {
     if (this.isDragging) {
+      const activeHandle = this.activeHandle;
       this.isDragging = false;
       this.activeHandle = null;
-      
+
       if (this.minHandle) this.minHandle.classList.remove('dragging');
       if (this.maxHandle) this.maxHandle.classList.remove('dragging');
       if (this.handle) this.handle.classList.remove('dragging');
+
+      // Always fire onChange on drag end with final value
+      if (this.config.onChange) {
+        this.config.onChange(this.values, activeHandle || 'single');
+      }
     }
   }
 
   handleInputChange(e, handleType) {
     const value = parseFloat(e.target.value);
-    
+
     if (isNaN(value)) return;
-    
+
     if (handleType === 'min') {
       const newMin = Math.max(this.config.min, Math.min(value, this.values[1]));
       this.setValue([newMin, this.values[1]], 'min');
@@ -384,7 +401,7 @@ class NumericSlider {
 
   handleInputBlur(e, handleType) {
     const value = parseFloat(e.target.value);
-    
+
     if (isNaN(value)) {
       // Reset to current value if invalid
       if (handleType === 'min') {
@@ -414,10 +431,10 @@ class NumericSlider {
 
   handleKeyDown(e, handleType) {
     if (this.config.disabled) return;
-    
+
     const step = e.shiftKey ? this.config.step * 10 : this.config.step;
     let newValue;
-    
+
     if (this.config.type === 'range') {
       if (handleType === 'min') {
         if (e.key === 'ArrowRight' || e.key === 'ArrowUp') {
@@ -451,7 +468,7 @@ class NumericSlider {
         this.setValue(newValue);
       }
     }
-    
+
     if (e.key === 'Home') {
       e.preventDefault();
       if (this.config.type === 'range' && handleType === 'min') {
@@ -479,25 +496,25 @@ class NumericSlider {
 
   updateVisuals() {
     const range = this.config.max - this.config.min;
-    
+
     if (this.config.type === 'range') {
       const minPercent = ((this.values[0] - this.config.min) / range) * 100;
       const maxPercent = ((this.values[1] - this.config.min) / range) * 100;
-      
+
       // Position handles
       this.minHandle.style.left = `${minPercent}%`;
       this.maxHandle.style.left = `${maxPercent}%`;
-      
+
       // Update filled track
       this.filled.style.left = `${minPercent}%`;
       this.filled.style.width = `${maxPercent - minPercent}%`;
-      
+
       // Update inputs
       if (this.config.showInputs) {
         this.minInput.value = Math.round(this.values[0]);
         this.maxInput.value = Math.round(this.values[1]);
       }
-      
+
       // Update aria attributes
       this.wrapper.setAttribute('aria-valuenow', `${this.values[0]},${this.values[1]}`);
       this.wrapper.setAttribute('aria-label', `Range slider from ${this.values[0]} to ${this.values[1]}`);
@@ -505,19 +522,19 @@ class NumericSlider {
       this.maxHandle.setAttribute('aria-label', `Maximum value: ${this.values[1]}`);
     } else {
       const percent = ((this.values - this.config.min) / range) * 100;
-      
+
       // Position handle
       this.handle.style.left = `${percent}%`;
-      
+
       // Update filled track
       this.filled.style.left = '0%';
       this.filled.style.width = `${percent}%`;
-      
+
       // Update input
       if (this.config.showInputs) {
         this.valueInput.value = Math.round(this.values);
       }
-      
+
       // Update aria attributes
       this.wrapper.setAttribute('aria-valuenow', this.values);
       this.wrapper.setAttribute('aria-label', `Slider value ${this.values}`);
@@ -541,13 +558,13 @@ class NumericSlider {
     } else {
       this.values = Math.max(this.config.min, Math.min(this.config.max, value));
     }
-    
+
     this.updateVisuals();
-    
+
     if (triggerCallback && this.config.onChange) {
       this.config.onChange(this.values, source);
     }
-    
+
     if (triggerCallback && this.config.onInputChange && source) {
       this.config.onInputChange(this.values, source);
     }
@@ -559,7 +576,7 @@ class NumericSlider {
 
   setDisabled(disabled) {
     this.config.disabled = disabled;
-    
+
     if (disabled) {
       this.container.classList.add('disabled');
       this.wrapper.setAttribute('tabindex', '-1');
