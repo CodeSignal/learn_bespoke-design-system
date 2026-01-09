@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Component Tests - Split Panel</title>
+  <link rel="stylesheet" href="../../colors/colors.css">
+  <link rel="stylesheet" href="../../spacing/spacing.css">
+  <link rel="stylesheet" href="../../typography/typography.css">
+  <link rel="stylesheet" href="split-panel.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --test-bg: var(--Colors-Backgrounds-Main-Light);
+      --test-section-bg: var(--Colors-Backgrounds-Main-Top);
+      --test-section-shadow: rgba(0, 0, 0, 0.1);
+      --test-subheading-color: var(--Colors-Text-Body-Default);
+      --test-label-color: var(--Colors-Text-Body-Medium);
+      --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+      --test-output-text: var(--Colors-Text-Body-Default);
+      --test-output-strong: var(--Colors-Text-Body-Strong);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --test-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-section-bg: var(--Colors-Backgrounds-Main-Light);
+        --test-section-shadow: rgba(0, 0, 0, 0.3);
+        --test-subheading-color: var(--Colors-Text-Body-Default);
+        --test-label-color: var(--Colors-Text-Body-Default);
+        --test-output-bg: var(--Colors-Backgrounds-Main-Default);
+        --test-output-text: var(--Colors-Text-Body-Default);
+        --test-output-strong: var(--Colors-Text-Body-Strong);
+      }
+    }
+
+    body {
+      background: var(--test-bg);
+      padding: 40px 20px;
+      font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif;
+      color: var(--Colors-Text-Body-Strong);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .test-section {
+      background: var(--test-section-bg);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: 0 1px 3px var(--test-section-shadow);
+      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .test-section h2 {
+      margin: 0 0 24px 0;
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--Colors-Text-Body-Strong);
+      letter-spacing: -0.24px;
+    }
+
+    .test-section h3 {
+      margin: 0 0 16px 0;
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--test-subheading-color);
+      letter-spacing: -0.18px;
+    }
+
+    .test-row {
+      display: flex;
+      gap: 24px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .test-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .test-item label {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--test-label-color);
+    }
+
+    .test-output {
+      margin-top: 16px;
+      padding: 12px;
+      background: var(--test-output-bg);
+      border-radius: 8px;
+      font-size: 14px;
+      color: var(--test-output-text);
+      font-family: 'Courier New', monospace;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .test-output strong {
+      color: var(--test-output-strong);
+    }
+
+    h1 {
+      transition: color 0.2s ease;
+    }
+
+    .panel-content {
+      padding: 20px;
+      height: 100%;
+      overflow: auto;
+    }
+
+    .panel-content h3 {
+      margin-top: 0;
+      color: var(--Colors-Text-Body-Strong);
+    }
+
+    .panel-content p {
+      color: var(--Colors-Text-Body-Default);
+      line-height: 1.6;
+    }
+
+    .split-panel-wrapper {
+      border: 1px solid var(--Colors-Stroke-Default);
+      border-radius: var(--UI-Radius-radius-s);
+      overflow: hidden;
+      background: var(--Colors-Backgrounds-Main-Top);
+    }
+  </style>
+</head>
+<body>
+  <div class="test-container">
+    <h1 style="margin-bottom: 32px; font-size: 32px; font-weight: 700; color: var(--Colors-Text-Body-Strong);">
+      Component Tests - Split Panel
+    </h1>
+
+    <!-- Basic Split Panel -->
+    <div class="test-section">
+      <h2>Basic Split Panel</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Default (50/50 Split)</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-basic" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Split:</strong> <span id="output-basic">50%</span>
+      </div>
+    </div>
+
+    <!-- Custom Initial Split -->
+    <div class="test-section">
+      <h2>Custom Initial Split</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>30/70 Split</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-custom" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Split:</strong> <span id="output-custom">30%</span>
+      </div>
+    </div>
+
+    <!-- Minimum Constraints -->
+    <div class="test-section">
+      <h2>Minimum Constraints</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Min Left: 25%, Min Right: 25%</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-min" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Split:</strong> <span id="output-min">50%</span>
+        <br>
+        <small style="color: var(--test-label-color); margin-top: 8px; display: block;">
+          Try dragging to the edges - panels won't shrink below 25% each.
+        </small>
+      </div>
+    </div>
+
+    <!-- Vertical Orientation -->
+    <div class="test-section">
+      <h2>Vertical Orientation</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Top/Bottom Split</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-vertical" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Current Split:</strong> <span id="output-vertical">50%</span>
+      </div>
+    </div>
+
+    <!-- Disabled State -->
+    <div class="test-section">
+      <h2>Disabled State</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Disabled (Non-resizable)</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-disabled" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="test-output">
+        <small style="color: var(--test-label-color);">
+          This panel cannot be resized.
+        </small>
+      </div>
+    </div>
+
+    <!-- Multiple Panels -->
+    <div class="test-section">
+      <h2>Multiple Panels</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Three Panels Example</label>
+          <div class="split-panel-wrapper">
+            <div id="split-panel-multiple" style="width: 100%; height: 400px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import SplitPanel from './split-panel.js';
+
+    // Basic split panel
+    const panelBasic = new SplitPanel('#split-panel-basic', {
+      initialSplit: 50,
+      onChange: (percent) => {
+        document.getElementById('output-basic').textContent = Math.round(percent) + '%';
+      }
+    });
+
+    panelBasic.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Left Panel</h3>
+        <p>This is the left panel content. You can drag the divider to resize the panels.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+      </div>
+    `;
+
+    panelBasic.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Right Panel</h3>
+        <p>This is the right panel content. The divider can be dragged horizontally to adjust the split.</p>
+        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      </div>
+    `;
+
+    // Custom initial split
+    const panelCustom = new SplitPanel('#split-panel-custom', {
+      initialSplit: 30,
+      onChange: (percent) => {
+        document.getElementById('output-custom').textContent = Math.round(percent) + '%';
+      }
+    });
+
+    panelCustom.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Left Panel (30%)</h3>
+        <p>This panel starts at 30% width.</p>
+      </div>
+    `;
+
+    panelCustom.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Right Panel (70%)</h3>
+        <p>This panel starts at 70% width.</p>
+      </div>
+    `;
+
+    // Minimum constraints
+    const panelMin = new SplitPanel('#split-panel-min', {
+      initialSplit: 50,
+      minLeft: 25,
+      minRight: 25,
+      onChange: (percent) => {
+        document.getElementById('output-min').textContent = Math.round(percent) + '%';
+      }
+    });
+
+    panelMin.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Left Panel</h3>
+        <p>This panel has a minimum width of 25%.</p>
+      </div>
+    `;
+
+    panelMin.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Right Panel</h3>
+        <p>This panel also has a minimum width of 25%.</p>
+      </div>
+    `;
+
+    // Vertical orientation
+    const panelVertical = new SplitPanel('#split-panel-vertical', {
+      orientation: 'vertical',
+      initialSplit: 50,
+      onChange: (percent) => {
+        document.getElementById('output-vertical').textContent = Math.round(percent) + '%';
+      }
+    });
+
+    panelVertical.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Top Panel</h3>
+        <p>This is the top panel in a vertical split.</p>
+      </div>
+    `;
+
+    panelVertical.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Bottom Panel</h3>
+        <p>This is the bottom panel in a vertical split.</p>
+      </div>
+    `;
+
+    // Disabled state
+    const panelDisabled = new SplitPanel('#split-panel-disabled', {
+      initialSplit: 40,
+      disabled: true
+    });
+
+    panelDisabled.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Left Panel</h3>
+        <p>This panel is disabled and cannot be resized.</p>
+      </div>
+    `;
+
+    panelDisabled.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Right Panel</h3>
+        <p>Try dragging the divider - it won't work!</p>
+      </div>
+    `;
+
+    // Multiple panels example (nested split panels)
+    const panelMultiple = new SplitPanel('#split-panel-multiple', {
+      initialSplit: 33,
+      minLeft: 15,
+      minRight: 15
+    });
+
+    panelMultiple.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Left Panel</h3>
+        <p>This is the leftmost panel.</p>
+      </div>
+    `;
+
+    // Create a nested split panel in the right side
+    const rightContainer = document.createElement('div');
+    rightContainer.style.width = '100%';
+    rightContainer.style.height = '100%';
+    panelMultiple.getRightPanel().appendChild(rightContainer);
+
+    const nestedPanel = new SplitPanel(rightContainer, {
+      initialSplit: 50,
+      minLeft: 20,
+      minRight: 20
+    });
+
+    nestedPanel.getLeftPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Middle Panel</h3>
+        <p>This is the middle panel.</p>
+      </div>
+    `;
+
+    nestedPanel.getRightPanel().innerHTML = `
+      <div class="panel-content">
+        <h3>Right Panel</h3>
+        <p>This is the rightmost panel.</p>
+      </div>
+    `;
+
+    // Make panels available globally for debugging
+    window.testPanels = {
+      basic: panelBasic,
+      custom: panelCustom,
+      min: panelMin,
+      vertical: panelVertical,
+      disabled: panelDisabled,
+      multiple: panelMultiple,
+      nested: nestedPanel
+    };
+  </script>
+</body>
+</html>

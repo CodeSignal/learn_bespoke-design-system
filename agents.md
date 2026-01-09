@@ -51,6 +51,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 <link rel="stylesheet" href="/design-system/components/input/input.css">
 <link rel="stylesheet" href="/design-system/components/modal/modal.css">
 <link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
+<link rel="stylesheet" href="/design-system/components/split-panel/split-panel.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
@@ -71,6 +72,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
   import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js';
   import Modal from '/design-system/components/modal/modal.js';
   import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js';
+  import SplitPanel from '/design-system/components/split-panel/split-panel.js';
 </script>
 ```
 
@@ -707,6 +709,81 @@ const currentRange = rangeSlider.getValue(); // [30, 70]
 
 ---
 
+### Split Panel (JavaScript Component)
+
+**Import:**
+```javascript
+import SplitPanel from '/design-system/components/split-panel/split-panel.js';
+```
+
+**Initialization:**
+```javascript
+const splitPanel = new SplitPanel(selector, options);
+```
+
+**Configuration Options:**
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `orientation` | String | `'horizontal'` | Panel orientation: `'horizontal'` (left/right) or `'vertical'` (top/bottom) |
+| `initialSplit` | Number | `50` | Initial split percentage (0-100) for left/top panel |
+| `minLeft` | Number | `10` | Minimum percentage (0-100) allowed for left/top panel |
+| `minRight` | Number | `10` | Minimum percentage (0-100) allowed for right/bottom panel |
+| `disabled` | Boolean | `false` | If `true`, disables resizing of the split panel |
+| `onChange` | Function | `null` | Callback `(percent)` when split changes |
+
+**API Methods:**
+- `getSplit()`: Returns current split percentage (0-100)
+- `setSplit(percent, skipCallback)`: Sets split percentage programmatically. Values are clamped to min/max constraints
+- `getLeftPanel()`: Returns the left/top panel element
+- `getRightPanel()`: Returns the right/bottom panel element
+- `setDisabled(disabled)`: Enables or disables the split panel
+- `destroy()`: Removes event listeners and cleans up DOM
+
+**Features:**
+- Resizable panels with draggable divider
+- Mouse, touch, and keyboard interaction (arrow keys, Home, End)
+- Configurable minimum panel sizes
+- Automatic resize handling when container resizes
+- Visual feedback: divider line expands to 4px and turns primary blue when focused/dragging
+- Dark mode support
+- Full accessibility support (ARIA attributes, keyboard navigation)
+
+**Example:**
+```javascript
+// Basic split panel
+const splitPanel = new SplitPanel('#my-split-panel', {
+  initialSplit: 40,
+  minLeft: 20,
+  minRight: 30,
+  onChange: (percent) => {
+    console.log('Split changed to:', percent + '%');
+  }
+});
+
+// Add content to panels
+splitPanel.getLeftPanel().innerHTML = '<p>Left Panel Content</p>';
+splitPanel.getRightPanel().innerHTML = '<p>Right Panel Content</p>';
+
+// Vertical orientation
+const verticalPanel = new SplitPanel('#vertical-panel', {
+  orientation: 'vertical',
+  initialSplit: 50,
+  minLeft: 25,
+  minRight: 25
+});
+
+// Later...
+splitPanel.setSplit(60);
+const currentSplit = splitPanel.getSplit(); // 60
+splitPanel.setDisabled(true);
+splitPanel.destroy();
+```
+
+**Dependencies:** colors.css, spacing.css
+
+---
+
 ### Modal (JavaScript Component)
 
 **Import:**
@@ -1087,6 +1164,11 @@ design-system/
 │   ├── numeric-slider/
 │   │   ├── numeric-slider.css
 │   │   ├── numeric-slider.js
+│   │   ├── README.md
+│   │   └── test.html
+│   ├── split-panel/
+│   │   ├── split-panel.css
+│   │   ├── split-panel.js
 │   │   ├── README.md
 │   │   └── test.html
 │   └── tags/

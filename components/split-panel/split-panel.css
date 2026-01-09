@@ -1,0 +1,181 @@
+/* ===== SPLIT PANEL COMPONENT ===== */
+
+:root {
+    /* Split Panel Variables - Light Mode */
+    --Colors-Split-Panel-Divider-Line: rgba(92, 148, 255, 0.3);
+    --Colors-Split-Panel-Divider-Line-Hover: rgba(92, 148, 255, 0.5);
+    --Colors-Split-Panel-Divider-Line-Active: rgba(92, 148, 255, 0.7);
+    --Colors-Split-Panel-Handle-Bg: var(--Colors-Backgrounds-Main-Default);
+    --Colors-Split-Panel-Handle-Border: rgba(92, 148, 255, 0.4);
+    --Colors-Split-Panel-Handle-Border-Hover: rgba(92, 148, 255, 0.6);
+    --Colors-Split-Panel-Handle-Lines: var(--Colors-Base-Neutral-600);
+    --Colors-Split-Panel-Background: var(--Colors-Backgrounds-Main-Top);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Split Panel Variables - Dark Mode */
+        --Colors-Split-Panel-Divider-Line: rgba(92, 148, 255, 0.3);
+        --Colors-Split-Panel-Divider-Line-Hover: rgba(92, 148, 255, 0.5);
+        --Colors-Split-Panel-Divider-Line-Active: rgba(92, 148, 255, 0.7);
+        --Colors-Split-Panel-Handle-Bg: var(--Colors-Backgrounds-Main-Default);
+        --Colors-Split-Panel-Handle-Border: rgba(92, 148, 255, 0.4);
+        --Colors-Split-Panel-Handle-Border-Hover: rgba(92, 148, 255, 0.6);
+        --Colors-Split-Panel-Handle-Lines: var(--Colors-Base-Neutral-500);
+        --Colors-Split-Panel-Background: var(--Colors-Backgrounds-Main-Medium);
+    }
+}
+
+.split-panel-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.split-panel-left,
+.split-panel-right {
+    overflow: auto;
+    min-width: 0; /* Allows flex items to shrink below content size */
+    background: var(--Colors-Split-Panel-Background);
+}
+
+/* Disable pointer events on panels during drag to prevent iframe interference */
+.split-panel-container.dragging .split-panel-left,
+.split-panel-container.dragging .split-panel-right {
+    pointer-events: none;
+}
+
+.split-panel-container.dragging .split-panel-left *,
+.split-panel-container.dragging .split-panel-right * {
+    pointer-events: none;
+}
+
+/* Ensure divider remains interactive during drag */
+.split-panel-container.dragging .split-panel-divider {
+    pointer-events: auto;
+}
+
+.split-panel-divider {
+    width: 4px;
+    cursor: col-resize;
+    position: relative;
+    flex: 0 0 4px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 4px */
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: none;
+    z-index: 1;
+    margin: 0 -2px; /* Extend hover area without affecting layout */
+}
+
+/* Visual divider line - centered */
+.split-panel-divider::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    transform: translateX(-50%);
+    background: #2b3b52;
+    transition: background-color 0.2s ease, width 0.2s ease;
+}
+
+.split-panel-divider:focus::after,
+.split-panel-divider:focus-visible::after,
+.split-panel-divider.dragging::after {
+    background: var(--Colors-Base-Primary-700);
+    width: 4px;
+}
+
+.split-panel-divider-handle {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 40px;
+    border-radius: 5px;
+    background: #000;
+    border: 1px solid var(--Colors-Split-Panel-Handle-Border);
+    pointer-events: none;
+    box-shadow: 0 0 4px var(--Colors-Split-Panel-Handle-Border);
+    z-index: 1; /* Ensure handle is above the divider line */
+}
+
+.split-panel-divider-handle::before {
+    content: ' ';
+    position: absolute;
+    border-left: 1px solid var(--Colors-Split-Panel-Handle-Lines);
+    border-right: 1px solid var(--Colors-Split-Panel-Handle-Lines);
+    inset: 3px 2px;
+}
+
+/* Disabled state */
+.split-panel-container.disabled {
+    pointer-events: none;
+    opacity: 0.6;
+}
+
+.split-panel-container.disabled .split-panel-divider {
+    cursor: not-allowed;
+}
+
+/* Vertical orientation (optional future enhancement) */
+.split-panel-container.vertical {
+    flex-direction: column;
+}
+
+.split-panel-container.vertical .split-panel-left,
+.split-panel-container.vertical .split-panel-right {
+    min-height: 0;
+}
+
+.split-panel-container.vertical .split-panel-divider {
+    width: 100%;
+    height: 4px;
+    cursor: row-resize;
+    left: 0;
+    right: 0;
+    margin: -2px 0; /* Extend hover area without affecting layout */
+}
+
+.split-panel-container.vertical .split-panel-divider::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 2px;
+    transform: translateY(-50%);
+    background: #2b3b52;
+    transition: background-color 0.2s ease, height 0.2s ease;
+}
+
+.split-panel-container.vertical .split-panel-divider:focus::after,
+.split-panel-container.vertical .split-panel-divider:focus-visible::after,
+.split-panel-container.vertical .split-panel-divider.dragging::after {
+    background: var(--Colors-Base-Primary-700);
+    height: 4px;
+}
+
+.split-panel-container.vertical .split-panel-divider-handle {
+    width: 40px;
+    height: 10px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 5px;
+    background: #000;
+    border: 1px solid var(--Colors-Split-Panel-Handle-Border);
+    z-index: 1; /* Ensure handle is above the divider line */
+}
+
+.split-panel-container.vertical .split-panel-divider-handle::before {
+    content: ' ';
+    position: absolute;
+    border-top: 1px solid var(--Colors-Split-Panel-Handle-Lines);
+    border-bottom: 1px solid var(--Colors-Split-Panel-Handle-Lines);
+    inset: 2px 3px;
+}

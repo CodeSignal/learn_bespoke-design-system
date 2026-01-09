@@ -92,6 +92,13 @@ Also include Work Sans font from Google Fonts.
 - Themes: `'default'` (neutral track, primary filled/handles) or `'primary'` (all primary)
 - Can override individual parts: `trackTheme`, `filledTheme`, `handleTheme`
 
+### Split Panel (JS Component)
+- Import: `import SplitPanel from '/design-system/components/split-panel/split-panel.js'`
+- Initialize: `new SplitPanel(selector, { orientation, initialSplit, minLeft, minRight, disabled, onChange })`
+- Orientation: `'horizontal'` (left/right) or `'vertical'` (top/bottom)
+- Methods: `getSplit()`, `setSplit(percent)`, `getLeftPanel()`, `getRightPanel()`, `setDisabled(disabled)`, `destroy()`
+- Features: Resizable panels with draggable divider, mouse/touch/keyboard support, visual feedback on focus/drag
+
 ### Modal (JS Component)
 - Import: `import Modal from '/design-system/components/modal/modal.js'`
 - Initialize: `new Modal({ size, title, content, footerButtons, ... })`
@@ -125,6 +132,7 @@ design-system/
     ├── input/input.css
     ├── modal/modal.css + modal.js
     ├── numeric-slider/numeric-slider.css + numeric-slider.js
+    ├── split-panel/split-panel.css + split-panel.js
     └── tags/tags.css
 ```
 
