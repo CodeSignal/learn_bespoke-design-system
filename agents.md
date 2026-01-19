@@ -301,16 +301,19 @@ height: var(--UI-Input-md);
 - `.box.emphasized`: Emphasized state (Neutral border)
 - `.box.shadowed`: Soft shadow
 - `.box.card`: Card-style shadow
+- `.box.non-interactive`: Disables hover, focus, and active state changes. Useful for containers that are not clickable/interactive. Can be combined with other variants (e.g., `.box.card.non-interactive`)
 
 **States:**
 - Standard pseudo-classes: `:hover`, `:focus`, `:active`
 - Utility classes: `.hover`, `.focus`, `.selected`
+- **Note**: The `.non-interactive` class overrides all interactive states, preventing visual changes on hover, focus, or active while preserving base styling (shadows, borders, etc.)
 
 **Example:**
 ```html
 <div class="box">Default content</div>
 <div class="box selected">Selected content</div>
 <div class="box card">Card content</div>
+<div class="box card non-interactive">Non-interactive card (no hover/focus effects)</div>
 ```
 
 **Dependencies:** colors.css, spacing.css

@@ -27,12 +27,15 @@ or
 - `.box.shadowed`: Adds a soft shadow (`--Colors-Shadow-Soft`).
 - `.box.card`: Adds a card-style shadow (`--Colors-Shadow-Card`).
 - `.box.input-group`: Input group variant with reduced padding and gap spacing, designed for grouping input elements together.
+- `.box.non-interactive`: Disables hover, focus, and active state changes. Useful for containers that are not clickable/interactive. Can be combined with other variants (e.g., `.box.card.non-interactive`).
 
 ### States
 The component supports standard pseudo-classes (`:hover`, `:focus`, `:active`) and utility classes for manual state application:
 - `.hover`
 - `.focus`
 - `.selected` (acts as active/checked state)
+
+Note: The `.non-interactive` class overrides all interactive states, preventing visual changes on hover, focus, or active.
 
 ## Examples
 
@@ -56,6 +59,11 @@ The component supports standard pseudo-classes (`:hover`, `:focus`, `:active`) a
 <div class="box input-group">
   <input type="text" class="input" placeholder="Input 1">
   <input type="text" class="input" placeholder="Input 2">
+</div>
+
+<!-- Non-Interactive Card Box -->
+<div class="box card non-interactive">
+  This box maintains its card styling but doesn't change on hover/focus.
 </div>
 ```
 
