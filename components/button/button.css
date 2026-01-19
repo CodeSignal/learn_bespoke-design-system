@@ -318,6 +318,71 @@
     opacity: 0.3;
 }
 
+.button-text.button-danger,
+.button-text.button-danger.button-medium,
+.button-text.button-danger.button-large,
+.button-text.button-danger.button-small,
+.button-text.button-danger.button-xsmall {
+    color: var(--Colors-Base-Accent-Red-600);
+    background: transparent;
+}
+
+.button-text.button-danger:hover,
+.button-text.button-danger.hover {
+    color: var(--Colors-Base-Accent-Red-800);
+    background: transparent;
+}
+
+.button-text.button-danger:focus,
+.button-text.button-danger.focus {
+    color: var(--Colors-Base-Accent-Red-800);
+    background: transparent;
+    border-bottom: 1px solid var(--Colors-Base-Accent-Red-800);
+}
+
+.button-text.button-danger:active,
+.button-text.button-danger.active {
+    color: var(--Colors-Base-Accent-Red-900);
+    background: transparent;
+    border-bottom: 1px solid var(--Colors-Base-Accent-Red-900);
+}
+
+.button-text.button-danger:disabled,
+.button-text.button-danger.disabled {
+    opacity: 0.3;
+}
+
+@media (prefers-color-scheme: dark) {
+    .button-text.button-danger,
+    .button-text.button-danger.button-medium,
+    .button-text.button-danger.button-large,
+    .button-text.button-danger.button-small,
+    .button-text.button-danger.button-xsmall {
+        color: var(--Colors-Base-Accent-Red-400);
+        background: transparent;
+    }
+
+    .button-text.button-danger:hover,
+    .button-text.button-danger.hover {
+        color: var(--Colors-Base-Accent-Red-300);
+        background: transparent;
+    }
+
+    .button-text.button-danger:focus,
+    .button-text.button-danger.focus {
+        color: var(--Colors-Base-Accent-Red-300);
+        background: transparent;
+        border-bottom: 1px solid var(--Colors-Base-Accent-Red-300);
+    }
+
+    .button-text.button-danger:active,
+    .button-text.button-danger.active {
+        color: var(--Colors-Base-Accent-Red-200);
+        background: transparent;
+        border-bottom: 1px solid var(--Colors-Base-Accent-Red-200);
+    }
+}
+
 .button-xsmall {
     height: var(--UI-Input-xs);
     padding: 0 var(--UI-Spacing-spacing-mxs);
