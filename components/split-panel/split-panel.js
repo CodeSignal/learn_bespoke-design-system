@@ -28,6 +28,7 @@ class SplitPanel {
     this.isDragging = false;
     this.startPosition = 0;
     this.startSplit = 0;
+    this.currentSplit = this.config.initialSplit; // Store current percentage to maintain ratio on resize
 
     // Initialize
     this.init();
@@ -78,11 +79,13 @@ class SplitPanel {
     // Bind events
     this.bindEvents();
     
-    // Add resize observer to recalculate split when container resizes
+    // Add resize observer to maintain split ratio when container resizes
     this.resizeObserver = new ResizeObserver(() => {
-      // Recalculate split with current percentage when container resizes
-      const currentPercent = this.getSplit();
-      this.setSplit(currentPercent, true); // Skip callback to avoid infinite loops
+      // Maintain the stored percentage ratio when container resizes
+      // Don't recalculate from pixels - just reapply the stored percentage
+      if (!this.isDragging) {
+        this.setSplit(this.currentSplit, true); // Skip callback to avoid infinite loops
+      }
     });
     this.resizeObserver.observe(this.container);
   }
@@ -123,14 +126,11 @@ class SplitPanel {
     document.body.style.userSelect = 'none';
     document.body.style.webkitUserSelect = 'none';
 
-    const rect = this.container.getBoundingClientRect();
-    if (this.config.orientation === 'vertical') {
-      this.startPosition = e.clientY || (e.touches && e.touches[0].clientY);
-      this.startSplit = (this.leftPanel.offsetHeight / rect.height) * 100;
-    } else {
-      this.startPosition = e.clientX || (e.touches && e.touches[0].clientX);
-      this.startSplit = (this.leftPanel.offsetWidth / rect.width) * 100;
-    }
+    // Use stored percentage as starting point for consistent behavior
+    this.startPosition = this.config.orientation === 'vertical' 
+      ? (e.clientY || (e.touches && e.touches[0].clientY))
+      : (e.clientX || (e.touches && e.touches[0].clientX));
+    this.startSplit = this.currentSplit; // Use stored percentage, not pixel-based calculation
   }
 
   handleDrag(e) {
@@ -220,6 +220,9 @@ class SplitPanel {
   setSplit(percent, skipCallback = false) {
     // Clamp to valid range
     percent = Math.max(this.config.minLeft, Math.min(100 - this.config.minRight, percent));
+    
+    // Store the current percentage to maintain ratio on resize
+    this.currentSplit = percent;
 
     // Get container dimensions for min-width calculation
     const rect = this.container.getBoundingClientRect();
