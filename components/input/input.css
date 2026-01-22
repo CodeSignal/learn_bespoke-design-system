@@ -512,3 +512,19 @@
     }
 }
 
+/* ===== TEXTAREA INPUT ===== */
+
+/* Reusable textarea styles - extends .input class for textarea elements */
+textarea.input {
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: var(--UI-Input-md);
+    padding: var(--UI-Spacing-spacing-ms) var(--UI-Spacing-spacing-ms);
+    line-height: 1.5;
+    resize: vertical;
+    align-items: stretch;
+}
+
+/* Textarea inherits all other styles from .input class (border, colors, focus, etc.) */
+
