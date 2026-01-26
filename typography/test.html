@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../colors/colors.css">
     <link rel="stylesheet" href="../spacing/spacing.css">
     <link rel="stylesheet" href="typography.css">
+    <script src="typography.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -419,26 +420,11 @@
         
         blockquoteWithQuoteSample.appendChild(blockquoteWithQuoteInfo);
 
-        // Auto-detect blockquotes that start with quotes and make them italic
-        function detectQuoteBlockquotes() {
-            const blockquotes = document.querySelectorAll('blockquote');
-            // Common quote characters: straight quotes, curly quotes, guillemets, etc.
-            const quoteChars = ['"', '\'', '\u201C', '\u201D', '\u2018', '\u2019', '\u00AB', '\u00BB', '\u201E', '\u201A'];
-            
-            blockquotes.forEach(blockquote => {
-                // Get the first text node or first paragraph's text
-                const firstElement = blockquote.querySelector('p:first-child') || blockquote;
-                const text = firstElement.textContent.trim();
-                
-                if (text && quoteChars.some(char => text.startsWith(char))) {
-                    blockquote.classList.add('quote');
-                    blockquote.setAttribute('data-starts-with-quote', 'true');
-                }
-            });
+        // Use the typography helper to detect quotes in dynamically created blockquotes
+        // The helper auto-runs on page load, but we call it again after creating new elements
+        if (typeof detectQuoteBlockquotes === 'function') {
+            detectQuoteBlockquotes();
         }
-
-        // Run detection after DOM is ready and after elements are created
-        detectQuoteBlockquotes();
     </script>
 </body>
 </html>

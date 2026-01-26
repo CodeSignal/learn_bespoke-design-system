@@ -83,6 +83,14 @@ Code/monospace text styles using `JetBrains Mono` with semi-bold weight (600).
 - `.code-large` (17px)
 - `.code` (19px)
 
+### Blockquote
+Blockquote styles for quoted text. All `<blockquote>` elements automatically receive styling.
+
+- `blockquote` or `.blockquote` - Base blockquote style with left border
+- `blockquote.quote` or `.blockquote.quote` - Italicized style for blockquotes starting with quote characters
+
+**Note**: Blockquotes that start with quote characters (", ', «, », etc.) can be automatically detected and italicized using the JavaScript helper (see JavaScript Helpers section below).
+
 ## CSS Variables
 
 While classes are preferred for consistency, you can access the raw values via CSS variables if needed for custom components.
@@ -93,4 +101,49 @@ Examples:
 - `--Fonts-Body-Default-md`
 - `--Fonts-Headlines-xl`
 - `--Fonts-Special-sm`
+
+## JavaScript Helpers
+
+The typography system includes a JavaScript helper for enhanced functionality.
+
+### Quote Detection
+
+The `typography.js` helper automatically detects blockquotes that start with quote characters and applies italic styling.
+
+**Usage as Script Tag:**
+
+```html
+<script src="/design-system/typography/typography.js"></script>
+```
+
+The helper auto-initializes on page load. You can also call it manually:
+
+```javascript
+// Detect quotes in all blockquotes
+detectQuoteBlockquotes();
+
+// Detect quotes within a specific container
+const container = document.querySelector('.my-container');
+detectQuoteBlockquotes(container);
+```
+
+**Usage as ES Module:**
+
+```javascript
+import { detectQuoteBlockquotes, initTypography } from '/design-system/typography/typography.js';
+
+// Auto-detect quotes (auto-runs on import)
+initTypography();
+
+// Or manually detect quotes
+detectQuoteBlockquotes();
+```
+
+**Supported Quote Characters:**
+- Straight quotes: `"` `'`
+- Curly quotes: `"` `"` `'` `'`
+- Guillemets: `«` `»`
+- Other: `„` `‚`
+
+When a blockquote starts with any of these characters, it automatically receives the `.quote` class and `data-starts-with-quote="true"` attribute, which applies italic styling.
 
