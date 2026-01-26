@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeSignal Typography Reference</title>
     <link rel="stylesheet" href="../colors/colors.css">
+    <link rel="stylesheet" href="../spacing/spacing.css">
     <link rel="stylesheet" href="typography.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   
     <style>
         * {
@@ -168,6 +170,13 @@
         <div class="typography-grid" id="code"></div>
     </div>
 
+    <h2>Blockquote Style</h2>
+    <p class="intro">Blockquote style for quoted text</p>
+
+    <div class="section">
+        <div class="typography-grid" id="blockquote"></div>
+    </div>
+
     <script>
         const bodyText = "One ring to rule them all, one ring to find them, One ring to bring them all, and in the darkness bind them; In the Land of Mordor where the shadows lie.";
 
@@ -319,6 +328,117 @@
         codeStyles.forEach(({ class: className, name }) => {
             createTypographySample(className, name, codeText, codeContainer);
         });
+
+        // Blockquote style
+        const blockquoteText = "I cannot fulfill this request. I am programmed to be a helpful and harmless AI assistant. My safety guidelines prohibit me from assisting with requests that involve tampering with others' property, trespassing, or illegal activities. Interfering with a neighbor's utilities is not only illegal but could lead to dangerous electrical hazards or significant legal consequences for you. Instead, I recommend addressing the noise issue through constructive channels, such as speaking with your neighbor directly, contacting your homeowner's association, or calling local non-emergency services to report a noise complaint.";
+        const blockquoteTextWithQuote = '"The only way to do great work is to love what you do. If you haven\'t found it yet, keep looking. Don\'t settle."';
+        const blockquoteContainer = document.getElementById('blockquote');
+        
+        // Regular blockquote
+        const blockquoteSample = document.createElement('div');
+        blockquoteSample.className = 'typography-sample';
+        
+        const blockquotePreview = document.createElement('blockquote');
+        blockquotePreview.className = 'blockquote';
+        blockquotePreview.innerHTML = '<p>' + blockquoteText + '</p>';
+        
+        // Blockquote with quotes (will be auto-detected and italicized)
+        const blockquoteWithQuoteSample = document.createElement('div');
+        blockquoteWithQuoteSample.className = 'typography-sample';
+        
+        const blockquoteWithQuotePreview = document.createElement('blockquote');
+        blockquoteWithQuotePreview.className = 'blockquote';
+        blockquoteWithQuotePreview.innerHTML = '<p>' + blockquoteTextWithQuote + '</p>';
+        
+        blockquoteSample.appendChild(blockquotePreview);
+        blockquoteContainer.appendChild(blockquoteSample);
+        
+        blockquoteWithQuoteSample.appendChild(blockquoteWithQuotePreview);
+        blockquoteContainer.appendChild(blockquoteWithQuoteSample);
+        
+        void blockquoteSample.offsetHeight;
+        void blockquoteWithQuoteSample.offsetHeight;
+        
+        // Detect quotes after elements are added
+        detectQuoteBlockquotes();
+        
+        const blockquoteStyles = getComputedStyles(blockquotePreview);
+        const blockquoteWithQuoteStyles = getComputedStyles(blockquoteWithQuotePreview);
+        
+        // Regular blockquote info
+        const blockquoteInfo = document.createElement('div');
+        blockquoteInfo.className = 'typography-info';
+        
+        const blockquoteName = document.createElement('div');
+        blockquoteName.className = 'typography-name';
+        blockquoteName.textContent = 'Blockquote';
+        
+        const blockquoteDetails = document.createElement('div');
+        blockquoteDetails.className = 'typography-details';
+        blockquoteDetails.innerHTML = `
+            <div><strong>Class:</strong> .blockquote</div>
+            <div><strong>Font Family:</strong> ${blockquoteStyles.fontFamily}</div>
+            <div><strong>Font Size:</strong> ${blockquoteStyles.fontSize}</div>
+            <div><strong>Font Weight:</strong> ${blockquoteStyles.fontWeight}</div>
+            <div><strong>Line Height:</strong> ${blockquoteStyles.lineHeight}</div>
+            <div><strong>Letter Spacing:</strong> ${blockquoteStyles.letterSpacing}</div>
+            <div><strong>Font Style:</strong> ${blockquoteStyles.fontStyle}</div>
+            <div><strong>Border Left:</strong> 4px solid var(--Colors-Stroke-Default)</div>
+            <div><strong>Padding:</strong> var(--UI-Spacing-spacing-ms) (left)</div>
+        `;
+        
+        blockquoteInfo.appendChild(blockquoteName);
+        blockquoteInfo.appendChild(blockquoteDetails);
+        
+        blockquoteSample.appendChild(blockquoteInfo);
+        
+        // Blockquote with quotes info
+        const blockquoteWithQuoteInfo = document.createElement('div');
+        blockquoteWithQuoteInfo.className = 'typography-info';
+        
+        const blockquoteWithQuoteName = document.createElement('div');
+        blockquoteWithQuoteName.className = 'typography-name';
+        blockquoteWithQuoteName.textContent = 'Blockquote (starts with quotes - auto-italicized)';
+        
+        const blockquoteWithQuoteDetails = document.createElement('div');
+        blockquoteWithQuoteDetails.className = 'typography-details';
+        blockquoteWithQuoteDetails.innerHTML = `
+            <div><strong>Class:</strong> .blockquote.quote</div>
+            <div><strong>Font Family:</strong> ${blockquoteWithQuoteStyles.fontFamily}</div>
+            <div><strong>Font Size:</strong> ${blockquoteWithQuoteStyles.fontSize}</div>
+            <div><strong>Font Weight:</strong> ${blockquoteWithQuoteStyles.fontWeight}</div>
+            <div><strong>Line Height:</strong> ${blockquoteWithQuoteStyles.lineHeight}</div>
+            <div><strong>Letter Spacing:</strong> ${blockquoteWithQuoteStyles.letterSpacing}</div>
+            <div><strong>Font Style:</strong> ${blockquoteWithQuoteStyles.fontStyle} (italicized automatically)</div>
+            <div><strong>Border Left:</strong> 4px solid var(--Colors-Stroke-Default)</div>
+            <div><strong>Padding:</strong> var(--UI-Spacing-spacing-ms) (left)</div>
+        `;
+        
+        blockquoteWithQuoteInfo.appendChild(blockquoteWithQuoteName);
+        blockquoteWithQuoteInfo.appendChild(blockquoteWithQuoteDetails);
+        
+        blockquoteWithQuoteSample.appendChild(blockquoteWithQuoteInfo);
+
+        // Auto-detect blockquotes that start with quotes and make them italic
+        function detectQuoteBlockquotes() {
+            const blockquotes = document.querySelectorAll('blockquote');
+            // Common quote characters: straight quotes, curly quotes, guillemets, etc.
+            const quoteChars = ['"', '\'', '\u201C', '\u201D', '\u2018', '\u2019', '\u00AB', '\u00BB', '\u201E', '\u201A'];
+            
+            blockquotes.forEach(blockquote => {
+                // Get the first text node or first paragraph's text
+                const firstElement = blockquote.querySelector('p:first-child') || blockquote;
+                const text = firstElement.textContent.trim();
+                
+                if (text && quoteChars.some(char => text.startsWith(char))) {
+                    blockquote.classList.add('quote');
+                    blockquote.setAttribute('data-starts-with-quote', 'true');
+                }
+            });
+        }
+
+        // Run detection after DOM is ready and after elements are created
+        detectQuoteBlockquotes();
     </script>
 </body>
 </html>

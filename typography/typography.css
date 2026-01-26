@@ -334,3 +334,50 @@
 .strong {
     font-weight: 500;
 }
+
+blockquote,
+.blockquote {
+    margin: var(--UI-Spacing-spacing-ms) 0;
+    padding: 0;
+    padding-left: var(--UI-Spacing-spacing-ms);
+    border-left: 4px solid var(--Colors-Stroke-Default);
+    font-family: var(--body-family);
+    font-size: var(--Fonts-Body-Default-xl);
+    font-style: normal;
+    font-weight: 400;
+    letter-spacing: -0.19px;
+    -webkit-font-smoothing: antialiased;
+
+    align-items: flex-start;
+    align-self: stretch;
+    
+    flex: 1 0 0;
+    gap: var(--UI-Spacing-spacing-ml);
+
+}
+
+blockquote p,
+.blockquote p {
+    margin: 0;
+}
+
+blockquote p:not(:last-child),
+.blockquote p:not(:last-child) {
+    margin-bottom: var(--UI-Spacing-spacing-xs, 8px);
+}
+
+/* Make blockquotes italic if they have the quote class or start with quotes (via JS) */
+blockquote.quote,
+.blockquote.quote,
+blockquote[data-starts-with-quote="true"],
+.blockquote[data-starts-with-quote="true"] {
+    font-style: italic;
+}
+
+@media (prefers-color-scheme: dark) {
+    blockquote,
+    .blockquote {
+        background: var(--Colors-Backgrounds-Main-Strong);
+        border-left-color: var(--Colors-Stroke-Default);
+    }
+}
