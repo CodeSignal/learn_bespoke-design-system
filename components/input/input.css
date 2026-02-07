@@ -524,6 +524,4 @@ textarea.input {
     line-height: 1.5;
     resize: vertical;
     align-items: stretch;
-}
-
-/* Textarea inherits all other styles from .input class (border, colors, focus, etc.) */
+}/* Textarea inherits all other styles from .input class (border, colors, focus, etc.) */

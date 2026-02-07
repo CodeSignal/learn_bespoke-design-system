@@ -146,4 +146,3 @@ detectQuoteBlockquotes();
 - Other: `„` `‚`
 
 When a blockquote starts with any of these characters, it automatically receives the `.quote` class and `data-starts-with-quote="true"` attribute, which applies italic styling.
-
