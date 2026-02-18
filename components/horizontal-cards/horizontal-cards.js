@@ -3,6 +3,21 @@
  * A horizontal scrolling card carousel component matching the CodeSignal Design System
  */
 
+// Import renderMath utility if available (lazy import to avoid circular dependencies)
+let renderMath = null;
+async function loadRenderMath() {
+  if (!renderMath && typeof window !== 'undefined') {
+    try {
+      const module = await import('/utils/katex-render.js');
+      renderMath = module.renderMath;
+    } catch (e) {
+      // Utility not available, LaTeX rendering will be skipped
+      console.warn('Failed to load katex-render:', e);
+    }
+  }
+  return renderMath;
+}
+
 class HorizontalCards {
   constructor(container, options = {}) {
     this.container = typeof container === 'string' 
@@ -107,6 +122,10 @@ class HorizontalCards {
       const title = document.createElement('h3');
       title.className = 'horizontal-cards-card-title heading-small strong';
       title.innerHTML = cardData.title;
+      // Render LaTeX math expressions
+      loadRenderMath().then(fn => {
+        if (fn) fn(title);
+      });
       content.appendChild(title);
     }
     
@@ -115,6 +134,10 @@ class HorizontalCards {
       const description = document.createElement('p');
       description.className = 'horizontal-cards-card-description body-medium';
       description.innerHTML = cardData.description;
+      // Render LaTeX math expressions
+      loadRenderMath().then(fn => {
+        if (fn) fn(description);
+      });
       content.appendChild(description);
     }
     
@@ -123,6 +146,10 @@ class HorizontalCards {
       const action = document.createElement('div');
       action.className = 'horizontal-cards-card-action';
       action.innerHTML = cardData.actionHtml;
+      // Render LaTeX math expressions
+      loadRenderMath().then(fn => {
+        if (fn) fn(action);
+      });
       content.appendChild(action);
     } else if (cardData.actionPlaceholder) {
       const action = document.createElement('div');
