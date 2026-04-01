@@ -73,8 +73,8 @@ class SplitPanel {
     this.rightPanel.className = 'split-panel-right';
     this.container.appendChild(this.rightPanel);
 
-    // Set initial split
-    this.setSplit(this.config.initialSplit);
+    // Set initial split (skip onChange — not a user adjustment)
+    this.setSplit(this.config.initialSplit, true);
 
     // Bind events
     this.bindEvents();
