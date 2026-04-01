@@ -353,6 +353,45 @@
             </div>
         </div>
     </div>
+
+    <div class="section">
+        <h2>Radio in table cell (matrix)</h2>
+        <p class="description" style="margin-bottom: 16px;">Same structure as <strong>Radio States</strong>, wrapped in <code>input-radio-wrapper</code> (like <code>input-wrapper</code> above) so the control is not block-stretched across the cell. DOM: <code>input</code> → <code>input-radio-circle</code> → <code>input-radio-label</code>. Use <code>input-radio-label-sr-only</code> when the column header is visible in the table.</p>
+        <div class="variant-card">
+            <table style="width: 100%; border-collapse: collapse; border: 1px solid var(--Colors-Stroke-Default);">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align: left; padding: 12px;">Item</th>
+                        <th scope="col" style="padding: 12px; text-align: center;">A</th>
+                        <th scope="col" style="padding: 12px; text-align: center;">B</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" style="text-align: left; padding: 12px;">Example row</th>
+                        <td class="input-radio-cell">
+                            <div class="input-radio-wrapper">
+                                <label class="input-radio">
+                                    <input type="radio" name="matrix-demo-row" value="0">
+                                    <span class="input-radio-circle"><span class="input-radio-dot"></span></span>
+                                    <span class="input-radio-label input-radio-label-sr-only">Example row: A</span>
+                                </label>
+                            </div>
+                        </td>
+                        <td class="input-radio-cell">
+                            <div class="input-radio-wrapper">
+                                <label class="input-radio">
+                                    <input type="radio" name="matrix-demo-row" value="1" checked>
+                                    <span class="input-radio-circle"><span class="input-radio-dot"></span></span>
+                                    <span class="input-radio-label input-radio-label-sr-only">Example row: B</span>
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>
 
