@@ -66,6 +66,12 @@ Also include Work Sans font from Google Fonts.
 - States: `.hover`, `.focus`, `.active`
 - Example: `<div class="tag success">Completed</div>`
 
+### Table
+- Structure: Wrap `<table class="table">` in `<div class="table-scroll">` for horizontal scrolling on narrow viewports
+- Classes: `.table-scroll` (border, radius, overflow-x), `.table` (cell typography, row borders, editorial styling)
+- Example: `<div class="table-scroll"><table class="table"><thead><tr><th>…</th></tr></thead><tbody><tr><td>…</td></tr></tbody></table></div>`
+- CSS-only (no JS)
+
 ### Icon
 - Base: `.icon`
 - Icon names: `.icon-[name]` (e.g., `.icon-jobs`, `.icon-academy`)
@@ -134,6 +140,7 @@ design-system/
     ├── modal/modal.css + modal.js
     ├── numeric-slider/numeric-slider.css + numeric-slider.js
     ├── split-panel/split-panel.css + split-panel.js
+    ├── table/table.css
     └── tags/tags.css
 ```
 

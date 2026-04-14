@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Component Test</title>
+    <link rel="stylesheet" href="../../colors/colors.css">
+    <link rel="stylesheet" href="../../spacing/spacing.css">
+    <link rel="stylesheet" href="../../typography/typography.css">
+    <link rel="stylesheet" href="table.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            padding: 40px;
+            background-color: var(--Colors-Backgrounds-Main-Default);
+            font-family: var(--body-family);
+            color: var(--Colors-Text-Body-Default);
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            margin-bottom: 24px;
+            color: var(--Colors-Text-Body-Strong);
+        }
+
+        h2 {
+            margin-bottom: 16px;
+            font-size: 1.2rem;
+            color: var(--Colors-Text-Body-Strong);
+        }
+
+        .variant-card {
+            padding: 24px;
+            border: 1px solid var(--Colors-Stroke-Default);
+            border-radius: 8px;
+            background: var(--Colors-Backgrounds-Main-Top);
+            margin-bottom: 24px;
+        }
+
+        .demo-copy {
+            margin-bottom: 16px;
+        }
+
+        .demo-constrained {
+            max-width: 420px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Table Component Test</h1>
+
+    <div class="section">
+        <h2>Editorial Table</h2>
+        <div class="variant-card">
+            <p class="demo-copy">Reference table styled for markdown-rendered content.</p>
+            <div class="table-scroll">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Country</th>
+                            <th>Capital</th>
+                            <th>Helpful Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>France</td>
+                            <td>Paris</td>
+                            <td>Remember <code>Île-de-France</code> for the surrounding region.</td>
+                        </tr>
+                        <tr>
+                            <td>Japan</td>
+                            <td>Tokyo</td>
+                            <td>Largest metropolitan area in the world.</td>
+                        </tr>
+                        <tr>
+                            <td>Brazil</td>
+                            <td>Brasília</td>
+                            <td>Purpose-built capital city.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2>Overflow In A Narrow Column</h2>
+        <div class="variant-card demo-constrained">
+            <p class="demo-copy">The wrapper should shrink to content when possible and scroll only when needed.</p>
+            <div class="table-scroll">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Planet</th>
+                            <th>Average Distance From The Sun</th>
+                            <th>Surface Gravity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Mercury</td>
+                            <td>57,910,000 km</td>
+                            <td>3.7 m/s²</td>
+                        </tr>
+                        <tr>
+                            <td>Earth</td>
+                            <td>149,600,000 km</td>
+                            <td>9.8 m/s²</td>
+                        </tr>
+                        <tr>
+                            <td>Neptune</td>
+                            <td>4,495,100,000 km</td>
+                            <td>11.2 m/s²</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
