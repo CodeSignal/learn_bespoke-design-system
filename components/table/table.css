@@ -5,7 +5,7 @@
   margin: 1em 0;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border: 1.5px solid var(--Colors-Border-Neutral-Default, rgba(103, 113, 142, 0.20));
+  border: 1.5px solid var(--Colors-Stroke-Default);
   border-radius: var(--UI-Radius-radius-s, 8px);
   background: var(--Colors-Backgrounds-Main-Top);
 }
@@ -26,7 +26,7 @@
   padding: var(--UI-Spacing-spacing-xs, 6px) calc(var(--UI-Spacing-spacing-mxs, 12px) + var(--UI-Spacing-spacing-xs, 6px));
   text-align: left;
   vertical-align: middle;
-  border-bottom: 1.5px solid var(--Colors-Border-Neutral-Subtle, rgba(103, 113, 142, 0.10));
+  border-bottom: 1.5px solid var(--Colors-Stroke-Lighter);
   white-space: nowrap;
 }
 
@@ -53,7 +53,7 @@
 }
 
 .table thead th {
-  border-bottom-color: var(--Colors-Border-Neutral-Subtle, rgba(103, 113, 142, 0.10));
+  border-bottom-color: var(--Colors-Stroke-Lighter);
 }
 
 .table tbody tr:last-child th,
