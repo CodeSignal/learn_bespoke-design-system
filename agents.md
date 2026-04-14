@@ -52,6 +52,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 <link rel="stylesheet" href="/design-system/components/modal/modal.css">
 <link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
 <link rel="stylesheet" href="/design-system/components/split-panel/split-panel.css">
+<link rel="stylesheet" href="/design-system/components/table/table.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
@@ -512,6 +513,43 @@ Radio buttons require a specific HTML structure and must share the same `name` a
 <div class="tag error">Failed</div>
 <div class="tag outline">Filter</div>
 ```
+
+**Dependencies:** colors.css, spacing.css, typography.css
+
+---
+
+### Table
+
+**Structure:** Use a scroll wrapper so wide tables can overflow horizontally on small screens.
+
+**Classes:**
+- `.table-scroll` (required wrapper): Block container with border, radius, horizontal scrolling, and touch-friendly overflow
+- `.table` (required on `<table>`): Base typography, borders, and cell padding for editorial, read-only tables
+
+**Example:**
+```html
+<div class="table-scroll">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Country</th>
+        <th>Capital</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>France</td>
+        <td>Paris</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+```
+
+**Features:**
+- Header and body cell styling with semantic color tokens (dark mode via `prefers-color-scheme`)
+- Last row has no bottom border; top corners of the header align with the wrapper radius
+- `<code>` inside cells uses `white-space: nowrap` for inline snippets
 
 **Dependencies:** colors.css, spacing.css, typography.css
 
@@ -1172,6 +1210,10 @@ design-system/
 │   ├── split-panel/
 │   │   ├── split-panel.css
 │   │   ├── split-panel.js
+│   │   ├── README.md
+│   │   └── test.html
+│   ├── table/
+│   │   ├── table.css
 │   │   ├── README.md
 │   │   └── test.html
 │   └── tags/

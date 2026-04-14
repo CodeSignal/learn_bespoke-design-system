@@ -31,6 +31,7 @@ Reusable UI elements built using the foundations.
 - **[Modal](components/modal/README.md)** ([CSS](components/modal/modal.css), [JS](components/modal/modal.js)): Customizable modal dialogs with flexible content insertion. Includes a help modal variant optimized for documentation.
 - **[Numeric Slider](components/numeric-slider/README.md)** ([CSS](components/numeric-slider/numeric-slider.css), [JS](components/numeric-slider/numeric-slider.js)): Single value and range sliders with optional input fields.
 - **[Split Panel](components/split-panel/README.md)** ([CSS](components/split-panel/split-panel.css), [JS](components/split-panel/split-panel.js)): Resizable split panel component with draggable divider for horizontal or vertical layouts.
+- **[Table](components/table/README.md)** ([CSS](components/table/table.css)): Editorial, read-only table layout with a scroll wrapper for horizontal overflow on small screens.
 - **[Tags](components/tags/README.md)** ([CSS](components/tags/tags.css)): Label and status indicator tags.
 
 ## Usage
@@ -59,6 +60,7 @@ Include the relevant CSS files in your HTML. For a full integration, you typical
 <link rel="stylesheet" href="/design-system/components/modal/modal.css">
 <link rel="stylesheet" href="/design-system/components/numeric-slider/numeric-slider.css">
 <link rel="stylesheet" href="/design-system/components/split-panel/split-panel.css">
+<link rel="stylesheet" href="/design-system/components/table/table.css">
 <link rel="stylesheet" href="/design-system/components/tags/tags.css">
 ```
 
