@@ -45,6 +45,7 @@ Also include Work Sans font from Google Fonts.
 - Types: `type="text"` or `type="number"`
 - States: `.hover`, `.focus`, `:disabled`
 - Example: `<input type="text" class="input" placeholder="...">`
+- Optional JS helper: load `input/input.js` (or `import preventNumberInputScroll`) to stop the mouse wheel from changing `type="number"` values when focused; auto-inits + uses delegation
 
 ### Checkbox
 - Base: `.input-checkbox` wrapper with `input[type="checkbox"]`
@@ -136,7 +137,7 @@ design-system/
     ├── dropdown/dropdown.css + dropdown.js
     ├── horizontal-cards/horizontal-cards.css + horizontal-cards.js
     ├── icons/icons.css
-    ├── input/input.css
+    ├── input/input.css + input.js (optional scroll-fix helper)
     ├── modal/modal.css + modal.js
     ├── numeric-slider/numeric-slider.css + numeric-slider.js
     ├── split-panel/split-panel.css + split-panel.js
