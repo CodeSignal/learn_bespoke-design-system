@@ -22,7 +22,7 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 
 - **Semantic over Primitive**: Always prefer semantic tokens (e.g., `--Colors-Text-Body-Default`) over base scale tokens
 - **Dark Mode Support**: All components automatically adapt to dark mode via `@media (prefers-color-scheme: dark)`
-- **CSS-First**: Components are primarily CSS-based with minimal JavaScript (Dropdown, Numeric Slider, and Modal use JS)
+- **CSS-First**: Components are primarily CSS-based with minimal JavaScript (Dropdown, Numeric Slider, Modal, Split Panel, and Horizontal Cards use JS; Input has an optional JS helper)
 - **Accessibility**: Components follow WCAG guidelines and support keyboard navigation
 
 ---
@@ -69,11 +69,12 @@ The CodeSignal Design System is a CSS-based design system organized into **Found
 
 ```html
 <script type="module">
-  import Dropdown from '/design-system/components/dropdown/dropdown.js';
-  import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js';
-  import Modal from '/design-system/components/modal/modal.js';
-  import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js';
-  import SplitPanel from '/design-system/components/split-panel/split-panel.js';
+ import Dropdown from '/design-system/components/dropdown/dropdown.js';
+ import HorizontalCards from '/design-system/components/horizontal-cards/horizontal-cards.js';
+ import Modal from '/design-system/components/modal/modal.js';
+ import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js';
+ import SplitPanel from '/design-system/components/split-panel/split-panel.js';
+ import preventNumberInputScroll from '/design-system/components/input/input.js';
 </script>
 ```
 
@@ -345,7 +346,22 @@ height: var(--UI-Input-md);
 <input type="text" class="input" disabled placeholder="Disabled">
 ```
 
-**Dependencies:** colors.css, spacing.css, typography.css
+**Optional Scroll Fix (JavaScript):**
+By default, scrolling the mouse wheel over a focused `<input type="number">` changes its value. Load `input/input.js` to disable this. It auto-initializes and uses event delegation, covering existing and dynamically added number inputs:
+
+```html
+<script type="module" src="/design-system/components/input/input.js"></script>
+```
+
+Or import and scope it manually:
+
+```javascript
+import preventNumberInputScroll from '/design-system/components/input/input.js';
+preventNumberInputScroll(); // whole document (default)
+const cleanup = preventNumberInputScroll(containerEl); // scoped; returns cleanup fn
+```
+
+**Dependencies:** colors.css, spacing.css, typography.css (input.js has no dependencies)
 
 ---
 
@@ -1195,6 +1211,7 @@ design-system/
 │   │   └── test.html
 │   ├── input/
 │   │   ├── input.css
+│   │   ├── input.js
 │   │   ├── README.md
 │   │   └── test.html
 │   ├── modal/
@@ -1249,7 +1266,7 @@ This provides:
 - **Design System Version**: Current
 - **Browser Support**: Modern browsers (Chrome, Firefox, Safari, Edge)
 - **CSS Features Used**: CSS Custom Properties, CSS Grid, Flexbox, CSS Masks
-- **JavaScript**: ES6 Modules (Dropdown, Numeric Slider, and Modal components)
+- **JavaScript**: ES6 Modules (Dropdown, Numeric Slider, Modal, Split Panel, and Horizontal Cards components; optional Input scroll-fix helper)
 
 ---
 
