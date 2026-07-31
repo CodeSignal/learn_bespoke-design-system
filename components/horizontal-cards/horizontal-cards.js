@@ -36,6 +36,7 @@ class HorizontalCards {
       scrollOffset: options.scrollOffset || 520, // cardWidth + gap
       showNavigation: options.showNavigation !== false, // default true
       onCardChange: options.onCardChange || null,
+      ariaLabel: options.ariaLabel || 'Cards carousel',
       ...options
     };
 
@@ -196,21 +197,36 @@ class HorizontalCards {
       this.updateState();
     });
     
-    // Keyboard navigation
-    this.scrollWrapper.addEventListener('keydown', (e) => {
+    // Keyboard navigation. Attached to both the scroll wrapper (card controls
+    // bubble up here) and the nav button container, so arrow/Home/End work
+    // whether focus is on a card control or on the prev/next buttons. Both nodes
+    // are recreated on each init(), so listeners never accumulate across rebuilds.
+    const onArrowKeydown = (e) => {
       if (e.key === 'ArrowLeft') {
         e.preventDefault();
         this.scrollToPrevious();
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         this.scrollToNext();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        this.scrollToIndex(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        this.scrollToIndex(this.config.cards.length - 1);
       }
-    });
+    };
+    this.scrollWrapper.addEventListener('keydown', onArrowKeydown);
+    if (this.navContainer) {
+      this.navContainer.addEventListener('keydown', onArrowKeydown);
+    }
     
-    // Make scroll wrapper focusable for keyboard navigation
-    this.scrollWrapper.setAttribute('tabindex', '0');
-    this.scrollWrapper.setAttribute('role', 'region');
-    this.scrollWrapper.setAttribute('aria-label', 'Horizontal cards carousel');
+    // Expose the carousel as a labelled group. It is intentionally NOT a tab stop
+    // itself: making a non-interactive wrapper focusable strands keyboard users on
+    // an empty element (WCAG 2.4.3). Focus lives on the card controls instead.
+    this.scrollWrapper.setAttribute('role', 'group');
+    this.scrollWrapper.setAttribute('aria-roledescription', 'carousel');
+    this.scrollWrapper.setAttribute('aria-label', this.config.ariaLabel);
     
     // Touch/swipe support
     let touchStartX = 0;
@@ -379,8 +395,20 @@ class HorizontalCards {
     
     // Update navigation buttons
     if (this.config.showNavigation) {
+      // Capture focus BEFORE toggling `disabled`: setting disabled=true on the
+      // focused button immediately blurs it (focus falls to <body>), so we must
+      // read the active element first.
+      const activeBefore = document.activeElement;
       this.prevButton.disabled = clampedIndex === 0;
       this.nextButton.disabled = clampedIndex === this.config.cards.length - 1;
+      // Keep the nav buttons usable without re-focusing: if the button that had
+      // focus just became disabled (reached an end), hand focus to the opposite
+      // button so the user can keep pressing to reverse direction.
+      if (activeBefore === this.prevButton && this.prevButton.disabled && !this.nextButton.disabled) {
+        this.nextButton.focus();
+      } else if (activeBefore === this.nextButton && this.nextButton.disabled && !this.prevButton.disabled) {
+        this.prevButton.focus();
+      }
     }
     
     // Update current index if changed
