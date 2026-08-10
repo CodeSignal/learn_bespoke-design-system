@@ -3,6 +3,51 @@
  * A customizable modal component matching the CodeSignal Design System
  */
 
+/** Open modals, bottom → top. Only the top overlay stays interactive. */
+const openModalStack = [];
+/** Prior `inert` values for body children we have touched, restored when the stack empties. */
+const priorInertByElement = new Map();
+
+function rememberPriorInert(el) {
+  if (!priorInertByElement.has(el)) {
+    priorInertByElement.set(el, el.inert);
+  }
+}
+
+function syncModalBackgroundInert() {
+  const top = openModalStack[openModalStack.length - 1];
+
+  if (!top) {
+    priorInertByElement.forEach((prior, el) => {
+      if (el.isConnected) el.inert = prior;
+    });
+    priorInertByElement.clear();
+    return;
+  }
+
+  Array.from(document.body.children).forEach((child) => {
+    rememberPriorInert(child);
+    child.inert = child !== top.overlay;
+  });
+
+  for (const el of [...priorInertByElement.keys()]) {
+    if (!el.isConnected) priorInertByElement.delete(el);
+  }
+}
+
+function pushOpenModal(modal) {
+  const idx = openModalStack.indexOf(modal);
+  if (idx !== -1) openModalStack.splice(idx, 1);
+  openModalStack.push(modal);
+  syncModalBackgroundInert();
+}
+
+function popOpenModal(modal) {
+  const idx = openModalStack.indexOf(modal);
+  if (idx !== -1) openModalStack.splice(idx, 1);
+  syncModalBackgroundInert();
+}
+
 class Modal {
   constructor(options = {}) {
     // Configuration
@@ -23,7 +68,6 @@ class Modal {
     this.isOpen = false;
     this.previousActiveElement = null;
     this.bodyScrollLocked = false;
-    this.inertedSiblings = [];
 
     // Create modal structure
     this.init();
@@ -235,7 +279,7 @@ class Modal {
 
     // Lock body scroll and remove background from the keyboard / AT tree
     this.lockBodyScroll();
-    this.setBackgroundInert(true);
+    pushOpenModal(this);
 
     // Focus management
     if (this.closeButton) {
@@ -267,7 +311,7 @@ class Modal {
 
     // Unlock body scroll and restore background interactivity
     this.unlockBodyScroll();
-    this.setBackgroundInert(false);
+    popOpenModal(this);
 
     // Restore focus
     if (this.previousActiveElement) {
@@ -303,6 +347,8 @@ class Modal {
 
   handleFocusTrapKeydown(e) {
     if (!this.isOpen || e.key !== 'Tab') return;
+    // Only the topmost open modal owns the trap
+    if (openModalStack[openModalStack.length - 1] !== this) return;
 
     const focusable = this.getFocusableElements();
     if (focusable.length === 0) {
@@ -316,37 +362,18 @@ class Modal {
     const last = focusable[focusable.length - 1];
     const active = document.activeElement;
     const focusInside = this.overlay.contains(active);
+    // e.g. title/overlay focused with tabindex="-1" — in the dialog but not in tab order
+    const insideButNotFocusable = focusInside && !focusable.includes(active);
 
     if (e.shiftKey) {
-      if (!focusInside || active === first) {
+      if (!focusInside || active === first || insideButNotFocusable) {
         e.preventDefault();
         last.focus();
       }
-    } else if (!focusInside || active === last) {
+    } else if (!focusInside || active === last || insideButNotFocusable) {
       e.preventDefault();
       first.focus();
     }
-  }
-
-  /**
-   * Mark every body child except this overlay as inert so keyboard and
-   * assistive technology cannot reach the page behind the dialog.
-   */
-  setBackgroundInert(enabled) {
-    if (enabled) {
-      this.inertedSiblings = [];
-      Array.from(document.body.children).forEach((child) => {
-        if (child === this.overlay || child.inert) return;
-        child.inert = true;
-        this.inertedSiblings.push(child);
-      });
-      return;
-    }
-
-    this.inertedSiblings.forEach((child) => {
-      child.inert = false;
-    });
-    this.inertedSiblings = [];
   }
 
   lockBodyScroll() {
@@ -403,8 +430,11 @@ class Modal {
     }
 
     // Unlock body scroll / inert if still applied
+    if (this.isOpen) {
+      this.isOpen = false;
+      popOpenModal(this);
+    }
     this.unlockBodyScroll();
-    this.setBackgroundInert(false);
 
     // Remove from DOM
     if (this.overlay && this.overlay.parentNode) {
