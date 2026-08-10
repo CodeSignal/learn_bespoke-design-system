@@ -7,6 +7,8 @@
 const openModalStack = [];
 /** Prior `inert` values for body children we have touched, restored when the stack empties. */
 const priorInertByElement = new Map();
+/** Single observer for body children added while any modal is open. */
+let bodyInertObserver = null;
 
 function rememberPriorInert(el) {
   if (!priorInertByElement.has(el)) {
@@ -14,16 +16,42 @@ function rememberPriorInert(el) {
   }
 }
 
+function ensureBodyInertObserver() {
+  if (bodyInertObserver || typeof MutationObserver === 'undefined' || !document.body) {
+    return;
+  }
+
+  bodyInertObserver = new MutationObserver((mutations) => {
+    if (openModalStack.length === 0) return;
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length > 0) {
+        syncModalBackgroundInert();
+        return;
+      }
+    }
+  });
+  bodyInertObserver.observe(document.body, { childList: true });
+}
+
+function disconnectBodyInertObserver() {
+  if (!bodyInertObserver) return;
+  bodyInertObserver.disconnect();
+  bodyInertObserver = null;
+}
+
 function syncModalBackgroundInert() {
   const top = openModalStack[openModalStack.length - 1];
 
   if (!top) {
+    disconnectBodyInertObserver();
     priorInertByElement.forEach((prior, el) => {
       if (el.isConnected) el.inert = prior;
     });
     priorInertByElement.clear();
     return;
   }
+
+  ensureBodyInertObserver();
 
   Array.from(document.body.children).forEach((child) => {
     rememberPriorInert(child);
