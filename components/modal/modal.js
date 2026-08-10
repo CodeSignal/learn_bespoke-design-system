@@ -9,6 +9,8 @@ const openModalStack = [];
 const priorInertByElement = new Map();
 /** Single observer for body children added while any modal is open. */
 let bodyInertObserver = null;
+/** Shared body-scroll lock — styles clear only when the last open modal releases. */
+let bodyScrollLockCount = 0;
 
 function rememberPriorInert(el) {
   if (!priorInertByElement.has(el)) {
@@ -76,6 +78,26 @@ function popOpenModal(modal) {
   syncModalBackgroundInert();
 }
 
+function acquireBodyScrollLock() {
+  bodyScrollLockCount += 1;
+  if (bodyScrollLockCount !== 1) return;
+
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = 'hidden';
+  if (scrollbarWidth > 0) {
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+  }
+}
+
+function releaseBodyScrollLock() {
+  if (bodyScrollLockCount === 0) return;
+  bodyScrollLockCount -= 1;
+  if (bodyScrollLockCount !== 0) return;
+
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+}
+
 class Modal {
   constructor(options = {}) {
     // Configuration
@@ -95,7 +117,6 @@ class Modal {
     // State
     this.isOpen = false;
     this.previousActiveElement = null;
-    this.bodyScrollLocked = false;
 
     // Create modal structure
     this.init();
@@ -306,7 +327,7 @@ class Modal {
     this.overlay.setAttribute('aria-hidden', 'false');
 
     // Lock body scroll and remove background from the keyboard / AT tree
-    this.lockBodyScroll();
+    acquireBodyScrollLock();
     pushOpenModal(this);
 
     // Focus management
@@ -338,7 +359,7 @@ class Modal {
     this.overlay.setAttribute('aria-hidden', 'true');
 
     // Unlock body scroll and restore background interactivity
-    this.unlockBodyScroll();
+    releaseBodyScrollLock();
     popOpenModal(this);
 
     // Restore focus
@@ -404,25 +425,6 @@ class Modal {
     }
   }
 
-  lockBodyScroll() {
-    if (this.bodyScrollLocked) return;
-    
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-    this.bodyScrollLocked = true;
-  }
-
-  unlockBodyScroll() {
-    if (!this.bodyScrollLocked) return;
-    
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    this.bodyScrollLocked = false;
-  }
-
   updateContent(content) {
     this.setContent(content);
   }
@@ -460,9 +462,9 @@ class Modal {
     // Unlock body scroll / inert if still applied
     if (this.isOpen) {
       this.isOpen = false;
+      releaseBodyScrollLock();
       popOpenModal(this);
     }
-    this.unlockBodyScroll();
 
     // Remove from DOM
     if (this.overlay && this.overlay.parentNode) {
