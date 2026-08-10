@@ -3,6 +3,101 @@
  * A customizable modal component matching the CodeSignal Design System
  */
 
+/** Open modals, bottom → top. Only the top overlay stays interactive. */
+const openModalStack = [];
+/** Prior `inert` values for body children we have touched, restored when the stack empties. */
+const priorInertByElement = new Map();
+/** Single observer for body children added while any modal is open. */
+let bodyInertObserver = null;
+/** Shared body-scroll lock — styles clear only when the last open modal releases. */
+let bodyScrollLockCount = 0;
+
+function rememberPriorInert(el) {
+  if (!priorInertByElement.has(el)) {
+    priorInertByElement.set(el, el.inert);
+  }
+}
+
+function ensureBodyInertObserver() {
+  if (bodyInertObserver || typeof MutationObserver === 'undefined' || !document.body) {
+    return;
+  }
+
+  bodyInertObserver = new MutationObserver((mutations) => {
+    if (openModalStack.length === 0) return;
+    for (const mutation of mutations) {
+      if (mutation.addedNodes.length > 0) {
+        syncModalBackgroundInert();
+        return;
+      }
+    }
+  });
+  bodyInertObserver.observe(document.body, { childList: true });
+}
+
+function disconnectBodyInertObserver() {
+  if (!bodyInertObserver) return;
+  bodyInertObserver.disconnect();
+  bodyInertObserver = null;
+}
+
+function syncModalBackgroundInert() {
+  const top = openModalStack[openModalStack.length - 1];
+
+  if (!top) {
+    disconnectBodyInertObserver();
+    priorInertByElement.forEach((prior, el) => {
+      if (el.isConnected) el.inert = prior;
+    });
+    priorInertByElement.clear();
+    return;
+  }
+
+  ensureBodyInertObserver();
+
+  Array.from(document.body.children).forEach((child) => {
+    rememberPriorInert(child);
+    child.inert = child !== top.overlay;
+  });
+
+  for (const el of [...priorInertByElement.keys()]) {
+    if (!el.isConnected) priorInertByElement.delete(el);
+  }
+}
+
+function pushOpenModal(modal) {
+  const idx = openModalStack.indexOf(modal);
+  if (idx !== -1) openModalStack.splice(idx, 1);
+  openModalStack.push(modal);
+  syncModalBackgroundInert();
+}
+
+function popOpenModal(modal) {
+  const idx = openModalStack.indexOf(modal);
+  if (idx !== -1) openModalStack.splice(idx, 1);
+  syncModalBackgroundInert();
+}
+
+function acquireBodyScrollLock() {
+  bodyScrollLockCount += 1;
+  if (bodyScrollLockCount !== 1) return;
+
+  const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+  document.body.style.overflow = 'hidden';
+  if (scrollbarWidth > 0) {
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+  }
+}
+
+function releaseBodyScrollLock() {
+  if (bodyScrollLockCount === 0) return;
+  bodyScrollLockCount -= 1;
+  if (bodyScrollLockCount !== 0) return;
+
+  document.body.style.overflow = '';
+  document.body.style.paddingRight = '';
+}
+
 class Modal {
   constructor(options = {}) {
     // Configuration
@@ -22,7 +117,6 @@ class Modal {
     // State
     this.isOpen = false;
     this.previousActiveElement = null;
-    this.bodyScrollLocked = false;
 
     // Create modal structure
     this.init();
@@ -199,6 +293,10 @@ class Modal {
       document.addEventListener('keydown', this.escapeHandler);
     }
 
+    // Focus trap — keep Tab / Shift+Tab cycling inside the dialog
+    this.focusTrapHandler = (e) => this.handleFocusTrapKeydown(e);
+    document.addEventListener('keydown', this.focusTrapHandler, true);
+
     // Prevent dialog clicks from closing modal
     this.dialog.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -228,14 +326,21 @@ class Modal {
     this.overlay.classList.add('open');
     this.overlay.setAttribute('aria-hidden', 'false');
 
-    // Lock body scroll
-    this.lockBodyScroll();
+    // Lock body scroll and remove background from the keyboard / AT tree
+    acquireBodyScrollLock();
+    pushOpenModal(this);
 
     // Focus management
     if (this.closeButton) {
       this.closeButton.focus();
     } else if (this.title) {
+      if (!this.title.hasAttribute('tabindex')) {
+        this.title.setAttribute('tabindex', '-1');
+      }
       this.title.focus();
+    } else {
+      this.overlay.setAttribute('tabindex', '-1');
+      this.overlay.focus();
     }
 
     // Call onOpen callback
@@ -253,8 +358,9 @@ class Modal {
     this.overlay.classList.remove('open');
     this.overlay.setAttribute('aria-hidden', 'true');
 
-    // Unlock body scroll
-    this.unlockBodyScroll();
+    // Unlock body scroll and restore background interactivity
+    releaseBodyScrollLock();
+    popOpenModal(this);
 
     // Restore focus
     if (this.previousActiveElement) {
@@ -267,23 +373,56 @@ class Modal {
     }
   }
 
-  lockBodyScroll() {
-    if (this.bodyScrollLocked) return;
-    
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = 'hidden';
-    if (scrollbarWidth > 0) {
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    }
-    this.bodyScrollLocked = true;
+  /**
+   * Focusable descendants inside the dialog, in tab order.
+   * Excludes disabled, aria-hidden, and visually non-rendered controls.
+   */
+  getFocusableElements() {
+    const selector = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled]):not([type="hidden"])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    return Array.from(this.overlay.querySelectorAll(selector)).filter((el) => {
+      if (el.disabled || el.getAttribute('aria-hidden') === 'true') return false;
+      if (el.closest('[inert]')) return false;
+      return el.getClientRects().length > 0;
+    });
   }
 
-  unlockBodyScroll() {
-    if (!this.bodyScrollLocked) return;
-    
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    this.bodyScrollLocked = false;
+  handleFocusTrapKeydown(e) {
+    if (!this.isOpen || e.key !== 'Tab') return;
+    // Only the topmost open modal owns the trap
+    if (openModalStack[openModalStack.length - 1] !== this) return;
+
+    const focusable = this.getFocusableElements();
+    if (focusable.length === 0) {
+      e.preventDefault();
+      this.overlay.setAttribute('tabindex', '-1');
+      this.overlay.focus();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+    const focusInside = this.overlay.contains(active);
+    // e.g. title/overlay focused with tabindex="-1" — in the dialog but not in tab order
+    const insideButNotFocusable = focusInside && !focusable.includes(active);
+
+    if (e.shiftKey) {
+      if (!focusInside || active === first || insideButNotFocusable) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else if (!focusInside || active === last || insideButNotFocusable) {
+      e.preventDefault();
+      first.focus();
+    }
   }
 
   updateContent(content) {
@@ -316,9 +455,16 @@ class Modal {
     if (this.escapeHandler) {
       document.removeEventListener('keydown', this.escapeHandler);
     }
+    if (this.focusTrapHandler) {
+      document.removeEventListener('keydown', this.focusTrapHandler, true);
+    }
 
-    // Unlock body scroll if still locked
-    this.unlockBodyScroll();
+    // Unlock body scroll / inert if still applied
+    if (this.isOpen) {
+      this.isOpen = false;
+      releaseBodyScrollLock();
+      popOpenModal(this);
+    }
 
     // Remove from DOM
     if (this.overlay && this.overlay.parentNode) {
