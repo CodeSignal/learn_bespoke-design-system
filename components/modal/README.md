@@ -402,9 +402,9 @@ Footer buttons support the following types:
 The modal component includes:
 
 - **ARIA Attributes**: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
-- **Focus Management**: Automatically focuses close button or title when opened
+- **Focus Management**: Focuses the close button (or title / dialog) on open, and restores focus to the invoking element on close
 - **Keyboard Navigation**: Escape key closes modal
-- **Focus Trap**: Focus is managed within the modal
+- **Focus Trap**: Tab and Shift+Tab cycle only among focusable elements inside the dialog; background siblings are marked `inert` while open
 - **Body Scroll Lock**: Prevents background scrolling when modal is open
 
 ## Dependencies

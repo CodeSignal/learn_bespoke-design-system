@@ -23,6 +23,7 @@ class Modal {
     this.isOpen = false;
     this.previousActiveElement = null;
     this.bodyScrollLocked = false;
+    this.inertedSiblings = [];
 
     // Create modal structure
     this.init();
@@ -199,6 +200,10 @@ class Modal {
       document.addEventListener('keydown', this.escapeHandler);
     }
 
+    // Focus trap — keep Tab / Shift+Tab cycling inside the dialog
+    this.focusTrapHandler = (e) => this.handleFocusTrapKeydown(e);
+    document.addEventListener('keydown', this.focusTrapHandler, true);
+
     // Prevent dialog clicks from closing modal
     this.dialog.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -228,14 +233,21 @@ class Modal {
     this.overlay.classList.add('open');
     this.overlay.setAttribute('aria-hidden', 'false');
 
-    // Lock body scroll
+    // Lock body scroll and remove background from the keyboard / AT tree
     this.lockBodyScroll();
+    this.setBackgroundInert(true);
 
     // Focus management
     if (this.closeButton) {
       this.closeButton.focus();
     } else if (this.title) {
+      if (!this.title.hasAttribute('tabindex')) {
+        this.title.setAttribute('tabindex', '-1');
+      }
       this.title.focus();
+    } else {
+      this.overlay.setAttribute('tabindex', '-1');
+      this.overlay.focus();
     }
 
     // Call onOpen callback
@@ -253,8 +265,9 @@ class Modal {
     this.overlay.classList.remove('open');
     this.overlay.setAttribute('aria-hidden', 'true');
 
-    // Unlock body scroll
+    // Unlock body scroll and restore background interactivity
     this.unlockBodyScroll();
+    this.setBackgroundInert(false);
 
     // Restore focus
     if (this.previousActiveElement) {
@@ -265,6 +278,75 @@ class Modal {
     if (this.config.onClose) {
       this.config.onClose(this);
     }
+  }
+
+  /**
+   * Focusable descendants inside the dialog, in tab order.
+   * Excludes disabled, aria-hidden, and visually non-rendered controls.
+   */
+  getFocusableElements() {
+    const selector = [
+      'a[href]',
+      'button:not([disabled])',
+      'textarea:not([disabled])',
+      'input:not([disabled]):not([type="hidden"])',
+      'select:not([disabled])',
+      '[tabindex]:not([tabindex="-1"])'
+    ].join(', ');
+
+    return Array.from(this.overlay.querySelectorAll(selector)).filter((el) => {
+      if (el.disabled || el.getAttribute('aria-hidden') === 'true') return false;
+      if (el.closest('[inert]')) return false;
+      return el.getClientRects().length > 0;
+    });
+  }
+
+  handleFocusTrapKeydown(e) {
+    if (!this.isOpen || e.key !== 'Tab') return;
+
+    const focusable = this.getFocusableElements();
+    if (focusable.length === 0) {
+      e.preventDefault();
+      this.overlay.setAttribute('tabindex', '-1');
+      this.overlay.focus();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    const active = document.activeElement;
+    const focusInside = this.overlay.contains(active);
+
+    if (e.shiftKey) {
+      if (!focusInside || active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else if (!focusInside || active === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  }
+
+  /**
+   * Mark every body child except this overlay as inert so keyboard and
+   * assistive technology cannot reach the page behind the dialog.
+   */
+  setBackgroundInert(enabled) {
+    if (enabled) {
+      this.inertedSiblings = [];
+      Array.from(document.body.children).forEach((child) => {
+        if (child === this.overlay || child.inert) return;
+        child.inert = true;
+        this.inertedSiblings.push(child);
+      });
+      return;
+    }
+
+    this.inertedSiblings.forEach((child) => {
+      child.inert = false;
+    });
+    this.inertedSiblings = [];
   }
 
   lockBodyScroll() {
@@ -316,9 +398,13 @@ class Modal {
     if (this.escapeHandler) {
       document.removeEventListener('keydown', this.escapeHandler);
     }
+    if (this.focusTrapHandler) {
+      document.removeEventListener('keydown', this.focusTrapHandler, true);
+    }
 
-    // Unlock body scroll if still locked
+    // Unlock body scroll / inert if still applied
     this.unlockBodyScroll();
+    this.setBackgroundInert(false);
 
     // Remove from DOM
     if (this.overlay && this.overlay.parentNode) {
