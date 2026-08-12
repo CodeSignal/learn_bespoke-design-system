@@ -3,6 +3,8 @@
  * A customizable dropdown component matching the CodeSignal Design System
  */
 
+let listboxIdCounter = 0;
+
 class Dropdown {
   constructor(container, options = {}) {
     this.container = typeof container === 'string' 
@@ -40,37 +42,50 @@ class Dropdown {
     this.container.innerHTML = '';
     this.container.className = 'dropdown-container';
     
-    // Create toggle button
+    // Create toggle (APG select-only combobox → listbox)
     this.toggle = document.createElement('button');
     this.toggle.className = 'dropdown-toggle';
     this.toggle.setAttribute('type', 'button');
-    this.toggle.setAttribute('aria-haspopup', 'true');
+    this.toggle.setAttribute('role', 'combobox');
+    this.toggle.setAttribute('aria-haspopup', 'listbox');
     this.toggle.setAttribute('aria-expanded', 'false');
-    
+    this.toggle.setAttribute('aria-autocomplete', 'none');
+
     // Toggle content
     const toggleContent = document.createElement('div');
     toggleContent.className = 'dropdown-toggle-content';
     
+    listboxIdCounter += 1;
+    const instanceId = listboxIdCounter;
+
     const toggleLabel = document.createElement('span');
     toggleLabel.className = 'dropdown-toggle-label body-small';
+    toggleLabel.id = `dropdown-toggle-label-${instanceId}`;
     toggleLabel.textContent = this.getSelectedLabel() || this.config.placeholder;
-    
+
     const toggleIcon = document.createElement('span');
     toggleIcon.className = 'dropdown-toggle-icon';
+    toggleIcon.setAttribute('aria-hidden', 'true');
     toggleIcon.innerHTML = this.getChevronDownIcon();
-    
+
     toggleContent.appendChild(toggleLabel);
     toggleContent.appendChild(toggleIcon);
     this.toggle.appendChild(toggleContent);
-    
-    // Create menu panel
+    // Combobox accessible name from the visible value/placeholder (D3 / 4.1.2).
+    this.toggle.setAttribute('aria-labelledby', toggleLabel.id);
+
+    // Create menu panel (listbox). Layout wrapper below is presentational so
+    // options remain owned by this listbox in the accessibility tree (D3).
     this.menu = document.createElement('div');
     this.menu.className = 'dropdown-menu';
     this.menu.setAttribute('role', 'listbox');
-    
+    this.menu.id = `dropdown-listbox-${instanceId}`;
+    this.toggle.setAttribute('aria-controls', this.menu.id);
+
     // Create menu list
     this.menuList = document.createElement('div');
     this.menuList.className = 'dropdown-menu-list';
+    this.menuList.setAttribute('role', 'presentation');
     
     // Create menu items
     this.config.items.forEach((item, index) => {
@@ -109,42 +124,45 @@ class Dropdown {
   }
 
   createMenuItem(item, index) {
-    const menuItem = document.createElement('button');
+    // Plain element host — button is not a valid role="option" host (D3).
+    const menuItem = document.createElement('div');
     menuItem.className = 'dropdown-menu-item';
-    menuItem.setAttribute('type', 'button');
     menuItem.setAttribute('role', 'option');
+    menuItem.tabIndex = -1;
     menuItem.setAttribute('data-value', item.value);
     menuItem.setAttribute('data-index', index);
-    
+
     if (this.selectedValue === item.value) {
       menuItem.classList.add('selected');
     }
-    
+
     const itemContent = document.createElement('div');
     itemContent.className = 'dropdown-menu-item-content';
-    
+    itemContent.setAttribute('role', 'presentation');
+
     // Checkmark icon (only show if selected)
     if (this.selectedValue === item.value) {
       const checkmark = document.createElement('span');
       checkmark.className = 'dropdown-menu-item-checkmark';
+      checkmark.setAttribute('aria-hidden', 'true');
       checkmark.innerHTML = this.getCheckmarkIcon();
       itemContent.appendChild(checkmark);
     }
-    
+
     // Label
     const label = document.createElement('span');
     label.className = 'dropdown-menu-item-label body-small';
     label.textContent = item.label;
     itemContent.appendChild(label);
-    
+
     menuItem.appendChild(itemContent);
-    
+
     // Click handler
     menuItem.addEventListener('click', (e) => {
       e.stopPropagation();
       this.selectItem(item.value);
     });
-    
+
     return menuItem;
   }
 
@@ -184,10 +202,16 @@ class Dropdown {
   focusIsInDropdown() {
     const active = document.activeElement;
     if (!active) return false;
+    return this.isDropdownFocusTarget(active);
+  }
+
+  /** True when `el` is the toggle or inside the menu/container (incl. portaled). */
+  isDropdownFocusTarget(el) {
+    if (!el || el === document.body || el === document.documentElement) return false;
     return (
-      active === this.toggle ||
-      this.menu.contains(active) ||
-      this.container.contains(active)
+      el === this.toggle ||
+      this.menu.contains(el) ||
+      this.container.contains(el)
     );
   }
 
@@ -213,6 +237,16 @@ class Dropdown {
       }
     };
     document.addEventListener('click', this._onDocumentClick);
+
+    // Options are tabindex=-1, so Tab leaves the widget. Close when focus moves
+    // outside toggle/menu; keep open for toggle ↔ option moves (e.g. Shift+Tab).
+    this._onFocusOut = (e) => {
+      if (!this.isOpen) return;
+      if (this.isDropdownFocusTarget(e.relatedTarget)) return;
+      this.close(false);
+    };
+    this.toggle.addEventListener('focusout', this._onFocusOut);
+    this.menu.addEventListener('focusout', this._onFocusOut);
 
     // Consume Escape while open even if focus left the toggle/menu (e.g. Tab
     // to a sibling control), so a parent dialog does not dismiss first.
@@ -529,6 +563,7 @@ class Dropdown {
         if (!item.querySelector('.dropdown-menu-item-checkmark')) {
           const checkmark = document.createElement('span');
           checkmark.className = 'dropdown-menu-item-checkmark';
+          checkmark.setAttribute('aria-hidden', 'true');
           checkmark.innerHTML = this.getCheckmarkIcon();
           item.querySelector('.dropdown-menu-item-content').insertBefore(
             checkmark,
@@ -610,6 +645,11 @@ class Dropdown {
     if (this._onDocumentKeydown) {
       document.removeEventListener('keydown', this._onDocumentKeydown, true);
       this._onDocumentKeydown = null;
+    }
+    if (this._onFocusOut) {
+      this.toggle?.removeEventListener('focusout', this._onFocusOut);
+      this.menu?.removeEventListener('focusout', this._onFocusOut);
+      this._onFocusOut = null;
     }
     this.container.innerHTML = '';
     this.container.className = '';

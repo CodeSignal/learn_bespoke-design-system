@@ -1,5 +1,14 @@
 {
   "name": "learn-bespoke-design-system",
   "private": true,
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "serve": "node test-server.js"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1"
+  }
 }

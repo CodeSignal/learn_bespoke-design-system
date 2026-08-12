@@ -195,7 +195,7 @@
   overflow-y: visible;
 }
 
-/* Menu Items */
+/* Menu Items (div[role=option]; not <button> — D3) */
 .dropdown-menu-item {
   display: flex;
   align-items: center;
@@ -203,6 +203,7 @@
   height: 40px !important;
   min-height: 40px !important;
   flex-shrink: 0 !important;
+  margin: 0;
   padding: var(--UI-Spacing-spacing-none) var(--Menu-Item-Padding-Horizontal) !important;
   gap: var(--UI-Spacing-spacing-s);
   background: var(--Colors-Dropdown-Panel) !important;
@@ -219,6 +220,7 @@
   transition: background-color 0.15s ease;
   box-sizing: border-box;
   opacity: 1;
+  user-select: none;
 }
 
 .dropdown-container.grow-to-fit .dropdown-menu-item {

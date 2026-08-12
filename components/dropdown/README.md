@@ -57,6 +57,18 @@ const dropdown = new Dropdown('#my-dropdown', {
 - **ArrowDown / ArrowUp / Home / End** in the menu move among options.
 - **Enter / Space** on an option selects it and returns focus to the toggle.
 - **Escape** closes the menu and returns focus to the toggle (does not dismiss an enclosing modal).
+- **Tab** from an open toggle or option moves to the next page control and closes the menu (focus stays on that control).
+- **Shift+Tab** from an option moves to the toggle and keeps the menu open; **Shift+Tab** from the open toggle leaves the widget and closes the menu.
+
+## Accessibility
+
+Select-only combobox pattern (APG):
+
+- Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup.
+- Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
+- Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
+
+Selection state exposure (`aria-selected`) is tracked separately as D4.
 
 ## API Methods
 
@@ -66,6 +78,18 @@ const dropdown = new Dropdown('#my-dropdown', {
 - **`close()`**: Closes the dropdown menu.
 - **`toggleOpen()`**: Toggles the open state.
 - **`destroy()`**: Removes event listeners and clears the container.
+
+## Tests
+
+From the design-system repo root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html` in light and dark (`colorScheme`), plus a scoped axe scan (`tests/helpers/a11y.js`).
 
 ## Dependencies
 
