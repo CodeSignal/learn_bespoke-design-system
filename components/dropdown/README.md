@@ -79,6 +79,18 @@ Selection state exposure (`aria-selected`) is tracked separately as D4.
 - **`toggleOpen()`**: Toggles the open state.
 - **`destroy()`**: Removes event listeners and clears the container.
 
+## Tests
+
+From the design-system repo root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html`.
+
 ## Dependencies
 
 This component relies on variables from:
