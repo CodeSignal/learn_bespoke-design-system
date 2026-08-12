@@ -300,6 +300,18 @@ cleanup();
 
 > **Note:** The fix only targets elements matching `.input[type="number"]`, so other inputs and page scrolling are unaffected.
 
+#### Tests
+
+From the design-system repo root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`tests/input-number-scroll.spec.js` asserts the browser default still mutates a bare number input, and that with `input.js` loaded (including dynamically added fields) the value stays put.
+
 ## Dark Mode
 
 The component automatically adapts to dark mode via the `@media (prefers-color-scheme: dark)` query. All states are optimized for both light and dark themes.
