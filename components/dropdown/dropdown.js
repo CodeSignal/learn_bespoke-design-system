@@ -145,6 +145,48 @@ class Dropdown {
     return menuItem;
   }
 
+  getMenuItems() {
+    return Array.from(this.menuList.querySelectorAll('.dropdown-menu-item'));
+  }
+
+  /** Index of the selected option, or -1 when none match. */
+  getSelectedOptionIndex() {
+    const items = this.getMenuItems();
+    if (!this.selectedValue) return -1;
+    return items.findIndex((item) => item.getAttribute('data-value') === this.selectedValue);
+  }
+
+  focusOptionAt(index) {
+    const items = this.getMenuItems();
+    if (!items.length) return;
+    const clamped = Math.max(0, Math.min(index, items.length - 1));
+    items[clamped].focus();
+  }
+
+  /** Focus selected option, or the first when nothing is selected (D2). */
+  focusSelectedOrFirstOption() {
+    const selected = this.getSelectedOptionIndex();
+    this.focusOptionAt(selected >= 0 ? selected : 0);
+  }
+
+  /** Focus selected option, or the last when nothing is selected. */
+  focusSelectedOrLastOption() {
+    const items = this.getMenuItems();
+    const selected = this.getSelectedOptionIndex();
+    this.focusOptionAt(selected >= 0 ? selected : items.length - 1);
+  }
+
+  /** True when focus is on the toggle or inside the menu (incl. portaled). */
+  focusIsInDropdown() {
+    const active = document.activeElement;
+    if (!active) return false;
+    return (
+      active === this.toggle ||
+      this.menu.contains(active) ||
+      this.container.contains(active)
+    );
+  }
+
   bindEvents() {
     // Toggle click
     this.toggle.addEventListener('click', (e) => {
@@ -154,42 +196,79 @@ class Dropdown {
     
     // Close on outside click
     document.addEventListener('click', (e) => {
-      if (!this.container.contains(e.target)) {
+      if (!this.container.contains(e.target) && !this.menu.contains(e.target)) {
         this.close();
       }
     });
     
-    // Keyboard navigation
+    // Keyboard navigation on the toggle (APG listbox open keys)
     this.toggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         this.toggleOpen();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.open();
+        } else {
+          this.focusSelectedOrFirstOption();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+          this.focusSelectedOrLastOption();
+        } else {
+          this.focusSelectedOrLastOption();
+        }
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+        }
+        this.focusOptionAt(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+        }
+        this.focusOptionAt(this.getMenuItems().length - 1);
       } else if (e.key === 'Escape') {
+        e.preventDefault();
         this.close();
       }
     });
     
     // Keyboard navigation for menu items
     this.menu.addEventListener('keydown', (e) => {
-      const items = Array.from(this.menuList.querySelectorAll('.dropdown-menu-item'));
+      const items = this.getMenuItems();
       const currentIndex = items.findIndex(item => item === document.activeElement);
       
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-        items[nextIndex].focus();
+        items[nextIndex]?.focus();
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-        items[prevIndex].focus();
+        items[prevIndex]?.focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        this.focusOptionAt(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        this.focusOptionAt(items.length - 1);
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         if (document.activeElement.classList.contains('dropdown-menu-item')) {
           document.activeElement.click();
         }
       } else if (e.key === 'Escape') {
+        e.preventDefault();
         this.close();
-        this.toggle.focus();
       }
     });
   }
@@ -197,16 +276,25 @@ class Dropdown {
   toggleOpen() {
     this.isOpen = !this.isOpen;
     this.updateToggleState();
+    if (this.isOpen) {
+      this.focusSelectedOrFirstOption();
+    }
   }
 
   open() {
     this.isOpen = true;
     this.updateToggleState();
+    this.focusSelectedOrFirstOption();
   }
 
   close() {
+    const restoreFocus = this.focusIsInDropdown();
     this.isOpen = false;
     this.updateToggleState();
+    // Return focus before the hidden menu drops it to <body> (D2).
+    if (restoreFocus) {
+      this.toggle.focus();
+    }
   }
 
   updateMenuHeight() {

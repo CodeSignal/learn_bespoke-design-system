@@ -50,6 +50,14 @@ const dropdown = new Dropdown('#my-dropdown', {
 | `growToFit` | Boolean | `false` | If `true`, the dropdown automatically resizes to fit the selected content. |
 | `onSelect` | Function | `null` | Callback function triggered when an item is selected. Receives `(value, item)`. |
 
+## Keyboard
+
+- **Enter / Space** on the toggle opens or closes the menu. On open, focus moves to the selected option (or the first option).
+- **ArrowDown / ArrowUp / Home / End** on the toggle open the menu and move focus into the list.
+- **ArrowDown / ArrowUp / Home / End** in the menu move among options.
+- **Enter / Space** on an option selects it and returns focus to the toggle.
+- **Escape** closes the menu and returns focus to the toggle.
+
 ## API Methods
 
 - **`getValue()`**: Returns the current selected value.
