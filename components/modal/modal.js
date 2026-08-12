@@ -109,6 +109,7 @@ class Modal {
       footerButtons: options.footerButtons || null, // Array of button configs or null to hide footer
       closeOnOverlayClick: options.closeOnOverlayClick !== undefined ? options.closeOnOverlayClick : true,
       closeOnEscape: options.closeOnEscape !== undefined ? options.closeOnEscape : true,
+      closeButtonLabel: options.closeButtonLabel || 'Close modal',
       onOpen: options.onOpen || null,
       onClose: options.onClose || null,
       ...options
@@ -150,7 +151,10 @@ class Modal {
       this.closeButton = document.createElement('button');
       this.closeButton.className = 'modal-close-button';
       this.closeButton.setAttribute('type', 'button');
-      this.closeButton.setAttribute('aria-label', 'Close modal');
+      this.closeButton.setAttribute(
+        'aria-label',
+        this.config.closeButtonLabel || 'Close modal',
+      );
       this.closeButton.innerHTML = this.getCloseIcon();
       this.header.appendChild(this.closeButton);
     }

@@ -74,6 +74,9 @@ const rangeSlider = new NumericSlider('#my-range-slider', {
 | `continuousUpdates` | Boolean | `false` | If `true`, fires `onChange` continuously during dragging (throttled by `throttleMs`). If `false` (default), `onChange` only fires on drag end, track click, and keyboard interaction. Final value is always sent on drag end regardless of this setting. |
 | `throttleMs` | Number | `16` | Throttle interval in milliseconds for continuous updates during drag (~60fps at 16ms). Only applies when `continuousUpdates` is `true`. Lower values = more frequent updates but potentially lower performance. |
 | `disabled` | Boolean | `false` | If `true`, disables the slider and all input fields. |
+| `handleLabel` | String | `'Value'` | `aria-label` for the single-value handle. Pass an already-translated string. |
+| `minHandleLabel` | String | `'Minimum value'` | `aria-label` for the range slider's min handle. |
+| `maxHandleLabel` | String | `'Maximum value'` | `aria-label` for the range slider's max handle. |
 | `onChange` | Function | `null` | Callback triggered when value changes. Receives `(value, source)` where `value` is the new value(s) and `source` indicates the source of change (`'min'`, `'max'`, `'single'`, or `null`). By default, fires on drag end, track click, and keyboard interaction. If `continuousUpdates` is `true`, also fires during drag (throttled). |
 | `onInputChange` | Function | `null` | Callback triggered when value changes via input field. Receives `(value, source)` where `value` is the new value(s) and `source` indicates which input changed (`'min'`, `'max'`, or `'single'`). |
 
@@ -298,7 +301,7 @@ The slider automatically validates and corrects values:
 
 ## Accessibility
 
-- Each handle is the slider: `role="slider"` with `aria-valuemin` / `aria-valuemax` / `aria-valuenow` (always a single number), `aria-valuetext`, `aria-orientation="horizontal"`, and `aria-label`.
+- Each handle is the slider: `role="slider"` with `aria-valuemin` / `aria-valuemax` / `aria-valuenow` (always a single number), `aria-valuetext`, `aria-orientation="horizontal"`, and `aria-label` (`handleLabel` / `minHandleLabel` / `maxHandleLabel`; English defaults when omitted).
 - The `.numeric-slider-wrapper` is presentational only (no role, no tabindex) so there is one tab stop per handle and no nested interactive.
 - Range mode: each thumb exposes its own `aria-valuenow`; values are never comma-joined.
 - Disabled: handles use `aria-disabled="true"` and `tabindex="-1"` (plus the native `disabled` attribute).
