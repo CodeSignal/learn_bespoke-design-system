@@ -17,7 +17,8 @@ class Dropdown {
     this.config = {
       placeholder: options.placeholder || 'Select option',
       items: options.items || [],
-      selectedValue: options.selectedValue || null,
+      // Empty string is a valid value; only null/undefined mean no selection.
+      selectedValue: options.selectedValue ?? null,
       onSelect: options.onSelect || null,
       width: options.width || 'auto',
       growToFit: options.growToFit || false,
@@ -26,7 +27,9 @@ class Dropdown {
 
     // State
     this.isOpen = false;
-    this.selectedValue = this.config.selectedValue;
+    this.selectedValue = this.config.selectedValue ?? null;
+    /** Snapshot from capturing pointerdown — click moves focus before bubble handlers. */
+    this._focusInDropdownOnPointerDown = false;
 
     // Initialize
     this.init();
@@ -145,51 +148,155 @@ class Dropdown {
     return menuItem;
   }
 
+  getMenuItems() {
+    return Array.from(this.menuList.querySelectorAll('.dropdown-menu-item'));
+  }
+
+  /** Index of the selected option, or -1 when none match. */
+  getSelectedOptionIndex() {
+    // Resolve from config with strict equality so numeric/`'1'` mismatches
+    // match getItemByValue / selectItem (data-value is always a string).
+    if (this.selectedValue == null) return -1;
+    return this.config.items.findIndex((item) => item.value === this.selectedValue);
+  }
+
+  focusOptionAt(index) {
+    const items = this.getMenuItems();
+    if (!items.length) return;
+    const clamped = Math.max(0, Math.min(index, items.length - 1));
+    items[clamped].focus();
+  }
+
+  /** Focus selected option, or the first when nothing is selected (D2). */
+  focusSelectedOrFirstOption() {
+    const selected = this.getSelectedOptionIndex();
+    this.focusOptionAt(selected >= 0 ? selected : 0);
+  }
+
+  /** Focus selected option, or the last when nothing is selected. */
+  focusSelectedOrLastOption() {
+    const items = this.getMenuItems();
+    const selected = this.getSelectedOptionIndex();
+    this.focusOptionAt(selected >= 0 ? selected : items.length - 1);
+  }
+
+  /** True when focus is on the toggle or inside the menu (incl. portaled). */
+  focusIsInDropdown() {
+    const active = document.activeElement;
+    if (!active) return false;
+    return (
+      active === this.toggle ||
+      this.menu.contains(active) ||
+      this.container.contains(active)
+    );
+  }
+
   bindEvents() {
     // Toggle click
     this.toggle.addEventListener('click', (e) => {
       e.stopPropagation();
       this.toggleOpen();
     });
-    
+
+    // Focus moves on pointerdown before the bubble-phase click. Snapshot whether
+    // focus was inside the dropdown so outside-click close can restore it.
+    this._onPointerDown = () => {
+      this._focusInDropdownOnPointerDown = this.focusIsInDropdown();
+    };
+    document.addEventListener('pointerdown', this._onPointerDown, true);
+
     // Close on outside click
-    document.addEventListener('click', (e) => {
-      if (!this.container.contains(e.target)) {
-        this.close();
+    this._onDocumentClick = (e) => {
+      if (!this.isOpen) return;
+      if (!this.container.contains(e.target) && !this.menu.contains(e.target)) {
+        this.close(this._focusInDropdownOnPointerDown);
       }
-    });
-    
-    // Keyboard navigation
+    };
+    document.addEventListener('click', this._onDocumentClick);
+
+    // Consume Escape while open even if focus left the toggle/menu (e.g. Tab
+    // to a sibling control), so a parent dialog does not dismiss first.
+    this._onDocumentKeydown = (e) => {
+      if (e.key !== 'Escape' || !this.isOpen) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.close();
+    };
+    document.addEventListener('keydown', this._onDocumentKeydown, true);
+
+    // Keyboard navigation on the toggle (APG listbox open keys)
     this.toggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         this.toggleOpen();
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.open();
+        } else {
+          this.focusSelectedOrFirstOption();
+        }
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+          this.focusSelectedOrLastOption();
+        } else {
+          this.focusSelectedOrLastOption();
+        }
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+        }
+        this.focusOptionAt(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        if (!this.isOpen) {
+          this.isOpen = true;
+          this.updateToggleState();
+        }
+        this.focusOptionAt(this.getMenuItems().length - 1);
       } else if (e.key === 'Escape') {
+        // Only consume Escape while open so a parent dialog can still dismiss.
+        if (!this.isOpen) return;
+        e.preventDefault();
+        e.stopPropagation();
         this.close();
       }
     });
     
     // Keyboard navigation for menu items
     this.menu.addEventListener('keydown', (e) => {
-      const items = Array.from(this.menuList.querySelectorAll('.dropdown-menu-item'));
+      const items = this.getMenuItems();
       const currentIndex = items.findIndex(item => item === document.activeElement);
       
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         const nextIndex = currentIndex < items.length - 1 ? currentIndex + 1 : 0;
-        items[nextIndex].focus();
+        items[nextIndex]?.focus();
       } else if (e.key === 'ArrowUp') {
         e.preventDefault();
         const prevIndex = currentIndex > 0 ? currentIndex - 1 : items.length - 1;
-        items[prevIndex].focus();
+        items[prevIndex]?.focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        this.focusOptionAt(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        this.focusOptionAt(items.length - 1);
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         if (document.activeElement.classList.contains('dropdown-menu-item')) {
           document.activeElement.click();
         }
       } else if (e.key === 'Escape') {
+        // Stop bubbling so an enclosing modal does not close with the menu.
+        e.preventDefault();
+        e.stopPropagation();
         this.close();
-        this.toggle.focus();
       }
     });
   }
@@ -197,16 +304,30 @@ class Dropdown {
   toggleOpen() {
     this.isOpen = !this.isOpen;
     this.updateToggleState();
+    if (this.isOpen) {
+      this.focusSelectedOrFirstOption();
+    }
   }
 
   open() {
     this.isOpen = true;
     this.updateToggleState();
+    this.focusSelectedOrFirstOption();
   }
 
-  close() {
+  /**
+   * @param {boolean} [restoreFocus] When provided (e.g. outside-click), use the
+   *   pre-pointerdown snapshot. Otherwise read focus at close time (Escape/select).
+   */
+  close(restoreFocus) {
+    const shouldRestore =
+      restoreFocus !== undefined ? restoreFocus : this.focusIsInDropdown();
     this.isOpen = false;
     this.updateToggleState();
+    // Return focus before the hidden menu drops it to <body> (D2).
+    if (shouldRestore) {
+      this.toggle.focus();
+    }
   }
 
   updateMenuHeight() {
@@ -257,10 +378,10 @@ class Dropdown {
     
     // Update toggle label
     const toggleLabel = this.toggle.querySelector('.dropdown-toggle-label');
-    toggleLabel.textContent = this.getSelectedLabel() || this.config.placeholder;
+    toggleLabel.textContent = this.getSelectedLabel() ?? this.config.placeholder;
     
     // Update toggle text color based on selection
-    if (this.selectedValue) {
+    if (this.selectedValue != null) {
       this.toggle.classList.add('has-selection');
     } else {
       this.toggle.classList.remove('has-selection');
@@ -275,7 +396,7 @@ class Dropdown {
   updateToggleWidth() {
     // Only measure and grow toggle if there's a selected value
     let toggleWidth = 200; // Default minimum width
-    if (this.selectedValue) {
+    if (this.selectedValue != null) {
       const toggleLabel = this.toggle.querySelector('.dropdown-toggle-label');
       const toggleContent = this.toggle.querySelector('.dropdown-toggle-content');
       const toggleIcon = this.toggle.querySelector('.dropdown-toggle-icon');
@@ -433,7 +554,7 @@ class Dropdown {
   }
 
   getSelectedLabel() {
-    if (!this.selectedValue) return null;
+    if (this.selectedValue == null) return null;
     const item = this.getItemByValue(this.selectedValue);
     return item ? item.label : null;
   }
@@ -478,7 +599,18 @@ class Dropdown {
   }
 
   destroy() {
-    // Remove event listeners and clean up
+    if (this._onPointerDown) {
+      document.removeEventListener('pointerdown', this._onPointerDown, true);
+      this._onPointerDown = null;
+    }
+    if (this._onDocumentClick) {
+      document.removeEventListener('click', this._onDocumentClick);
+      this._onDocumentClick = null;
+    }
+    if (this._onDocumentKeydown) {
+      document.removeEventListener('keydown', this._onDocumentKeydown, true);
+      this._onDocumentKeydown = null;
+    }
     this.container.innerHTML = '';
     this.container.className = '';
   }
