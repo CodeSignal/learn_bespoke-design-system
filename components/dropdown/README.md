@@ -57,6 +57,8 @@ const dropdown = new Dropdown('#my-dropdown', {
 - **ArrowDown / ArrowUp / Home / End** in the menu move among options.
 - **Enter / Space** on an option selects it and returns focus to the toggle.
 - **Escape** closes the menu and returns focus to the toggle (does not dismiss an enclosing modal).
+- **Tab** from an open toggle or option moves to the next page control and closes the menu (focus stays on that control).
+- **Shift+Tab** from an option moves to the toggle and keeps the menu open; **Shift+Tab** from the open toggle leaves the widget and closes the menu.
 
 ## Accessibility
 

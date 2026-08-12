@@ -196,10 +196,16 @@ class Dropdown {
   focusIsInDropdown() {
     const active = document.activeElement;
     if (!active) return false;
+    return this.isDropdownFocusTarget(active);
+  }
+
+  /** True when `el` is the toggle or inside the menu/container (incl. portaled). */
+  isDropdownFocusTarget(el) {
+    if (!el || el === document.body || el === document.documentElement) return false;
     return (
-      active === this.toggle ||
-      this.menu.contains(active) ||
-      this.container.contains(active)
+      el === this.toggle ||
+      this.menu.contains(el) ||
+      this.container.contains(el)
     );
   }
 
@@ -225,6 +231,16 @@ class Dropdown {
       }
     };
     document.addEventListener('click', this._onDocumentClick);
+
+    // Options are tabindex=-1, so Tab leaves the widget. Close when focus moves
+    // outside toggle/menu; keep open for toggle ↔ option moves (e.g. Shift+Tab).
+    this._onFocusOut = (e) => {
+      if (!this.isOpen) return;
+      if (this.isDropdownFocusTarget(e.relatedTarget)) return;
+      this.close(false);
+    };
+    this.toggle.addEventListener('focusout', this._onFocusOut);
+    this.menu.addEventListener('focusout', this._onFocusOut);
 
     // Consume Escape while open even if focus left the toggle/menu (e.g. Tab
     // to a sibling control), so a parent dialog does not dismiss first.
@@ -623,6 +639,11 @@ class Dropdown {
     if (this._onDocumentKeydown) {
       document.removeEventListener('keydown', this._onDocumentKeydown, true);
       this._onDocumentKeydown = null;
+    }
+    if (this._onFocusOut) {
+      this.toggle?.removeEventListener('focusout', this._onFocusOut);
+      this.menu?.removeEventListener('focusout', this._onFocusOut);
+      this._onFocusOut = null;
     }
     this.container.innerHTML = '';
     this.container.className = '';
