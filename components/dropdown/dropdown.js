@@ -154,9 +154,10 @@ class Dropdown {
 
   /** Index of the selected option, or -1 when none match. */
   getSelectedOptionIndex() {
-    const items = this.getMenuItems();
+    // Resolve from config with strict equality so numeric/`'1'` mismatches
+    // match getItemByValue / selectItem (data-value is always a string).
     if (this.selectedValue == null) return -1;
-    return items.findIndex((item) => item.getAttribute('data-value') === String(this.selectedValue));
+    return this.config.items.findIndex((item) => item.value === this.selectedValue);
   }
 
   focusOptionAt(index) {
@@ -199,18 +200,30 @@ class Dropdown {
 
     // Focus moves on pointerdown before the bubble-phase click. Snapshot whether
     // focus was inside the dropdown so outside-click close can restore it.
-    document.addEventListener('pointerdown', () => {
+    this._onPointerDown = () => {
       this._focusInDropdownOnPointerDown = this.focusIsInDropdown();
-    }, true);
-    
+    };
+    document.addEventListener('pointerdown', this._onPointerDown, true);
+
     // Close on outside click
-    document.addEventListener('click', (e) => {
+    this._onDocumentClick = (e) => {
       if (!this.isOpen) return;
       if (!this.container.contains(e.target) && !this.menu.contains(e.target)) {
         this.close(this._focusInDropdownOnPointerDown);
       }
-    });
-    
+    };
+    document.addEventListener('click', this._onDocumentClick);
+
+    // Consume Escape while open even if focus left the toggle/menu (e.g. Tab
+    // to a sibling control), so a parent dialog does not dismiss first.
+    this._onDocumentKeydown = (e) => {
+      if (e.key !== 'Escape' || !this.isOpen) return;
+      e.preventDefault();
+      e.stopPropagation();
+      this.close();
+    };
+    document.addEventListener('keydown', this._onDocumentKeydown, true);
+
     // Keyboard navigation on the toggle (APG listbox open keys)
     this.toggle.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -586,7 +599,18 @@ class Dropdown {
   }
 
   destroy() {
-    // Remove event listeners and clean up
+    if (this._onPointerDown) {
+      document.removeEventListener('pointerdown', this._onPointerDown, true);
+      this._onPointerDown = null;
+    }
+    if (this._onDocumentClick) {
+      document.removeEventListener('click', this._onDocumentClick);
+      this._onDocumentClick = null;
+    }
+    if (this._onDocumentKeydown) {
+      document.removeEventListener('keydown', this._onDocumentKeydown, true);
+      this._onDocumentKeydown = null;
+    }
     this.container.innerHTML = '';
     this.container.className = '';
   }
