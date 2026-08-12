@@ -55,25 +55,31 @@ class Dropdown {
     const toggleContent = document.createElement('div');
     toggleContent.className = 'dropdown-toggle-content';
     
+    listboxIdCounter += 1;
+    const instanceId = listboxIdCounter;
+
     const toggleLabel = document.createElement('span');
     toggleLabel.className = 'dropdown-toggle-label body-small';
+    toggleLabel.id = `dropdown-toggle-label-${instanceId}`;
     toggleLabel.textContent = this.getSelectedLabel() || this.config.placeholder;
-    
+
     const toggleIcon = document.createElement('span');
     toggleIcon.className = 'dropdown-toggle-icon';
+    toggleIcon.setAttribute('aria-hidden', 'true');
     toggleIcon.innerHTML = this.getChevronDownIcon();
-    
+
     toggleContent.appendChild(toggleLabel);
     toggleContent.appendChild(toggleIcon);
     this.toggle.appendChild(toggleContent);
-    
+    // Combobox accessible name from the visible value/placeholder (D3 / 4.1.2).
+    this.toggle.setAttribute('aria-labelledby', toggleLabel.id);
+
     // Create menu panel (listbox). Layout wrapper below is presentational so
     // options remain owned by this listbox in the accessibility tree (D3).
     this.menu = document.createElement('div');
     this.menu.className = 'dropdown-menu';
     this.menu.setAttribute('role', 'listbox');
-    listboxIdCounter += 1;
-    this.menu.id = `dropdown-listbox-${listboxIdCounter}`;
+    this.menu.id = `dropdown-listbox-${instanceId}`;
     this.toggle.setAttribute('aria-controls', this.menu.id);
 
     // Create menu list

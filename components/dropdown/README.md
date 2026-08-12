@@ -89,7 +89,7 @@ npx playwright install chromium
 npm test
 ```
 
-`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html`.
+`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html` in light and dark (`colorScheme`), plus a scoped axe scan (`tests/helpers/a11y.js`).
 
 ## Dependencies
 

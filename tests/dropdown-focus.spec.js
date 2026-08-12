@@ -1,9 +1,13 @@
 import { test, expect } from '@playwright/test';
+import { expectNoAxeViolations } from './helpers/a11y.js';
 
 /**
  * D3 focus regression: options are tabindex=-1, so Tab leaves the widget.
  * The open listbox must close when focus exits toggle/menu, and stay open
  * when Shift+Tab moves from an option back to the toggle.
+ *
+ * Themes use Playwright `colorScheme`, which drives the design-system
+ * `@media (prefers-color-scheme: dark)` tokens (same approach as ChatCPT audits).
  */
 
 async function injectTabNeighbors(page) {
@@ -42,81 +46,92 @@ function dropdownState(page) {
   });
 }
 
-test.describe('dropdown focus (Tab / Shift+Tab)', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/components/dropdown/test.html');
-    await page.waitForFunction(() => window.testDropdowns?.basic);
-    await injectTabNeighbors(page);
+for (const colorScheme of ['light', 'dark']) {
+  test.describe(`dropdown focus (Tab / Shift+Tab) — ${colorScheme}`, () => {
+    test.use({ colorScheme });
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/components/dropdown/test.html');
+      await page.waitForFunction(() => window.testDropdowns?.basic);
+      await injectTabNeighbors(page);
+    });
+
+    test('Tab from an option closes the menu and lands on the next control', async ({
+      page,
+    }) => {
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+
+      let state = await dropdownState(page);
+      expect(state.open).toBe(true);
+      expect(state.onOption).toBe(true);
+
+      await page.keyboard.press('Tab');
+      state = await dropdownState(page);
+
+      expect(state.open).toBe(false);
+      expect(state.ariaExpanded).toBe('false');
+      expect(state.focusId).toBe('focus-after');
+    });
+
+    test('Shift+Tab from an option moves to the toggle and keeps the menu open', async ({
+      page,
+    }) => {
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Shift+Tab');
+
+      const state = await dropdownState(page);
+      expect(state.open).toBe(true);
+      expect(state.ariaExpanded).toBe('true');
+      expect(state.onToggle).toBe(true);
+      expect(state.focusRole).toBe('combobox');
+    });
+
+    test('Shift+Tab from the open toggle closes and lands on the previous control', async ({
+      page,
+    }) => {
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+      // Return focus to toggle without leaving the widget
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+
+      let state = await dropdownState(page);
+      expect(state.open).toBe(true);
+      expect(state.onToggle).toBe(true);
+
+      await page.keyboard.press('Shift+Tab');
+      state = await dropdownState(page);
+
+      expect(state.open).toBe(false);
+      expect(state.ariaExpanded).toBe('false');
+      expect(state.focusId).toBe('focus-before');
+    });
+
+    test('Tab from the open toggle closes and lands on the next control', async ({
+      page,
+    }) => {
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+      await page.keyboard.press('Enter');
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+
+      let state = await dropdownState(page);
+      expect(state.open).toBe(true);
+      expect(state.onToggle).toBe(true);
+
+      await page.keyboard.press('Tab');
+      state = await dropdownState(page);
+
+      expect(state.open).toBe(false);
+      expect(state.ariaExpanded).toBe('false');
+      expect(state.focusId).toBe('focus-after');
+    });
+
+    test('open dropdown has no axe violations', async ({ page }) => {
+      await page.locator('#dropdown-basic .dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+      await expect(page.locator('#dropdown-basic')).toHaveClass(/open/);
+      await expectNoAxeViolations(page, '#dropdown-basic');
+    });
   });
-
-  test('Tab from an option closes the menu and lands on the next control', async ({
-    page,
-  }) => {
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-    await page.keyboard.press('ArrowDown');
-
-    let state = await dropdownState(page);
-    expect(state.open).toBe(true);
-    expect(state.onOption).toBe(true);
-
-    await page.keyboard.press('Tab');
-    state = await dropdownState(page);
-
-    expect(state.open).toBe(false);
-    expect(state.ariaExpanded).toBe('false');
-    expect(state.focusId).toBe('focus-after');
-  });
-
-  test('Shift+Tab from an option moves to the toggle and keeps the menu open', async ({
-    page,
-  }) => {
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-    await page.keyboard.press('ArrowDown');
-    await page.keyboard.press('Shift+Tab');
-
-    const state = await dropdownState(page);
-    expect(state.open).toBe(true);
-    expect(state.ariaExpanded).toBe('true');
-    expect(state.onToggle).toBe(true);
-    expect(state.focusRole).toBe('combobox');
-  });
-
-  test('Shift+Tab from the open toggle closes and lands on the previous control', async ({
-    page,
-  }) => {
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-    await page.keyboard.press('ArrowDown');
-    // Return focus to toggle without leaving the widget
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-
-    let state = await dropdownState(page);
-    expect(state.open).toBe(true);
-    expect(state.onToggle).toBe(true);
-
-    await page.keyboard.press('Shift+Tab');
-    state = await dropdownState(page);
-
-    expect(state.open).toBe(false);
-    expect(state.ariaExpanded).toBe('false');
-    expect(state.focusId).toBe('focus-before');
-  });
-
-  test('Tab from the open toggle closes and lands on the next control', async ({
-    page,
-  }) => {
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-    await page.keyboard.press('Enter');
-    await page.locator('#dropdown-basic .dropdown-toggle').focus();
-
-    let state = await dropdownState(page);
-    expect(state.open).toBe(true);
-    expect(state.onToggle).toBe(true);
-
-    await page.keyboard.press('Tab');
-    state = await dropdownState(page);
-
-    expect(state.open).toBe(false);
-    expect(state.ariaExpanded).toBe('false');
-    expect(state.focusId).toBe('focus-after');
-  });
-});
+}
