@@ -17,7 +17,8 @@ class Dropdown {
     this.config = {
       placeholder: options.placeholder || 'Select option',
       items: options.items || [],
-      selectedValue: options.selectedValue || null,
+      // Empty string is a valid value; only null/undefined mean no selection.
+      selectedValue: options.selectedValue ?? null,
       onSelect: options.onSelect || null,
       width: options.width || 'auto',
       growToFit: options.growToFit || false,
@@ -26,7 +27,9 @@ class Dropdown {
 
     // State
     this.isOpen = false;
-    this.selectedValue = this.config.selectedValue;
+    this.selectedValue = this.config.selectedValue ?? null;
+    /** Snapshot from capturing pointerdown — click moves focus before bubble handlers. */
+    this._focusInDropdownOnPointerDown = false;
 
     // Initialize
     this.init();
@@ -152,8 +155,8 @@ class Dropdown {
   /** Index of the selected option, or -1 when none match. */
   getSelectedOptionIndex() {
     const items = this.getMenuItems();
-    if (!this.selectedValue) return -1;
-    return items.findIndex((item) => item.getAttribute('data-value') === this.selectedValue);
+    if (this.selectedValue == null) return -1;
+    return items.findIndex((item) => item.getAttribute('data-value') === String(this.selectedValue));
   }
 
   focusOptionAt(index) {
@@ -193,11 +196,18 @@ class Dropdown {
       e.stopPropagation();
       this.toggleOpen();
     });
+
+    // Focus moves on pointerdown before the bubble-phase click. Snapshot whether
+    // focus was inside the dropdown so outside-click close can restore it.
+    document.addEventListener('pointerdown', () => {
+      this._focusInDropdownOnPointerDown = this.focusIsInDropdown();
+    }, true);
     
     // Close on outside click
     document.addEventListener('click', (e) => {
+      if (!this.isOpen) return;
       if (!this.container.contains(e.target) && !this.menu.contains(e.target)) {
-        this.close();
+        this.close(this._focusInDropdownOnPointerDown);
       }
     });
     
@@ -292,12 +302,17 @@ class Dropdown {
     this.focusSelectedOrFirstOption();
   }
 
-  close() {
-    const restoreFocus = this.focusIsInDropdown();
+  /**
+   * @param {boolean} [restoreFocus] When provided (e.g. outside-click), use the
+   *   pre-pointerdown snapshot. Otherwise read focus at close time (Escape/select).
+   */
+  close(restoreFocus) {
+    const shouldRestore =
+      restoreFocus !== undefined ? restoreFocus : this.focusIsInDropdown();
     this.isOpen = false;
     this.updateToggleState();
     // Return focus before the hidden menu drops it to <body> (D2).
-    if (restoreFocus) {
+    if (shouldRestore) {
       this.toggle.focus();
     }
   }
@@ -350,10 +365,10 @@ class Dropdown {
     
     // Update toggle label
     const toggleLabel = this.toggle.querySelector('.dropdown-toggle-label');
-    toggleLabel.textContent = this.getSelectedLabel() || this.config.placeholder;
+    toggleLabel.textContent = this.getSelectedLabel() ?? this.config.placeholder;
     
     // Update toggle text color based on selection
-    if (this.selectedValue) {
+    if (this.selectedValue != null) {
       this.toggle.classList.add('has-selection');
     } else {
       this.toggle.classList.remove('has-selection');
@@ -368,7 +383,7 @@ class Dropdown {
   updateToggleWidth() {
     // Only measure and grow toggle if there's a selected value
     let toggleWidth = 200; // Default minimum width
-    if (this.selectedValue) {
+    if (this.selectedValue != null) {
       const toggleLabel = this.toggle.querySelector('.dropdown-toggle-label');
       const toggleContent = this.toggle.querySelector('.dropdown-toggle-content');
       const toggleIcon = this.toggle.querySelector('.dropdown-toggle-icon');
@@ -526,7 +541,7 @@ class Dropdown {
   }
 
   getSelectedLabel() {
-    if (!this.selectedValue) return null;
+    if (this.selectedValue == null) return null;
     const item = this.getItemByValue(this.selectedValue);
     return item ? item.label : null;
   }
