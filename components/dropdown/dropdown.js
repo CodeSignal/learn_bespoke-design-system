@@ -237,7 +237,10 @@ class Dropdown {
         }
         this.focusOptionAt(this.getMenuItems().length - 1);
       } else if (e.key === 'Escape') {
+        // Only consume Escape while open so a parent dialog can still dismiss.
+        if (!this.isOpen) return;
         e.preventDefault();
+        e.stopPropagation();
         this.close();
       }
     });
@@ -267,7 +270,9 @@ class Dropdown {
           document.activeElement.click();
         }
       } else if (e.key === 'Escape') {
+        // Stop bubbling so an enclosing modal does not close with the menu.
         e.preventDefault();
+        e.stopPropagation();
         this.close();
       }
     });

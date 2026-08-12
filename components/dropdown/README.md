@@ -56,7 +56,7 @@ const dropdown = new Dropdown('#my-dropdown', {
 - **ArrowDown / ArrowUp / Home / End** on the toggle open the menu and move focus into the list.
 - **ArrowDown / ArrowUp / Home / End** in the menu move among options.
 - **Enter / Space** on an option selects it and returns focus to the toggle.
-- **Escape** closes the menu and returns focus to the toggle.
+- **Escape** closes the menu and returns focus to the toggle (does not dismiss an enclosing modal).
 
 ## API Methods
 
