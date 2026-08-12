@@ -267,6 +267,18 @@ const heavySlider = new NumericSlider('#heavy-slider', {
 - Invalid input (non-numeric) is reset to the current value on blur
 - Input fields use the same styling as the input component
 
+## Tests
+
+From the design-system repo root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`tests/numeric-slider-a11y.spec.js` covers slider role placement, single-number `aria-valuenow` (including range), disabled state, keyboard stepping, and scoped axe scans in light and dark (`colorScheme`).
+
 ## Dependencies
 
 This component relies on variables from:
@@ -286,16 +298,11 @@ The slider automatically validates and corrects values:
 
 ## Accessibility
 
-The slider component includes comprehensive accessibility features:
-
-- **ARIA Attributes**:
-  - `role="slider"` on the slider wrapper
-  - `aria-valuemin`, `aria-valuemax`, `aria-valuenow` attributes
-  - `aria-label` attributes on handles and wrapper for screen readers
-- **Keyboard Navigation**: Full keyboard support with arrow keys, Home, End, and Shift modifiers
-- **Focus Indicators**: Visible focus outlines for keyboard navigation
-- **Input Fields**: Proper `id` and `name` attributes for form integration and screen readers
-- **Disabled State**: Properly communicates disabled state to assistive technologies
+- Each handle is the slider: `role="slider"` with `aria-valuemin` / `aria-valuemax` / `aria-valuenow` (always a single number), `aria-valuetext`, `aria-orientation="horizontal"`, and `aria-label`.
+- The `.numeric-slider-wrapper` is presentational only (no role, no tabindex) so there is one tab stop per handle and no nested interactive.
+- Range mode: each thumb exposes its own `aria-valuenow`; values are never comma-joined.
+- Disabled: handles use `aria-disabled="true"` and `tabindex="-1"` (plus the native `disabled` attribute).
+- Keyboard: Arrow Left/Down, Arrow Right/Up, Shift+Arrow (10× step), Home, End.
 
 ## Error Handling
 
