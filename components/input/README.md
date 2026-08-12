@@ -272,6 +272,46 @@ Number inputs (`type="number"`) include styled spinner buttons that:
 ### Focus Ring
 When focused, inputs display a subtle focus ring using the primary color with reduced opacity for better accessibility.
 
+### Scroll-to-Change Fix (JavaScript)
+By default, browsers change the value of a focused `<input type="number">` when the mouse wheel is scrolled over it. This is rarely the intended behavior and can silently corrupt user input. The optional `input.js` helper fixes this by blurring the number input on wheel, so the value stays put and the page keeps scrolling normally.
+
+#### Usage
+
+Load the module once anywhere on the page. It auto-initializes and uses event delegation, so it covers both existing and dynamically added `.input[type="number"]` fields:
+
+```html
+<script type="module" src="/design-system/components/input/input.js"></script>
+```
+
+You can also import it and control scope manually:
+
+```javascript
+import preventNumberInputScroll from '/design-system/components/input/input.js';
+
+// Apply to the whole document (default; safe to call once).
+preventNumberInputScroll();
+
+// Or scope it to a specific container.
+const cleanup = preventNumberInputScroll(document.querySelector('#my-form'));
+
+// Call the returned function to remove the listener.
+cleanup();
+```
+
+> **Note:** The fix only targets elements matching `.input[type="number"]`, so other inputs and page scrolling are unaffected.
+
+#### Tests
+
+From the design-system repo root:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`tests/input-number-scroll.spec.js` asserts the browser default still mutates a bare number input, and that with `input.js` loaded (including dynamically added fields) the value stays put.
+
 ## Dark Mode
 
 The component automatically adapts to dark mode via the `@media (prefers-color-scheme: dark)` query. All states are optimized for both light and dark themes.
@@ -282,4 +322,7 @@ This component relies on variables from:
 - `design-system/colors/colors.css`
 - `design-system/spacing/spacing.css`
 - `design-system/typography/typography.css`
+
+The optional scroll-to-change fix is provided by:
+- `design-system/components/input/input.js` (no CSS dependencies)
 
