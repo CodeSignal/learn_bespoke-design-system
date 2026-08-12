@@ -138,21 +138,9 @@ class NumericSlider {
       }
     }
 
-    // Create slider wrapper
+    // Presentational wrapper — each handle is the slider (D5 / nested-interactive).
     this.wrapper = document.createElement('div');
     this.wrapper.className = 'numeric-slider-wrapper';
-    this.wrapper.setAttribute('role', 'slider');
-    this.wrapper.setAttribute('aria-valuemin', this.config.min);
-    this.wrapper.setAttribute('aria-valuemax', this.config.max);
-    this.wrapper.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
-
-    if (this.config.type === 'range') {
-      this.wrapper.setAttribute('aria-valuenow', `${this.values[0]},${this.values[1]}`);
-      this.wrapper.setAttribute('aria-label', `Range slider from ${this.values[0]} to ${this.values[1]}`);
-    } else {
-      this.wrapper.setAttribute('aria-valuenow', this.values);
-      this.wrapper.setAttribute('aria-label', `Slider value ${this.values}`);
-    }
 
     // Create track
     this.track = document.createElement('div');
@@ -168,7 +156,7 @@ class NumericSlider {
       this.filled.classList.add('theme-primary');
     }
 
-    // Create handles
+    // Create handles (role=slider + value attrs live here, not on the wrapper)
     if (this.config.type === 'range') {
       // Min handle
       this.minHandle = document.createElement('button');
@@ -177,9 +165,10 @@ class NumericSlider {
         this.minHandle.classList.add('theme-primary');
       }
       this.minHandle.setAttribute('type', 'button');
-      this.minHandle.setAttribute('aria-label', `Minimum value: ${this.values[0]}`);
-      this.minHandle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
-      this.minHandle.disabled = this.config.disabled;
+      this.applyHandleSliderRole(this.minHandle, {
+        value: this.values[0],
+        label: 'Minimum value',
+      });
 
       // Max handle
       this.maxHandle = document.createElement('button');
@@ -188,9 +177,10 @@ class NumericSlider {
         this.maxHandle.classList.add('theme-primary');
       }
       this.maxHandle.setAttribute('type', 'button');
-      this.maxHandle.setAttribute('aria-label', `Maximum value: ${this.values[1]}`);
-      this.maxHandle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
-      this.maxHandle.disabled = this.config.disabled;
+      this.applyHandleSliderRole(this.maxHandle, {
+        value: this.values[1],
+        label: 'Maximum value',
+      });
 
       this.track.appendChild(this.filled);
       this.track.appendChild(this.minHandle);
@@ -203,9 +193,10 @@ class NumericSlider {
         this.handle.classList.add('theme-primary');
       }
       this.handle.setAttribute('type', 'button');
-      this.handle.setAttribute('aria-label', `Value: ${this.values}`);
-      this.handle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
-      this.handle.disabled = this.config.disabled;
+      this.applyHandleSliderRole(this.handle, {
+        value: this.values,
+        label: 'Value',
+      });
 
       this.track.appendChild(this.filled);
       this.track.appendChild(this.handle);
@@ -275,8 +266,7 @@ class NumericSlider {
       }
     }
 
-    // Keyboard navigation
-    this.wrapper.addEventListener('keydown', (e) => this.handleKeyDown(e));
+    // Keyboard navigation on handles (wrapper is not focusable)
     if (this.config.type === 'range') {
       this.minHandle.addEventListener('keydown', (e) => this.handleKeyDown(e, 'min'));
       this.maxHandle.addEventListener('keydown', (e) => this.handleKeyDown(e, 'max'));
@@ -494,6 +484,37 @@ class NumericSlider {
     return Math.round((value - this.config.min) / this.config.step) * this.config.step + this.config.min;
   }
 
+  /**
+   * Expose one handle as a slider with a single-number value (D5).
+   * @param {HTMLElement} handle
+   * @param {{ value: number, label: string }} opts
+   */
+  applyHandleSliderRole(handle, { value, label }) {
+    handle.setAttribute('role', 'slider');
+    handle.setAttribute('aria-orientation', 'horizontal');
+    handle.setAttribute('aria-valuemin', String(this.config.min));
+    handle.setAttribute('aria-valuemax', String(this.config.max));
+    handle.setAttribute('aria-valuenow', String(value));
+    handle.setAttribute('aria-valuetext', String(value));
+    handle.setAttribute('aria-label', label);
+    handle.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
+    handle.setAttribute('aria-disabled', this.config.disabled ? 'true' : 'false');
+    handle.disabled = this.config.disabled;
+  }
+
+  /** Sync aria-valuenow / aria-valuetext on every handle after value changes. */
+  updateHandleAria() {
+    if (this.config.type === 'range') {
+      this.minHandle.setAttribute('aria-valuenow', String(this.values[0]));
+      this.minHandle.setAttribute('aria-valuetext', String(this.values[0]));
+      this.maxHandle.setAttribute('aria-valuenow', String(this.values[1]));
+      this.maxHandle.setAttribute('aria-valuetext', String(this.values[1]));
+    } else {
+      this.handle.setAttribute('aria-valuenow', String(this.values));
+      this.handle.setAttribute('aria-valuetext', String(this.values));
+    }
+  }
+
   updateVisuals() {
     const range = this.config.max - this.config.min;
 
@@ -515,11 +536,7 @@ class NumericSlider {
         this.maxInput.value = Math.round(this.values[1]);
       }
 
-      // Update aria attributes
-      this.wrapper.setAttribute('aria-valuenow', `${this.values[0]},${this.values[1]}`);
-      this.wrapper.setAttribute('aria-label', `Range slider from ${this.values[0]} to ${this.values[1]}`);
-      this.minHandle.setAttribute('aria-label', `Minimum value: ${this.values[0]}`);
-      this.maxHandle.setAttribute('aria-label', `Maximum value: ${this.values[1]}`);
+      this.updateHandleAria();
     } else {
       const percent = ((this.values - this.config.min) / range) * 100;
 
@@ -535,10 +552,7 @@ class NumericSlider {
         this.valueInput.value = Math.round(this.values);
       }
 
-      // Update aria attributes
-      this.wrapper.setAttribute('aria-valuenow', this.values);
-      this.wrapper.setAttribute('aria-label', `Slider value ${this.values}`);
-      this.handle.setAttribute('aria-label', `Value: ${this.values}`);
+      this.updateHandleAria();
     }
   }
 
@@ -577,25 +591,26 @@ class NumericSlider {
   setDisabled(disabled) {
     this.config.disabled = disabled;
 
+    const syncHandleDisabled = (handle) => {
+      if (!handle) return;
+      handle.setAttribute('tabindex', disabled ? '-1' : '0');
+      handle.setAttribute('aria-disabled', disabled ? 'true' : 'false');
+      handle.disabled = disabled;
+    };
+
     if (disabled) {
       this.container.classList.add('disabled');
-      this.wrapper.setAttribute('tabindex', '-1');
-      if (this.minHandle) this.minHandle.setAttribute('tabindex', '-1');
-      if (this.maxHandle) this.maxHandle.setAttribute('tabindex', '-1');
-      if (this.handle) this.handle.setAttribute('tabindex', '-1');
-      if (this.minInput) this.minInput.disabled = true;
-      if (this.maxInput) this.maxInput.disabled = true;
-      if (this.valueInput) this.valueInput.disabled = true;
     } else {
       this.container.classList.remove('disabled');
-      this.wrapper.setAttribute('tabindex', '0');
-      if (this.minHandle) this.minHandle.setAttribute('tabindex', '0');
-      if (this.maxHandle) this.maxHandle.setAttribute('tabindex', '0');
-      if (this.handle) this.handle.setAttribute('tabindex', '0');
-      if (this.minInput) this.minInput.disabled = false;
-      if (this.maxInput) this.maxInput.disabled = false;
-      if (this.valueInput) this.valueInput.disabled = false;
     }
+
+    syncHandleDisabled(this.minHandle);
+    syncHandleDisabled(this.maxHandle);
+    syncHandleDisabled(this.handle);
+
+    if (this.minInput) this.minInput.disabled = disabled;
+    if (this.maxInput) this.maxInput.disabled = disabled;
+    if (this.valueInput) this.valueInput.disabled = disabled;
   }
 
   destroy() {

@@ -390,21 +390,21 @@
     });
 
     // Disabled sliders
-    new NumericSlider('#slider-disabled-single', {
+    const sliderDisabledSingle = new NumericSlider('#slider-disabled-single', {
       type: 'single',
       value: 50,
       showInputs: true,
       disabled: true
     });
 
-    new NumericSlider('#slider-disabled-range', {
+    const sliderDisabledRange = new NumericSlider('#slider-disabled-range', {
       type: 'range',
       value: [20, 60],
       showInputs: true,
       disabled: true
     });
 
-    // Make sliders available globally for debugging
+    // Make sliders available globally for debugging / Playwright
     window.testSliders = {
       singleDefault: sliderSingleDefault,
       singleInput: sliderSingleInput,
@@ -416,7 +416,9 @@
       negativeRange: sliderNegativeRange,
       presetSingle: sliderPresetSingle,
       presetRange: sliderPresetRange,
-      continuous: sliderContinuous
+      continuous: sliderContinuous,
+      disabledSingle: sliderDisabledSingle,
+      disabledRange: sliderDisabledRange
     };
   </script>
 </body>
