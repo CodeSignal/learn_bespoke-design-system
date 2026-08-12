@@ -67,8 +67,7 @@ Select-only combobox pattern (APG):
 - Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup.
 - Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
 - Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
-
-Selection state exposure (`aria-selected`) is tracked separately as D4.
+- Every option exposes `aria-selected="true"` or `"false"`; the checkmark SVG is decorative (`aria-hidden`) and is not the only selection cue.
 
 ## API Methods
 
@@ -89,7 +88,7 @@ npx playwright install chromium
 npm test
 ```
 
-`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html` in light and dark (`colorScheme`), plus a scoped axe scan (`tests/helpers/a11y.js`).
+`tests/dropdown-focus.spec.js` covers Tab / Shift+Tab open-state behavior against `test.html` in light and dark (`colorScheme`), plus a scoped axe scan (`tests/helpers/a11y.js`). Selection state (`aria-selected`) is covered in the same suite.
 
 ## Dependencies
 

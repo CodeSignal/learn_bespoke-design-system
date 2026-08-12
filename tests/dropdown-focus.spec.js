@@ -134,4 +134,80 @@ for (const colorScheme of ['light', 'dark']) {
       await expectNoAxeViolations(page, '#dropdown-basic');
     });
   });
+
+  test.describe(`dropdown selection (aria-selected) — ${colorScheme}`, () => {
+    test.use({ colorScheme });
+
+    test.beforeEach(async ({ page }) => {
+      await page.goto('/components/dropdown/test.html');
+      await page.waitForFunction(() => window.testDropdowns?.basic);
+    });
+
+    test('preselected value exposes aria-selected on exactly one option', async ({
+      page,
+    }) => {
+      await page.locator('#dropdown-preselected .dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+
+      const state = await selectionState(page, '#dropdown-preselected');
+      expect(state.total).toBeGreaterThan(0);
+      expect(state.selectedCount).toBe(1);
+      expect(state.selectedValues).toEqual(['option-2']);
+      expect(state.allHaveAriaSelected).toBe(true);
+      expect(state.falseCount).toBe(state.total - 1);
+
+      await expectNoAxeViolations(page, '#dropdown-preselected');
+    });
+
+    test('selecting an option updates aria-selected on all options', async ({
+      page,
+    }) => {
+      const basic = page.locator('#dropdown-basic');
+      await basic.locator('.dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+
+      let state = await selectionState(page, '#dropdown-basic');
+      expect(state.selectedCount).toBe(0);
+      expect(state.allHaveAriaSelected).toBe(true);
+      expect(state.falseCount).toBe(state.total);
+
+      await page.keyboard.press('ArrowDown');
+      await page.keyboard.press('Enter');
+
+      await expect(basic).not.toHaveClass(/open/);
+      await basic.locator('.dropdown-toggle').focus();
+      await page.keyboard.press('ArrowDown');
+
+      state = await selectionState(page, '#dropdown-basic');
+      expect(state.selectedCount).toBe(1);
+      expect(state.selectedValues).toEqual(['option-2']);
+      expect(state.allHaveAriaSelected).toBe(true);
+      expect(state.falseCount).toBe(state.total - 1);
+
+      await expectNoAxeViolations(page, '#dropdown-basic');
+    });
+  });
+}
+
+/** aria-selected snapshot for options under a dropdown root. */
+function selectionState(page, rootSelector) {
+  return page.evaluate((sel) => {
+    const root = document.querySelector(sel);
+    const options = Array.from(root.querySelectorAll('[role="option"]'));
+    const selected = options.filter(
+      (o) => o.getAttribute('aria-selected') === 'true',
+    );
+    return {
+      total: options.length,
+      selectedCount: selected.length,
+      selectedValues: selected.map((o) => o.getAttribute('data-value')),
+      falseCount: options.filter(
+        (o) => o.getAttribute('aria-selected') === 'false',
+      ).length,
+      allHaveAriaSelected: options.every((o) => {
+        const v = o.getAttribute('aria-selected');
+        return v === 'true' || v === 'false';
+      }),
+    };
+  }, rootSelector);
 }

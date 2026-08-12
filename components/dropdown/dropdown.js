@@ -131,8 +131,11 @@ class Dropdown {
     menuItem.tabIndex = -1;
     menuItem.setAttribute('data-value', item.value);
     menuItem.setAttribute('data-index', index);
+    // Programmatic selection state for AT (D4); checkmark stays visual-only.
+    const isSelected = this.selectedValue === item.value;
+    menuItem.setAttribute('aria-selected', isSelected ? 'true' : 'false');
 
-    if (this.selectedValue === item.value) {
+    if (isSelected) {
       menuItem.classList.add('selected');
     }
 
@@ -140,8 +143,8 @@ class Dropdown {
     itemContent.className = 'dropdown-menu-item-content';
     itemContent.setAttribute('role', 'presentation');
 
-    // Checkmark icon (only show if selected)
-    if (this.selectedValue === item.value) {
+    // Checkmark icon (only show if selected; decorative — aria-selected is the signal)
+    if (isSelected) {
       const checkmark = document.createElement('span');
       checkmark.className = 'dropdown-menu-item-checkmark';
       checkmark.setAttribute('aria-hidden', 'true');
@@ -554,11 +557,12 @@ class Dropdown {
     this.selectedValue = value;
     this.close();
     
-    // Update menu items
+    // Update menu items (visual selected class + aria-selected for AT)
     const items = this.menuList.querySelectorAll('.dropdown-menu-item');
     items.forEach(item => {
       if (item.getAttribute('data-value') === value) {
         item.classList.add('selected');
+        item.setAttribute('aria-selected', 'true');
         // Add checkmark if not present
         if (!item.querySelector('.dropdown-menu-item-checkmark')) {
           const checkmark = document.createElement('span');
@@ -572,6 +576,7 @@ class Dropdown {
         }
       } else {
         item.classList.remove('selected');
+        item.setAttribute('aria-selected', 'false');
         const checkmark = item.querySelector('.dropdown-menu-item-checkmark');
         if (checkmark) {
           checkmark.remove();
