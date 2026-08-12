@@ -45,12 +45,13 @@
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --Colors-Buttons-Secondary-Default: var(--Colors-Base-Primary-600);
-        --Colors-Buttons-Secondary-Default-Text: var(--Colors-Base-Primary-600);
-        --Colors-Buttons-Secondary-Hover: var(--Colors-Base-Primary-500);
-        --Colors-Buttons-Secondary-Hover-Text: var(--Colors-Base-Primary-500);
-        --Colors-Buttons-Secondary-Pressed: var(--Colors-Base-Primary-650);
-        --Colors-Buttons-Secondary-Pressed-Text: var(--Colors-Base-Primary-650);
+        /* Secondary label/border lightened for 4.5:1 on dark surfaces (A8). */
+        --Colors-Buttons-Secondary-Default: var(--Colors-Base-Primary-450);
+        --Colors-Buttons-Secondary-Default-Text: var(--Colors-Base-Primary-450);
+        --Colors-Buttons-Secondary-Hover: var(--Colors-Base-Primary-400);
+        --Colors-Buttons-Secondary-Hover-Text: var(--Colors-Base-Primary-400);
+        --Colors-Buttons-Secondary-Pressed: var(--Colors-Base-Primary-500);
+        --Colors-Buttons-Secondary-Pressed-Text: var(--Colors-Base-Primary-500);
         --Colors-Buttons-Tertiary-Default-Background: var(--Colors-Base-Neutral-Alphas-1200-25);
         --Colors-Buttons-Tertiary-Default-Text: var(--Colors-Base-Neutral-500);
         --Colors-Buttons-Tertiary-Hover: var(--Colors-Base-Neutral-1100);

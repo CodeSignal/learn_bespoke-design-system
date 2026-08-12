@@ -64,3 +64,15 @@ Categories:
 
 The system automatically handles Dark Mode via the `@media (prefers-color-scheme: dark)` query. By using the **Semantic Names**, your components will automatically adapt to the user's system preference.
 
+## Contrast (WCAG)
+
+Semantic text and focus tokens are chosen to meet WCAG 2.2 AA against `Backgrounds-Main-Top` in each theme:
+
+| Token | Requirement | Notes |
+| :--- | :--- | :--- |
+| `--Colors-Primary-Default` | ≥ 3:1 (non-text / focus) | Dark mode uses a lighter primary step so focus rings clear the threshold. |
+| `--Colors-Text-Body-Lighter` | ≥ 4.5:1 (body text) | Use at full opacity. **Do not fade this token** with `opacity` — layering transparency will drop it below 4.5:1. |
+| `--Colors-Text-Body-Light` | ≥ 4.5:1 | Also used for input placeholders; kept one step stronger than Lighter. |
+
+`npm test` includes `tests/contrast-tokens.spec.js`, which measures these ratios in light and dark.
+

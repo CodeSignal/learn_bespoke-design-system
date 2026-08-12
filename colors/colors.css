@@ -215,8 +215,11 @@
   --Colors-Text-Body-White: var(--Colors-Base-Neutral-00);
   --Colors-Text-Body-Default: var(--Colors-Base-Neutral-1200);
   --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-1050);
-  --Colors-Text-Body-Light: var(--Colors-Base-Neutral-900);
-  --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-800);
+  /* Light/Lighter darkened for WCAG 1.4.3 (A8). Lighter clears 4.5:1 on
+     Backgrounds-Main-Top; Light stays one step stronger for hierarchy and
+     input placeholders. Do not fade these tokens with opacity. */
+  --Colors-Text-Body-Light: var(--Colors-Base-Neutral-1000);
+  --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-950);
   --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-1350);
   --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-1450); 
 
@@ -276,7 +279,8 @@
 @media (prefers-color-scheme: dark) {
   :root {
     /* Primary Colors - Semantic Names (ElevatedDark Mode) */
-    --Colors-Primary-Default: var(--Colors-Base-Primary-700);
+    /* Lightened so focus rings / Primary-Default meet 3:1 on dark surfaces (A7). */
+    --Colors-Primary-Default: var(--Colors-Base-Primary-450);
     --Colors-Primary-Lightest: var(--Colors-Base-Primary-400);   
     --Colors-Primary-Lighter: var(--Colors-Base-Primary-450);    
     --Colors-Primary-Light: var(--Colors-Base-Primary-450);      
@@ -300,8 +304,9 @@
     /* Text Colors - Semantic Names (Elevated Dark Mode) */
     --Colors-Text-Body-Default: var(--Colors-Base-Neutral-450);
     --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-650);
-    --Colors-Text-Body-Light: var(--Colors-Base-Neutral-750);
-    --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-900);
+    /* Light/Lighter raised for WCAG 1.4.3 (A8); Light stays stronger than Lighter. */
+    --Colors-Text-Body-Light: var(--Colors-Base-Neutral-650);
+    --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-700);
     --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-00);
     --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-00);
     
