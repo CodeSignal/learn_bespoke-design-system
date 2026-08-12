@@ -3,6 +3,8 @@
  * A customizable dropdown component matching the CodeSignal Design System
  */
 
+let listboxIdCounter = 0;
+
 class Dropdown {
   constructor(container, options = {}) {
     this.container = typeof container === 'string' 
@@ -40,13 +42,15 @@ class Dropdown {
     this.container.innerHTML = '';
     this.container.className = 'dropdown-container';
     
-    // Create toggle button
+    // Create toggle (APG select-only combobox → listbox)
     this.toggle = document.createElement('button');
     this.toggle.className = 'dropdown-toggle';
     this.toggle.setAttribute('type', 'button');
-    this.toggle.setAttribute('aria-haspopup', 'true');
+    this.toggle.setAttribute('role', 'combobox');
+    this.toggle.setAttribute('aria-haspopup', 'listbox');
     this.toggle.setAttribute('aria-expanded', 'false');
-    
+    this.toggle.setAttribute('aria-autocomplete', 'none');
+
     // Toggle content
     const toggleContent = document.createElement('div');
     toggleContent.className = 'dropdown-toggle-content';
@@ -63,14 +67,19 @@ class Dropdown {
     toggleContent.appendChild(toggleIcon);
     this.toggle.appendChild(toggleContent);
     
-    // Create menu panel
+    // Create menu panel (listbox). Layout wrapper below is presentational so
+    // options remain owned by this listbox in the accessibility tree (D3).
     this.menu = document.createElement('div');
     this.menu.className = 'dropdown-menu';
     this.menu.setAttribute('role', 'listbox');
-    
+    listboxIdCounter += 1;
+    this.menu.id = `dropdown-listbox-${listboxIdCounter}`;
+    this.toggle.setAttribute('aria-controls', this.menu.id);
+
     // Create menu list
     this.menuList = document.createElement('div');
     this.menuList.className = 'dropdown-menu-list';
+    this.menuList.setAttribute('role', 'presentation');
     
     // Create menu items
     this.config.items.forEach((item, index) => {
@@ -109,42 +118,45 @@ class Dropdown {
   }
 
   createMenuItem(item, index) {
-    const menuItem = document.createElement('button');
+    // Plain element host — button is not a valid role="option" host (D3).
+    const menuItem = document.createElement('div');
     menuItem.className = 'dropdown-menu-item';
-    menuItem.setAttribute('type', 'button');
     menuItem.setAttribute('role', 'option');
+    menuItem.tabIndex = -1;
     menuItem.setAttribute('data-value', item.value);
     menuItem.setAttribute('data-index', index);
-    
+
     if (this.selectedValue === item.value) {
       menuItem.classList.add('selected');
     }
-    
+
     const itemContent = document.createElement('div');
     itemContent.className = 'dropdown-menu-item-content';
-    
+    itemContent.setAttribute('role', 'presentation');
+
     // Checkmark icon (only show if selected)
     if (this.selectedValue === item.value) {
       const checkmark = document.createElement('span');
       checkmark.className = 'dropdown-menu-item-checkmark';
+      checkmark.setAttribute('aria-hidden', 'true');
       checkmark.innerHTML = this.getCheckmarkIcon();
       itemContent.appendChild(checkmark);
     }
-    
+
     // Label
     const label = document.createElement('span');
     label.className = 'dropdown-menu-item-label body-small';
     label.textContent = item.label;
     itemContent.appendChild(label);
-    
+
     menuItem.appendChild(itemContent);
-    
+
     // Click handler
     menuItem.addEventListener('click', (e) => {
       e.stopPropagation();
       this.selectItem(item.value);
     });
-    
+
     return menuItem;
   }
 
@@ -529,6 +541,7 @@ class Dropdown {
         if (!item.querySelector('.dropdown-menu-item-checkmark')) {
           const checkmark = document.createElement('span');
           checkmark.className = 'dropdown-menu-item-checkmark';
+          checkmark.setAttribute('aria-hidden', 'true');
           checkmark.innerHTML = this.getCheckmarkIcon();
           item.querySelector('.dropdown-menu-item-content').insertBefore(
             checkmark,

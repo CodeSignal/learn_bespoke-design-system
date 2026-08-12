@@ -58,6 +58,16 @@ const dropdown = new Dropdown('#my-dropdown', {
 - **Enter / Space** on an option selects it and returns focus to the toggle.
 - **Escape** closes the menu and returns focus to the toggle (does not dismiss an enclosing modal).
 
+## Accessibility
+
+Select-only combobox pattern (APG):
+
+- Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup.
+- Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
+- Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
+
+Selection state exposure (`aria-selected`) is tracked separately as D4.
+
 ## API Methods
 
 - **`getValue()`**: Returns the current selected value.
