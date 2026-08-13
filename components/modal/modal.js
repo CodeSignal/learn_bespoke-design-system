@@ -11,6 +11,14 @@ const priorInertByElement = new Map();
 let bodyInertObserver = null;
 /** Shared body-scroll lock — styles clear only when the last open modal releases. */
 let bodyScrollLockCount = 0;
+/** Per-instance title ids so stacked / retained overlays never share `modal-title`. */
+let modalTitleIdCounter = 0;
+
+function prefersReducedMotion() {
+  return typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 
 function rememberPriorInert(el) {
   if (!priorInertByElement.has(el)) {
@@ -118,6 +126,10 @@ class Modal {
     // State
     this.isOpen = false;
     this.previousActiveElement = null;
+    this.documentListenersBound = false;
+
+    modalTitleIdCounter += 1;
+    this.titleId = `modal-title-${modalTitleIdCounter}`;
 
     // Create modal structure
     this.init();
@@ -129,7 +141,9 @@ class Modal {
     this.overlay.className = 'modal-overlay';
     this.overlay.setAttribute('role', 'dialog');
     this.overlay.setAttribute('aria-modal', 'true');
-    this.overlay.setAttribute('aria-labelledby', 'modal-title');
+    if (this.config.title) {
+      this.overlay.setAttribute('aria-labelledby', this.titleId);
+    }
 
     // Create dialog
     this.dialog = document.createElement('div');
@@ -142,7 +156,7 @@ class Modal {
     if (this.config.title) {
       this.title = document.createElement('h2');
       this.title.className = 'modal-title';
-      this.title.id = 'modal-title';
+      this.title.id = this.titleId;
       this.title.textContent = this.config.title;
       this.header.appendChild(this.title);
     }
@@ -287,19 +301,9 @@ class Modal {
       });
     }
 
-    // Escape key
-    if (this.config.closeOnEscape) {
-      this.escapeHandler = (e) => {
-        if (e.key === 'Escape' && this.isOpen) {
-          this.close();
-        }
-      };
-      document.addEventListener('keydown', this.escapeHandler);
-    }
-
-    // Focus trap — keep Tab / Shift+Tab cycling inside the dialog
-    this.focusTrapHandler = (e) => this.handleFocusTrapKeydown(e);
-    document.addEventListener('keydown', this.focusTrapHandler, true);
+    // Document-level Escape / focus-trap listeners attach in open() and
+    // detach in close(), so closed-but-retained overlays do not accumulate
+    // global keydown handlers (D10).
 
     // Prevent dialog clicks from closing modal
     this.dialog.addEventListener('click', (e) => {
@@ -314,7 +318,10 @@ class Modal {
         const targetId = link.hash.substring(1);
         const targetElement = this.content.querySelector(`#${targetId}`);
         if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          targetElement.scrollIntoView({
+            behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+            block: 'start',
+          });
         }
       }
     });
@@ -333,6 +340,7 @@ class Modal {
     // Lock body scroll and remove background from the keyboard / AT tree
     acquireBodyScrollLock();
     pushOpenModal(this);
+    this.bindDocumentListeners();
 
     // Focus management
     if (this.closeButton) {
@@ -357,6 +365,7 @@ class Modal {
     if (!this.isOpen) return;
 
     this.isOpen = false;
+    this.unbindDocumentListeners();
 
     // Hide overlay
     this.overlay.classList.remove('open');
@@ -396,6 +405,39 @@ class Modal {
       if (el.closest('[inert]')) return false;
       return el.getClientRects().length > 0;
     });
+  }
+
+  bindDocumentListeners() {
+    if (this.documentListenersBound) return;
+
+    if (this.config.closeOnEscape) {
+      if (!this.escapeHandler) {
+        this.escapeHandler = (e) => {
+          if (e.key !== 'Escape' || !this.isOpen) return;
+          // Only the topmost open modal should close (stacked settings + confirm).
+          if (openModalStack[openModalStack.length - 1] !== this) return;
+          this.close();
+        };
+      }
+      document.addEventListener('keydown', this.escapeHandler);
+    }
+
+    if (!this.focusTrapHandler) {
+      this.focusTrapHandler = (e) => this.handleFocusTrapKeydown(e);
+    }
+    document.addEventListener('keydown', this.focusTrapHandler, true);
+    this.documentListenersBound = true;
+  }
+
+  unbindDocumentListeners() {
+    if (!this.documentListenersBound) return;
+    if (this.escapeHandler) {
+      document.removeEventListener('keydown', this.escapeHandler);
+    }
+    if (this.focusTrapHandler) {
+      document.removeEventListener('keydown', this.focusTrapHandler, true);
+    }
+    this.documentListenersBound = false;
   }
 
   handleFocusTrapKeydown(e) {
@@ -440,8 +482,9 @@ class Modal {
       // Create title if it doesn't exist
       this.title = document.createElement('h2');
       this.title.className = 'modal-title';
-      this.title.id = 'modal-title';
+      this.title.id = this.titleId;
       this.title.textContent = title;
+      this.overlay.setAttribute('aria-labelledby', this.titleId);
       this.header.insertBefore(this.title, this.closeButton || null);
     }
   }
@@ -455,13 +498,7 @@ class Modal {
   }
 
   destroy() {
-    // Remove event listeners
-    if (this.escapeHandler) {
-      document.removeEventListener('keydown', this.escapeHandler);
-    }
-    if (this.focusTrapHandler) {
-      document.removeEventListener('keydown', this.focusTrapHandler, true);
-    }
+    this.unbindDocumentListeners();
 
     // Unlock body scroll / inert if still applied
     if (this.isOpen) {

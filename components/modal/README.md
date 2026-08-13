@@ -402,10 +402,11 @@ Footer buttons support the following types:
 
 The modal component includes:
 
-- **ARIA Attributes**: `role="dialog"`, `aria-modal="true"`, `aria-labelledby`
+- **ARIA Attributes**: `role="dialog"`, `aria-modal="true"`, `aria-labelledby` pointing at a unique `modal-title-${n}` per instance
 - **Focus Management**: Focuses the close button (or title / dialog) on open, and restores focus to the invoking element on close
-- **Keyboard Navigation**: Escape key closes modal
+- **Keyboard Navigation**: Escape key closes the topmost open modal. Document-level keydown listeners attach on `open()` and detach on `close()`, so retained overlays do not accumulate global handlers
 - **Focus Trap**: Tab and Shift+Tab cycle only among focusable elements inside the dialog; background siblings are marked `inert` while open
+- **Reduced motion**: In-content hash links use `scrollIntoView({ behavior: 'auto' })` when `prefers-reduced-motion: reduce`
 - **Body Scroll Lock**: Prevents background scrolling when modal is open
 - **Translated names**: pass `closeButtonLabel` (and footer `label`s) as already-translated strings. Defaults stay English when omitted.
 
