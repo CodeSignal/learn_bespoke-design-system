@@ -46,6 +46,7 @@ modal.open();
 | `footerButtons` | Array | `null` | Array of button configs `[{label, type, onClick}]`. If `null`, footer is hidden. |
 | `closeOnOverlayClick` | Boolean | `true` | If `true`, clicking overlay closes modal. |
 | `closeOnEscape` | Boolean | `true` | If `true`, pressing Escape closes modal. |
+| `closeButtonLabel` | String | `'Close modal'` | Accessible name for the header close button. Pass an already-translated string; the component has no i18n runtime. |
 | `onOpen` | Function | `null` | Callback triggered when modal opens. Receives `(modal)` instance. |
 | `onClose` | Function | `null` | Callback triggered when modal closes. Receives `(modal)` instance. |
 
@@ -406,6 +407,7 @@ The modal component includes:
 - **Keyboard Navigation**: Escape key closes modal
 - **Focus Trap**: Tab and Shift+Tab cycle only among focusable elements inside the dialog; background siblings are marked `inert` while open
 - **Body Scroll Lock**: Prevents background scrolling when modal is open
+- **Translated names**: pass `closeButtonLabel` (and footer `label`s) as already-translated strings. Defaults stay English when omitted.
 
 ## Dependencies
 

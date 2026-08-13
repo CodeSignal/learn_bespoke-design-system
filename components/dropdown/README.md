@@ -44,7 +44,7 @@ const dropdown = new Dropdown('#my-dropdown', {
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `items` | Array | `[]` | Array of objects with `value` and `label` properties. |
-| `placeholder` | String | `'Select option'` | Text displayed when no item is selected. |
+| `placeholder` | String | `'Select option'` | Text displayed when no item is selected. This is also the combobox accessible name until a value is chosen, so pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value. |
 | `width` | String/Number | `'auto'` | Fixed width of the dropdown (e.g., `200`, `'100%'`). Ignored if `growToFit` is true. |
 | `growToFit` | Boolean | `false` | If `true`, the dropdown automatically resizes to fit the selected content. |
@@ -64,7 +64,7 @@ const dropdown = new Dropdown('#my-dropdown', {
 
 Select-only combobox pattern (APG):
 
-- Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup.
+- Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup. The accessible name comes from the visible label (`placeholder` when nothing is selected). There is no separate i18n runtime; pass a translated `placeholder`.
 - Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
 - Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
 - Every option exposes `aria-selected="true"` or `"false"`; the checkmark SVG is decorative (`aria-hidden`) and is not the only selection cue.

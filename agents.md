@@ -631,7 +631,7 @@ const dropdown = new Dropdown(selector, options);
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
 | `items` | Array | `[]` | Array of `{value, label}` objects |
-| `placeholder` | String | `'Select option'` | Placeholder text |
+| `placeholder` | String | `'Select option'` | Placeholder text. Also the combobox accessible name when nothing is selected; pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value |
 | `width` | String/Number | `'auto'` | Fixed width (ignored if `growToFit` is true) |
 | `growToFit` | Boolean | `false` | Auto-resize to fit content |
@@ -697,6 +697,9 @@ const slider = new NumericSlider(selector, options);
 | `continuousUpdates` | Boolean | `false` | If `true`, fires `onChange` continuously during drag (throttled by `throttleMs`). Final value always sent on drag end. |
 | `throttleMs` | Number | `16` | Throttle interval in ms for continuous updates (~60fps at 16ms). Only applies when `continuousUpdates` is `true`. |
 | `disabled` | Boolean | `false` | If `true`, disables the slider |
+| `handleLabel` | String | `'Value'` | `aria-label` for the single-value handle. Pass an already-translated string. |
+| `minHandleLabel` | String | `'Minimum value'` | `aria-label` for the range min handle. |
+| `maxHandleLabel` | String | `'Maximum value'` | `aria-label` for the range max handle. |
 | `onChange` | Function | `null` | Callback `(value, source)` when value changes. Fires on drag end (always), track click, keyboard, and during drag if `continuousUpdates` is `true`. |
 | `onInputChange` | Function | `null` | Callback `(value, source)` when value changes via input field |
 
@@ -864,6 +867,7 @@ const modal = new Modal(options);
 | `footerButtons` | Array | `null` | Array of button configs `[{label, type, onClick}]`. If `null`, footer is hidden |
 | `closeOnOverlayClick` | Boolean | `true` | If `true`, clicking overlay closes modal |
 | `closeOnEscape` | Boolean | `true` | If `true`, pressing Escape closes modal |
+| `closeButtonLabel` | String | `'Close modal'` | Accessible name for the header close button. Pass an already-translated string; no i18n runtime in the DS. |
 | `onOpen` | Function | `null` | Callback triggered when modal opens. Receives `(modal)` instance |
 | `onClose` | Function | `null` | Callback triggered when modal closes. Receives `(modal)` instance |
 

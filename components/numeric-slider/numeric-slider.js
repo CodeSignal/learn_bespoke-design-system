@@ -54,6 +54,9 @@ class NumericSlider {
       onChange: options.onChange || null,
       onInputChange: options.onInputChange || null,
       disabled: options.disabled || false,
+      handleLabel: options.handleLabel || 'Value',
+      minHandleLabel: options.minHandleLabel || 'Minimum value',
+      maxHandleLabel: options.maxHandleLabel || 'Maximum value',
       ...options
     };
 
@@ -167,7 +170,7 @@ class NumericSlider {
       this.minHandle.setAttribute('type', 'button');
       this.applyHandleSliderRole(this.minHandle, {
         value: this.values[0],
-        label: 'Minimum value',
+        label: this.config.minHandleLabel || 'Minimum value',
       });
 
       // Max handle
@@ -179,7 +182,7 @@ class NumericSlider {
       this.maxHandle.setAttribute('type', 'button');
       this.applyHandleSliderRole(this.maxHandle, {
         value: this.values[1],
-        label: 'Maximum value',
+        label: this.config.maxHandleLabel || 'Maximum value',
       });
 
       this.track.appendChild(this.filled);
@@ -195,7 +198,7 @@ class NumericSlider {
       this.handle.setAttribute('type', 'button');
       this.applyHandleSliderRole(this.handle, {
         value: this.values,
-        label: 'Value',
+        label: this.config.handleLabel || 'Value',
       });
 
       this.track.appendChild(this.filled);
