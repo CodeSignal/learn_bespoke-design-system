@@ -330,8 +330,8 @@
     --Colors-Stroke-Strong: var(--Colors-Base-Neutral-1000);
     --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-900);
     --Colors-Stroke-Primary: var(--Colors-Base-Primary-450);
-    --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-500);
-    --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-450);
+    --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
+    --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
     --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-600);
   }
 }
