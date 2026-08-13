@@ -52,6 +52,9 @@
         --Colors-Buttons-Secondary-Hover-Text: var(--Colors-Base-Primary-400);
         --Colors-Buttons-Secondary-Pressed: var(--Colors-Base-Primary-500);
         --Colors-Buttons-Secondary-Pressed-Text: var(--Colors-Base-Primary-500);
+        /* Tertiary Default is the border color (Neutral-300 in light). Without a
+           dark remap it stays near-white — same class of bug as D12 stroke tokens. */
+        --Colors-Buttons-Tertiary-Default: var(--Colors-Base-Neutral-1100);
         --Colors-Buttons-Tertiary-Default-Background: var(--Colors-Base-Neutral-Alphas-1200-25);
         --Colors-Buttons-Tertiary-Default-Text: var(--Colors-Base-Neutral-500);
         --Colors-Buttons-Tertiary-Hover: var(--Colors-Base-Neutral-1100);
