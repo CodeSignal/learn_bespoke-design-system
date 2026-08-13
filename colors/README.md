@@ -74,5 +74,9 @@ Semantic text and focus tokens are chosen to meet WCAG 2.2 AA against `Backgroun
 | `--Colors-Text-Body-Lighter` | ≥ 4.5:1 (body text) | Use at full opacity. **Do not fade this token** with `opacity` — layering transparency will drop it below 4.5:1. |
 | `--Colors-Text-Body-Light` | ≥ 4.5:1 | Also used for input placeholders; kept one step stronger than Lighter. |
 
-`npm test` includes `tests/contrast-tokens.spec.js`, which measures these ratios in light and dark.
+### Stroke tokens in dark mode
+
+`--Colors-Stroke-*` are remapped in the dark block onto dark neutrals / primary steps (not the light near-white scale). Prefer these semantic stroke tokens for borders and dividers so components adapt automatically; avoid hardcoding `Neutral-100`…`550` for borders if you need theming.
+
+`npm test` includes `tests/contrast-tokens.spec.js`, which measures text/focus ratios and asserts stroke tokens dark-adapt.
 

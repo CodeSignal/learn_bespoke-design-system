@@ -316,17 +316,22 @@
     --Colors-Icon-Strong: var(--Colors-Base-Neutral-00);
     --Colors-Icon-Primary: var(--Colors-Base-Primary-700);
 
-    /* Stroke Colors */
-    --Colors-Stroke-Default: var(--Colors-Base-Neutral-200);
-    --Colors-Stroke-Lighter: var(--Colors-Base-Neutral-100);
-    --Colors-Stroke-Light: var(--Colors-Base-Neutral-150);
-    --Colors-Stroke-Medium: var(--Colors-Base-Neutral-300);
-    --Colors-Stroke-Strong: var(--Colors-Base-Neutral-400);
-    --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-550);
-    --Colors-Stroke-Primary: var(--Colors-Base-Primary-600);
+    /* Stroke Colors (Elevated Dark Mode)
+       Light mode kept near-white neutrals for borders on white surfaces.
+       Those same steps glow on dark backgrounds, so remap onto the dark
+       neutral / primary scales while preserving Lighter → Stronger rank
+       (closer to Main-Top → more contrast). Aligned with input/box dark
+       borders (Neutral-1250…1100) and A7's Primary-450 focus token (D12). */
+    --Colors-Stroke-Background: var(--Colors-Base-Neutral-1300);
+    --Colors-Stroke-Lighter: var(--Colors-Base-Neutral-1250);
+    --Colors-Stroke-Light: var(--Colors-Base-Neutral-1200);
+    --Colors-Stroke-Default: var(--Colors-Base-Neutral-1150);
+    --Colors-Stroke-Medium: var(--Colors-Base-Neutral-1100);
+    --Colors-Stroke-Strong: var(--Colors-Base-Neutral-1000);
+    --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-900);
+    --Colors-Stroke-Primary: var(--Colors-Base-Primary-450);
     --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
     --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
-    --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-800);
-    --Colors-Stroke-Background: var(--Colors-Base-Neutral-20);
+    --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-600);
   }
 }
