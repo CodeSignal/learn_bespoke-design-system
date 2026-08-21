@@ -64,6 +64,23 @@ async function createIsolatedPanel(
   }, { opts: options, size });
 }
 
+function hostAndDividerRects(page, rootSelector) {
+  return page.evaluate((sel) => {
+    const root = document.querySelector(sel);
+    const divider = root.querySelector('.split-panel-divider');
+    const host = root.getBoundingClientRect();
+    const hit = divider.getBoundingClientRect();
+    return {
+      hostWidth: host.width,
+      hostHeight: host.height,
+      hostOverflow: getComputedStyle(root).overflow,
+      dividerWidth: hit.width,
+      dividerHeight: hit.height,
+      flexBasis: getComputedStyle(divider).flexBasis,
+    };
+  }, rootSelector);
+}
+
 async function destroyIsolatedPanels(page) {
   await page.evaluate(() => {
     (window.__testSplitPanels || []).forEach((p) => p.destroy());
@@ -168,9 +185,11 @@ test.describe('split panel constrained containers', () => {
   test('horizontal divider stays ≥24×24 in a short container', async ({ page }) => {
     await createIsolatedPanel(page, {}, { width: '400px', height: '16px' });
 
-    const state = await dividerState(page, '#isolated-split');
-    expect(state.width).toBeGreaterThanOrEqual(24);
-    expect(state.height).toBeGreaterThanOrEqual(24);
+    const state = await hostAndDividerRects(page, '#isolated-split');
+    expect(state.hostHeight).toBe(16);
+    expect(state.hostOverflow).toBe('visible');
+    expect(state.dividerWidth).toBeGreaterThanOrEqual(24);
+    expect(state.dividerHeight).toBeGreaterThanOrEqual(24);
     expect(state.flexBasis).toBe('4px');
   });
 
@@ -181,9 +200,11 @@ test.describe('split panel constrained containers', () => {
       { width: '16px', height: '400px' },
     );
 
-    const state = await dividerState(page, '#isolated-split');
-    expect(state.width).toBeGreaterThanOrEqual(24);
-    expect(state.height).toBeGreaterThanOrEqual(24);
+    const state = await hostAndDividerRects(page, '#isolated-split');
+    expect(state.hostWidth).toBe(16);
+    expect(state.hostOverflow).toBe('visible');
+    expect(state.dividerWidth).toBeGreaterThanOrEqual(24);
+    expect(state.dividerHeight).toBeGreaterThanOrEqual(24);
     expect(state.flexBasis).toBe('4px');
   });
 });
