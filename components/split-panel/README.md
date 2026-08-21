@@ -72,6 +72,10 @@ import SplitPanel from '/design-system/components/split-panel/split-panel.js';
 - **Default:** `null`
 - **Description:** Callback function called when the split changes. Receives the new split percentage as an argument.
 
+### `dividerLabel` (string)
+- **Default:** `'Resize reference panel'`
+- **Description:** Accessible name (`aria-label`) for the divider. Pass an already-translated string. The design system has no i18n runtime.
+
 ## Methods
 
 ### `setSplit(percent, skipCallback)`
@@ -154,7 +158,7 @@ Removes the split panel and cleans up event listeners.
 
 ## Interaction
 
-- **Mouse:** Click and drag the divider to resize panels
+- **Mouse:** Click and drag the divider to resize panels. The pointer target is at least 24×24 CSS pixels; the visible line stays 2px.
 - **Touch:** Touch and drag the divider on touch devices
 - **Keyboard:** Focus the divider and use arrow keys to adjust:
   - `ArrowLeft` / `ArrowRight` (horizontal): Decrease/Increase left panel size
