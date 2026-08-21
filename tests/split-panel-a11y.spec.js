@@ -44,12 +44,16 @@ function dividerState(page, rootSelector) {
   }, rootSelector);
 }
 
-async function createIsolatedPanel(page, options = {}) {
-  return page.evaluate((opts) => {
+async function createIsolatedPanel(
+  page,
+  options = {},
+  size = { width: '800px', height: '400px' },
+) {
+  return page.evaluate(({ opts, size: dim }) => {
     const root = document.createElement('div');
     root.id = 'isolated-split';
-    root.style.width = '800px';
-    root.style.height = '400px';
+    root.style.width = dim.width;
+    root.style.height = dim.height;
     document.body.appendChild(root);
     const panel = new window.SplitPanel(root, {
       initialSplit: 50,
@@ -57,7 +61,7 @@ async function createIsolatedPanel(page, options = {}) {
     });
     window.__testSplitPanels = [panel];
     return true;
-  }, options);
+  }, { opts: options, size });
 }
 
 async function destroyIsolatedPanels(page) {
@@ -148,5 +152,83 @@ test.describe('split panel hit target vs consumer reset', () => {
     expect(state.flexBasis).toBe('4px');
     expect(state.boxSizing).toBe('content-box');
     expect(state.label).toBe('Resize reference panel');
+  });
+});
+
+test.describe('split panel constrained containers', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/components/split-panel/test.html');
+    await page.waitForFunction(() => typeof window.SplitPanel === 'function');
+  });
+
+  test.afterEach(async ({ page }) => {
+    await destroyIsolatedPanels(page);
+  });
+
+  test('horizontal divider stays ≥24×24 in a short container', async ({ page }) => {
+    await createIsolatedPanel(page, {}, { width: '400px', height: '16px' });
+
+    const state = await dividerState(page, '#isolated-split');
+    expect(state.width).toBeGreaterThanOrEqual(24);
+    expect(state.height).toBeGreaterThanOrEqual(24);
+    expect(state.flexBasis).toBe('4px');
+  });
+
+  test('vertical divider stays ≥24×24 in a narrow container', async ({ page }) => {
+    await createIsolatedPanel(
+      page,
+      { orientation: 'vertical' },
+      { width: '16px', height: '400px' },
+    );
+
+    const state = await dividerState(page, '#isolated-split');
+    expect(state.width).toBeGreaterThanOrEqual(24);
+    expect(state.height).toBeGreaterThanOrEqual(24);
+    expect(state.flexBasis).toBe('4px');
+  });
+});
+
+test.describe('split panel fractional ARIA bounds', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/components/split-panel/test.html');
+    await page.waitForFunction(() => typeof window.SplitPanel === 'function');
+  });
+
+  test.afterEach(async ({ page }) => {
+    await destroyIsolatedPanels(page);
+  });
+
+  test('rounded valuenow stays within rounded min/max at Home and End', async ({
+    page,
+  }) => {
+    await createIsolatedPanel(page, { minLeft: 10.4, minRight: 10.4 });
+    const divider = page.locator('#isolated-split .split-panel-divider');
+
+    await divider.focus();
+    await page.keyboard.press('End');
+
+    const endState = await dividerState(page, '#isolated-split');
+    const endMin = Number(endState.valuemin);
+    const endMax = Number(endState.valuemax);
+    const endNow = Number(endState.valuenow);
+    expect(endMin).toBe(10);
+    expect(endMax).toBe(90);
+    expect(endNow).toBe(90);
+    expect(endNow).toBeGreaterThanOrEqual(endMin);
+    expect(endNow).toBeLessThanOrEqual(endMax);
+    expect(endState.valuetext).toBe('90%');
+
+    await page.keyboard.press('Home');
+
+    const homeState = await dividerState(page, '#isolated-split');
+    const homeMin = Number(homeState.valuemin);
+    const homeMax = Number(homeState.valuemax);
+    const homeNow = Number(homeState.valuenow);
+    expect(homeMin).toBe(10);
+    expect(homeMax).toBe(90);
+    expect(homeNow).toBe(10);
+    expect(homeNow).toBeGreaterThanOrEqual(homeMin);
+    expect(homeNow).toBeLessThanOrEqual(homeMax);
+    expect(homeState.valuetext).toBe('10%');
   });
 });

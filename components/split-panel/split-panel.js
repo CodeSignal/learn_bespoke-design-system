@@ -59,8 +59,8 @@ class SplitPanel {
     this.divider.setAttribute('role', 'separator');
     this.divider.setAttribute('aria-orientation', this.config.orientation);
     this.divider.setAttribute('aria-label', this.config.dividerLabel || 'Resize reference panel');
-    this.divider.setAttribute('aria-valuemin', this.config.minLeft);
-    this.divider.setAttribute('aria-valuemax', 100 - this.config.minRight);
+    this.divider.setAttribute('aria-valuemin', Math.round(this.config.minLeft));
+    this.divider.setAttribute('aria-valuemax', Math.round(100 - this.config.minRight));
     this.divider.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
     
     // Create divider handle
@@ -251,8 +251,12 @@ class SplitPanel {
     this.rightPanel.style.flexShrink = '1'; // Allow shrinking
     this.rightPanel.style.minWidth = `${minRightPx}px`; // Prevent shrinking below minimum
 
-    // Update aria attributes
+    // Update aria attributes (min/max/now share the same rounding)
+    const valueMin = Math.round(this.config.minLeft);
+    const valueMax = Math.round(100 - this.config.minRight);
     const valueNow = Math.round(percent);
+    this.divider.setAttribute('aria-valuemin', valueMin);
+    this.divider.setAttribute('aria-valuemax', valueMax);
     this.divider.setAttribute('aria-valuenow', valueNow);
     this.divider.setAttribute('aria-valuetext', `${valueNow}%`);
 
