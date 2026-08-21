@@ -21,6 +21,7 @@ class SplitPanel {
       minRight: options.minRight !== undefined ? options.minRight : 10, // Minimum percentage for right panel
       disabled: options.disabled || false,
       onChange: options.onChange || null,
+      dividerLabel: options.dividerLabel || 'Resize reference panel',
       ...options
     };
 
@@ -57,6 +58,7 @@ class SplitPanel {
     this.divider.className = 'split-panel-divider';
     this.divider.setAttribute('role', 'separator');
     this.divider.setAttribute('aria-orientation', this.config.orientation);
+    this.divider.setAttribute('aria-label', this.config.dividerLabel || 'Resize reference panel');
     this.divider.setAttribute('aria-valuemin', this.config.minLeft);
     this.divider.setAttribute('aria-valuemax', 100 - this.config.minRight);
     this.divider.setAttribute('tabindex', this.config.disabled ? '-1' : '0');
@@ -250,7 +252,9 @@ class SplitPanel {
     this.rightPanel.style.minWidth = `${minRightPx}px`; // Prevent shrinking below minimum
 
     // Update aria attributes
-    this.divider.setAttribute('aria-valuenow', Math.round(percent));
+    const valueNow = Math.round(percent);
+    this.divider.setAttribute('aria-valuenow', valueNow);
+    this.divider.setAttribute('aria-valuetext', `${valueNow}%`);
 
     // Fire onChange callback if not skipping
     if (!skipCallback && this.config.onChange) {

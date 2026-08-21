@@ -58,15 +58,18 @@
 }
 
 .split-panel-divider {
+    /* content-box so padding grows the border box (WCAG 2.5.8 / getBoundingClientRect) */
+    box-sizing: content-box;
     width: 4px;
     cursor: col-resize;
     position: relative;
-    flex: 0 0 4px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 4px */
+    flex: 0 0 4px; /* layout thickness stays 4px; JS dividerSize matches this */
+    padding: 0 10px; /* 4 + 10 + 10 = 24px pointer target */
+    margin: 0 -12px; /* cancel padding and keep the previous 2px overlap */
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
     z-index: 1;
-    margin: 0 -2px; /* Extend hover area without affecting layout */
 }
 
 /* Visual divider line - centered */
@@ -138,7 +141,8 @@
     cursor: row-resize;
     left: 0;
     right: 0;
-    margin: -2px 0; /* Extend hover area without affecting layout */
+    padding: 10px 0;
+    margin: -12px 0; /* cancel padding and keep the previous 2px overlap */
 }
 
 .split-panel-container.vertical .split-panel-divider::after {
