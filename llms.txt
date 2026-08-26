@@ -102,7 +102,7 @@ Also include Work Sans font from Google Fonts.
 
 ### Split Panel (JS Component)
 - Import: `import SplitPanel from '/design-system/components/split-panel/split-panel.js'`
-- Initialize: `new SplitPanel(selector, { orientation, initialSplit, minLeft, minRight, disabled, onChange })`
+- Initialize: `new SplitPanel(selector, { orientation, initialSplit, minLeft, minRight, disabled, onChange, dividerLabel })`
 - Orientation: `'horizontal'` (left/right) or `'vertical'` (top/bottom)
 - Methods: `getSplit()`, `setSplit(percent)`, `getLeftPanel()`, `getRightPanel()`, `setDisabled(disabled)`, `destroy()`
 - Features: Resizable panels with draggable divider, mouse/touch/keyboard support, visual feedback on focus/drag

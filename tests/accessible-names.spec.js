@@ -124,3 +124,41 @@ test.describe('dropdown placeholder is the accessible name', () => {
     expect(text).toBe('Dropdown Toggle');
   });
 });
+
+test.describe('split panel dividerLabel', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/components/split-panel/test.html');
+    await page.waitForFunction(() => window.testPanels?.basic);
+  });
+
+  test.afterEach(async ({ page }) => {
+    await page.evaluate(() => {
+      (window.__testSplitPanels || []).forEach((p) => p.destroy());
+      window.__testSplitPanels = [];
+      document.getElementById('isolated-split-name')?.remove();
+    });
+  });
+
+  test('defaults to English Resize reference panel', async ({ page }) => {
+    const label = await page
+      .locator('#split-panel-basic .split-panel-divider')
+      .getAttribute('aria-label');
+    expect(label).toBe('Resize reference panel');
+  });
+
+  test('uses dividerLabel when provided', async ({ page }) => {
+    const label = await page.evaluate(() => {
+      const root = document.createElement('div');
+      root.id = 'isolated-split-name';
+      root.style.width = '400px';
+      root.style.height = '200px';
+      document.body.append(root);
+      const panel = new window.SplitPanel(root, {
+        dividerLabel: 'Redimensionar panel de referencia',
+      });
+      window.__testSplitPanels = [panel];
+      return panel.divider.getAttribute('aria-label');
+    });
+    expect(label).toBe('Redimensionar panel de referencia');
+  });
+});

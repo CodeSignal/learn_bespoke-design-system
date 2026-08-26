@@ -791,6 +791,7 @@ const splitPanel = new SplitPanel(selector, options);
 | `minRight` | Number | `10` | Minimum percentage (0-100) allowed for right/bottom panel |
 | `disabled` | Boolean | `false` | If `true`, disables resizing of the split panel |
 | `onChange` | Function | `null` | Callback `(percent)` when split changes |
+| `dividerLabel` | String | `'Resize reference panel'` | `aria-label` for the divider. Pass an already-translated string. |
 
 **API Methods:**
 - `getSplit()`: Returns current split percentage (0-100)
@@ -807,7 +808,7 @@ const splitPanel = new SplitPanel(selector, options);
 - Automatic resize handling when container resizes
 - Visual feedback: divider line expands to 4px and turns primary blue when focused/dragging
 - Dark mode support
-- Full accessibility support (ARIA attributes, keyboard navigation)
+- Full accessibility support (named divider, 24px pointer target, ARIA attributes, keyboard navigation)
 
 **Example:**
 ```javascript

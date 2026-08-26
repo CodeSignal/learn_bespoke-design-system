@@ -31,7 +31,8 @@
     width: 100%;
     height: 100%;
     position: relative;
-    overflow: hidden;
+    /* visible so a 24px divider can overflow a shorter/narrower host without clipping the hit target */
+    overflow: visible;
 }
 
 .split-panel-left,
@@ -58,15 +59,19 @@
 }
 
 .split-panel-divider {
+    /* content-box so padding grows the border box (WCAG 2.5.8 / getBoundingClientRect) */
+    box-sizing: content-box;
     width: 4px;
     cursor: col-resize;
     position: relative;
-    flex: 0 0 4px; /* flex-grow: 0, flex-shrink: 0, flex-basis: 4px */
+    flex: 0 0 4px; /* layout thickness stays 4px; JS dividerSize matches this */
+    padding: 0 10px; /* 4 + 10 + 10 = 24px pointer target */
+    margin: 0 -12px; /* cancel padding and keep the previous 2px overlap */
+    min-height: 24px; /* cross-axis floor; does not grow the host */
     user-select: none;
     -webkit-user-select: none;
     touch-action: none;
     z-index: 1;
-    margin: 0 -2px; /* Extend hover area without affecting layout */
 }
 
 /* Visual divider line - centered */
@@ -138,7 +143,10 @@
     cursor: row-resize;
     left: 0;
     right: 0;
-    margin: -2px 0; /* Extend hover area without affecting layout */
+    padding: 10px 0;
+    margin: -12px 0; /* cancel padding and keep the previous 2px overlap */
+    min-height: 0; /* content 4px + padding 20px = 24px on the main axis */
+    min-width: 24px; /* cross-axis floor; does not grow the host */
 }
 
 .split-panel-container.vertical .split-panel-divider::after {
