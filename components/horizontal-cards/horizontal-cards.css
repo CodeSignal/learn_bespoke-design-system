@@ -76,16 +76,20 @@
   background: var(--Colors-Horizontal-Cards-Card-Background);
   border-radius: var(--UI-Radius-radius-ml);
   padding: var(--UI-Spacing-spacing-ms);
-  box-shadow: 0 3px 2px 0 var(--Colors-Horizontal-Cards-Card-Shadow);
   display: flex;
   flex-direction: column;
   gap: var(--UI-Spacing-spacing-none);
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.3s ease;
   align-self: stretch;
 }
 
+/* Fade chrome, not text: ancestor opacity composites type below 4.5:1. */
 .horizontal-cards-card:not(.horizontal-cards-card-active) {
-  opacity: 0.5;
+  box-shadow: inset 0 0 0 1.5px var(--Colors-Stroke-Light);
+}
+
+.horizontal-cards-card-active {
+  box-shadow: 0 3px 2px 0 var(--Colors-Horizontal-Cards-Card-Shadow);
 }
 
 /* Card Content */

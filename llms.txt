@@ -90,7 +90,7 @@ Also include Work Sans font from Google Fonts.
 - Initialize: `new HorizontalCards(selector, { cards, showNavigation, onCardChange, ... })`
 - Cards: Array of objects with `title` (HTML), `description` (HTML), `actionHtml`, or `actionPlaceholder`
 - Methods: `getCurrentIndex()`, `getCurrentCard()`, `scrollToNext()`, `scrollToPrevious()`, `scrollToIndex(index)`, `destroy()`
-- Features: Horizontal scrolling, card centering, navigation buttons, keyboard/touch support
+- Features: Horizontal scrolling, card centering, navigation buttons, keyboard/touch support; inactive cards keep full-contrast text
 
 ### Numeric Slider (JS Component)
 - Import: `import NumericSlider from '/design-system/components/numeric-slider/numeric-slider.js'`

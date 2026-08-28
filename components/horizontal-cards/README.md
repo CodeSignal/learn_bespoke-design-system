@@ -84,7 +84,7 @@ Each card in the `cards` array can have the following properties:
 - **Keyboard Navigation**: Arrow keys (Left/Right) navigate between cards.
 - **Touch/Swipe Support**: Swipe gestures on touch devices.
 - **Responsive**: Adapts to different screen sizes.
-- **Accessibility**: Proper ARIA attributes and keyboard support.
+- **Accessibility**: Proper ARIA attributes and keyboard support. Inactive cards keep full-contrast text; shadow and border mark the centered card.
 - **Dark Mode**: Automatically adapts to dark mode preferences.
 
 ## Examples
