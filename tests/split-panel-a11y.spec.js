@@ -6,8 +6,10 @@ import { expectNoAxeViolations } from './helpers/a11y.js';
  * pointer target. Keyboard arrows already resized; that must stay.
  *
  * Hit area is the divider's getBoundingClientRect() (padding that layout
- * ignores, or a ::before overlay, does not count). D3's hardcoded
- * `#2b3b52` on ::after is out of scope.
+ * ignores, or a ::before overlay, does not count).
+ *
+ * D3: ::after line uses a semantic token at ≥3:1 vs both pane surfaces.
+ * Focus/dragging still uses Primary-700.
  */
 
 const CONSUMER_RESET = `
@@ -18,10 +20,30 @@ const CONSUMER_RESET = `
   }
 `;
 
+function parseRgb(cssColor) {
+  const m = String(cssColor).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
+  if (!m) return null;
+  return [Number(m[1]), Number(m[2]), Number(m[3])];
+}
+
+function contrastRatio(rgbA, rgbB) {
+  const rel = (rgb) => {
+    const f = (c) => {
+      const s = c / 255;
+      return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
+    };
+    return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]);
+  };
+  const l1 = rel(rgbA);
+  const l2 = rel(rgbB);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+}
+
 function dividerState(page, rootSelector) {
   return page.evaluate((sel) => {
     const root = document.querySelector(sel);
     const divider = root.querySelector('.split-panel-divider');
+    const pane = root.querySelector('.split-panel-left');
     const rect = divider.getBoundingClientRect();
     const style = getComputedStyle(divider);
     const after = getComputedStyle(divider, '::after');
@@ -40,6 +62,7 @@ function dividerState(page, rootSelector) {
       afterWidth: after.width,
       afterHeight: after.height,
       afterBackground: after.backgroundColor,
+      paneBackground: pane ? getComputedStyle(pane).backgroundColor : null,
     };
   }, rootSelector);
 }
@@ -112,7 +135,10 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.height).toBeGreaterThanOrEqual(24);
       expect(state.flexBasis).toBe('4px');
       expect(state.afterWidth).toBe('2px');
-      expect(state.afterBackground).toBe('rgb(43, 59, 82)');
+      expect(state.afterBackground).toBe('rgb(128, 138, 165)');
+      expect(
+        contrastRatio(parseRgb(state.afterBackground), parseRgb(state.paneBackground)),
+      ).toBeGreaterThanOrEqual(3);
 
       await expectNoAxeViolations(page, '#split-panel-basic');
     });
@@ -127,7 +153,10 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.height).toBeGreaterThanOrEqual(24);
       expect(state.flexBasis).toBe('4px');
       expect(state.afterHeight).toBe('2px');
-      expect(state.afterBackground).toBe('rgb(43, 59, 82)');
+      expect(state.afterBackground).toBe('rgb(128, 138, 165)');
+      expect(
+        contrastRatio(parseRgb(state.afterBackground), parseRgb(state.paneBackground)),
+      ).toBeGreaterThanOrEqual(3);
     });
 
     test('keyboard arrows still resize the split', async ({ page }) => {
