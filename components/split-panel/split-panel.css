@@ -2,7 +2,7 @@
 
 :root {
     /* Split Panel Variables - Light Mode */
-    --Colors-Split-Panel-Divider-Line: rgba(92, 148, 255, 0.3);
+    --Colors-Split-Panel-Divider-Line: var(--Colors-Base-Neutral-800);
     --Colors-Split-Panel-Divider-Line-Hover: rgba(92, 148, 255, 0.5);
     --Colors-Split-Panel-Divider-Line-Active: rgba(92, 148, 255, 0.7);
     --Colors-Split-Panel-Handle-Bg: var(--Colors-Backgrounds-Main-Default);
@@ -15,7 +15,7 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Split Panel Variables - Dark Mode */
-        --Colors-Split-Panel-Divider-Line: rgba(92, 148, 255, 0.3);
+        --Colors-Split-Panel-Divider-Line: var(--Colors-Base-Neutral-800);
         --Colors-Split-Panel-Divider-Line-Hover: rgba(92, 148, 255, 0.5);
         --Colors-Split-Panel-Divider-Line-Active: rgba(92, 148, 255, 0.7);
         --Colors-Split-Panel-Handle-Bg: var(--Colors-Backgrounds-Main-Default);
@@ -83,7 +83,7 @@
     bottom: 0;
     width: 2px;
     transform: translateX(-50%);
-    background: #2b3b52;
+    background: var(--Colors-Split-Panel-Divider-Line);
     transition: background-color 0.2s ease, width 0.2s ease;
 }
 
@@ -157,7 +157,7 @@
     top: 50%;
     height: 2px;
     transform: translateY(-50%);
-    background: #2b3b52;
+    background: var(--Colors-Split-Panel-Divider-Line);
     transition: background-color 0.2s ease, height 0.2s ease;
 }
 
