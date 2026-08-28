@@ -1012,7 +1012,7 @@ const horizontalCards = new HorizontalCards(container, options);
 - HTML support in title and description fields
 - Responsive design
 - Dark mode support
-- Accessibility (ARIA attributes, keyboard support)
+- Accessibility (ARIA attributes, keyboard support; inactive cards keep full-contrast text)
 
 **Example:**
 ```javascript
