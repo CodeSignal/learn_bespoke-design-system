@@ -241,7 +241,6 @@
   --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
   --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-800);
   --Colors-Stroke-Background: var(--Colors-Base-Neutral-20);
-  --Colors-Stroke-Focus-Visible: var(--Colors-Base-Primary-700);
 
   /* Success (Green) Colors - Semantic Names */
   --Colors-Alert-Success-Default: var(--Colors-Base-Accent-Green-600);
@@ -334,6 +333,5 @@
     --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
     --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
     --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-600);
-    --Colors-Stroke-Focus-Visible: var(--Colors-Base-Primary-400);
   }
 }

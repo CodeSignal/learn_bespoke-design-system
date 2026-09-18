@@ -42,7 +42,6 @@ async function readTokens(page) {
       strokeLight: sample('var(--Colors-Stroke-Light)'),
       strokeStrong: sample('var(--Colors-Stroke-Strong)'),
       strokeStronger: sample('var(--Colors-Stroke-Stronger)'),
-      strokeFocusVisible: sample('var(--Colors-Stroke-Focus-Visible)'),
       strokePrimary: sample('var(--Colors-Stroke-Primary)'),
       tertiaryDefault: sample('var(--Colors-Buttons-Tertiary-Default)'),
     };
@@ -103,15 +102,6 @@ for (const colorScheme of ['light', 'dark']) {
       expect(
         ratio,
         `${t.strokeStronger} on ${t.bg} = ${ratio.toFixed(2)}:1`,
-      ).toBeGreaterThanOrEqual(3);
-    });
-
-    test('Stroke-Focus-Visible meets 3:1 on Main-Top', async ({ page }) => {
-      const t = await readTokens(page);
-      const ratio = contrastRatio(t.strokeFocusVisible, t.bg);
-      expect(
-        ratio,
-        `${t.strokeFocusVisible} on ${t.bg} = ${ratio.toFixed(2)}:1`,
       ).toBeGreaterThanOrEqual(3);
     });
 

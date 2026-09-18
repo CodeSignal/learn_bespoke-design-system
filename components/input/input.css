@@ -9,6 +9,7 @@
     --Colors-Input-Border-Default: var(--Colors-Stroke-Default);
     --Colors-Input-Border-Hover: var(--Colors-Stroke-Strong);
     --Colors-Input-Border-Focus: var(--Colors-Stroke-Primary);
+    --Colors-Input-Focus-Visible: var(--Colors-Base-Primary-700);
     --Colors-Input-Text-Default: var(--Colors-Text-Body-Default);
     --Colors-Input-Text-Placeholder: var(--Colors-Text-Body-Light);
     --Colors-Input-Shadow-Focus: rgba(92, 148, 255, 0.12);
@@ -20,6 +21,7 @@
         --Colors-Input-Border-Default: var(--Colors-Base-Neutral-1250);
         --Colors-Input-Border-Hover: var(--Colors-Base-Neutral-1150);
         --Colors-Input-Border-Focus: var(--Colors-Base-Primary-600);
+        --Colors-Input-Focus-Visible: var(--Colors-Base-Primary-400);
         --Colors-Input-Text-Default: var(--Colors-Text-Body-Strong);
         --Colors-Input-Text-Placeholder: var(--Colors-Text-Body-Light);
         --Colors-Input-Shadow-Focus: rgba(92, 148, 255, 0.12);
@@ -279,7 +281,7 @@
 
 /* Offset so the ring contrasts against the page, not the control. */
 .input-checkbox input[type="checkbox"]:focus-visible + .input-checkbox-box {
-    outline: 2px solid var(--Colors-Stroke-Focus-Visible);
+    outline: 2px solid var(--Colors-Input-Focus-Visible);
     outline-offset: 2px;
 }
 
@@ -456,7 +458,7 @@
 }
 
 .input-radio input[type="radio"]:focus-visible + .input-radio-circle {
-    outline: 2px solid var(--Colors-Stroke-Focus-Visible);
+    outline: 2px solid var(--Colors-Input-Focus-Visible);
     outline-offset: 2px;
 }
 
