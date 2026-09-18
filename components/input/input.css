@@ -181,7 +181,7 @@
     justify-content: center;
     flex-shrink: 0;
     background: var(--Colors-Input-Background-Default);
-    border: 1.5px solid var(--Colors-Input-Border-Default);
+    border: 1.5px solid var(--Colors-Stroke-Stronger);
     border-radius: var(--UI-Radius-radius-s);
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     width: 26px;
@@ -277,6 +277,12 @@
     border-color: var(--Colors-Primary-Default);
 }
 
+/* Offset so the ring contrasts against the page, not the control. */
+.input-checkbox input[type="checkbox"]:focus-visible + .input-checkbox-box {
+    outline: 2px solid var(--Colors-Stroke-Focus-Visible);
+    outline-offset: 2px;
+}
+
 /* Disabled State */
 .input-checkbox input[type="checkbox"]:disabled + .input-checkbox-box {
     opacity: 0.45;
@@ -325,14 +331,6 @@
     cursor: not-allowed;
 }
 
-/* Dark Mode Adjustments */
-@media (prefers-color-scheme: dark) {
-    .input-checkbox-box {
-        background: var(--Colors-Input-Background-Default);
-        border-color: var(--Colors-Input-Border-Default);
-    }
-}
-
 /* ===== RADIO INPUT ===== */
 
 /* Radio Wrapper */
@@ -367,7 +365,7 @@
     justify-content: center;
     flex-shrink: 0;
     background: var(--Colors-Input-Background-Default);
-    border: 1.5px solid var(--Colors-Input-Border-Default);
+    border: 1.5px solid var(--Colors-Stroke-Stronger);
     border-radius: 50%;
     transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     width: 26px;
@@ -457,6 +455,11 @@
     border-color: var(--Colors-Primary-Default);
 }
 
+.input-radio input[type="radio"]:focus-visible + .input-radio-circle {
+    outline: 2px solid var(--Colors-Stroke-Focus-Visible);
+    outline-offset: 2px;
+}
+
 /* Disabled State */
 .input-radio input[type="radio"]:disabled + .input-radio-circle {
     opacity: 0.45;
@@ -516,14 +519,6 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border-width: 0;
-}
-
-/* Dark Mode Adjustments */
-@media (prefers-color-scheme: dark) {
-    .input-radio-circle {
-        background: var(--Colors-Input-Background-Default);
-        border-color: var(--Colors-Input-Border-Default);
-    }
 }
 
 /* Wrap matrix / table radios like test.html input-wrapper — avoids block-stretched label in cells */

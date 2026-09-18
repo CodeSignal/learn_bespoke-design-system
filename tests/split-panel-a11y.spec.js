@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { expectNoAxeViolations } from './helpers/a11y.js';
+import { contrastRatio } from './helpers/contrast.js';
 
 /**
  * D2: Split Panel divider needs an accessible name and a ≥24×24 CSS px
@@ -19,25 +20,6 @@ const CONSUMER_RESET = `
     box-sizing: border-box;
   }
 `;
-
-function parseRgb(cssColor) {
-  const m = String(cssColor).match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/i);
-  if (!m) return null;
-  return [Number(m[1]), Number(m[2]), Number(m[3])];
-}
-
-function contrastRatio(rgbA, rgbB) {
-  const rel = (rgb) => {
-    const f = (c) => {
-      const s = c / 255;
-      return s <= 0.03928 ? s / 12.92 : ((s + 0.055) / 1.055) ** 2.4;
-    };
-    return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]);
-  };
-  const l1 = rel(rgbA);
-  const l2 = rel(rgbB);
-  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
-}
 
 function dividerState(page, rootSelector) {
   return page.evaluate((sel) => {
@@ -137,7 +119,7 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.afterWidth).toBe('2px');
       expect(state.afterBackground).toBe('rgb(128, 138, 165)');
       expect(
-        contrastRatio(parseRgb(state.afterBackground), parseRgb(state.paneBackground)),
+        contrastRatio(state.afterBackground, state.paneBackground),
       ).toBeGreaterThanOrEqual(3);
 
       await expectNoAxeViolations(page, '#split-panel-basic');
@@ -155,7 +137,7 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.afterHeight).toBe('2px');
       expect(state.afterBackground).toBe('rgb(128, 138, 165)');
       expect(
-        contrastRatio(parseRgb(state.afterBackground), parseRgb(state.paneBackground)),
+        contrastRatio(state.afterBackground, state.paneBackground),
       ).toBeGreaterThanOrEqual(3);
     });
 

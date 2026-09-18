@@ -235,12 +235,13 @@
   --Colors-Stroke-Light: var(--Colors-Base-Neutral-150);
   --Colors-Stroke-Medium: var(--Colors-Base-Neutral-300);
   --Colors-Stroke-Strong: var(--Colors-Base-Neutral-400);
-  --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-550);
+  --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-800);
   --Colors-Stroke-Primary: var(--Colors-Base-Primary-600);
   --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
   --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
   --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-800);
   --Colors-Stroke-Background: var(--Colors-Base-Neutral-20);
+  --Colors-Stroke-Focus-Visible: var(--Colors-Base-Primary-700);
 
   /* Success (Green) Colors - Semantic Names */
   --Colors-Alert-Success-Default: var(--Colors-Base-Accent-Green-600);
@@ -328,10 +329,11 @@
     --Colors-Stroke-Default: var(--Colors-Base-Neutral-1150);
     --Colors-Stroke-Medium: var(--Colors-Base-Neutral-1100);
     --Colors-Stroke-Strong: var(--Colors-Base-Neutral-1000);
-    --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-900);
+    --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-800);
     --Colors-Stroke-Primary: var(--Colors-Base-Primary-450);
     --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
     --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
     --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-600);
+    --Colors-Stroke-Focus-Visible: var(--Colors-Base-Primary-400);
   }
 }
