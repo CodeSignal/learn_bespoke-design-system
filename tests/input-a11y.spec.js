@@ -164,3 +164,60 @@ for (const colorScheme of ['light', 'dark']) {
     });
   });
 }
+
+/**
+ * Forced colors overrides author colors, which flattens the checked fill to
+ * Canvas and paints the mask-drawn mark in Canvas too. Both controls then
+ * render identically whether or not they are checked.
+ */
+test.describe('checked state survives forced colors', () => {
+  test.beforeEach(async ({ page }) => {
+    // The `forcedColors` context option only flips the media query; emulateMedia
+    // is what makes Chromium actually override the author colors.
+    await page.emulateMedia({ forcedColors: 'active', colorScheme: 'light' });
+    await page.goto('/components/input/test.html');
+    await page.waitForFunction(
+      () => matchMedia('(forced-colors: active)').matches,
+    );
+  });
+
+  for (const { name, wrapper, control, mark } of [
+    {
+      name: 'checkbox',
+      wrapper: '.input-checkbox',
+      control: '.input-checkbox-box',
+      mark: '.input-checkbox-checkmark',
+    },
+    {
+      name: 'radio',
+      wrapper: '.input-radio',
+      control: '.input-radio-circle',
+      mark: '.input-radio-dot',
+    },
+  ]) {
+    test(`${name} reads as checked`, async ({ page }) => {
+      const state = await page.evaluate(
+        ([wrapperSel, controlSel, markSel]) => {
+          const wrappers = [...document.querySelectorAll(wrapperSel)];
+          const checked = wrappers.find((w) => w.querySelector('input')?.checked);
+          const unchecked = wrappers.find(
+            (w) => !w.querySelector('input')?.checked,
+          );
+          const box = checked.querySelector(controlSel);
+          return {
+            checkedFill: getComputedStyle(box).backgroundColor,
+            uncheckedFill: getComputedStyle(
+              unchecked.querySelector(controlSel),
+            ).backgroundColor,
+            mark: getComputedStyle(box.querySelector(markSel), '::before')
+              .backgroundColor,
+          };
+        },
+        [wrapper, control, mark],
+      );
+
+      expect(state.checkedFill).not.toBe(state.uncheckedFill);
+      expect(state.mark).not.toBe(state.checkedFill);
+    });
+  }
+});

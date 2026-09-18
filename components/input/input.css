@@ -544,6 +544,22 @@ td.input-radio-cell .input-radio {
     vertical-align: middle;
 }
 
+/* Forced colors flattens the checked fill to Canvas and paints the mask-drawn
+   mark in Canvas too, so checked and unchecked render identically. System
+   colors are honoured here where author colors are not. */
+@media (forced-colors: active) {
+    .input-checkbox input[type="checkbox"]:checked + .input-checkbox-box,
+    .input-radio input[type="radio"]:checked + .input-radio-circle {
+        background: Highlight;
+        border-color: Highlight;
+    }
+
+    .input-checkbox-checkmark::before,
+    .input-radio-dot::before {
+        background-color: HighlightText;
+    }
+}
+
 /* ===== TEXTAREA INPUT ===== */
 
 /* Reusable textarea styles - extends .input class for textarea elements */
