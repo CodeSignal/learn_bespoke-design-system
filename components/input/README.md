@@ -84,9 +84,10 @@ Checkboxes require a specific HTML structure:
 
 ### Checkbox States
 
-- **Default**: White background with gray border
+- **Default**: White background with neutral border
 - **Hover**: Blue border (primary color)
 - **Checked**: Blue background with white checkmark icon
+- **Focus (keyboard)**: Blue outline, offset 2px
 - **Disabled**: Reduced opacity (0.45 for box, 0.2 for label)
 
 ### Checkbox Examples
@@ -172,9 +173,10 @@ Radio buttons require a specific HTML structure and must share the same `name` a
 
 ### Radio States
 
-- **Default**: White background with gray border
+- **Default**: White background, with neutral border
 - **Hover**: Blue border (primary color)
 - **Checked**: Blue border with blue inner dot
+- **Focus (keyboard)**: Blue outline, offset 2px
 - **Disabled**: Reduced opacity (0.45 for circle, 0.2 for label)
 
 ### Radio Examples

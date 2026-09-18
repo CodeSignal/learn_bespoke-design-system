@@ -1,32 +1,11 @@
 import { test, expect } from '@playwright/test';
+import { contrastRatio, relativeLuminance } from './helpers/contrast.js';
 
 /**
  * A7 / A8 — measure semantic token contrast against Backgrounds-Main-Top
  * (and secondary button text on the same surface) in light and dark.
  * D12 — assert stroke / tertiary-border tokens dark-adapt (not near-white).
  */
-
-function contrastRatio(fgHex, bgHex) {
-  const rel = (hex) => {
-    const h = hex.replace('#', '');
-    const rgb = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
-    const f = (c) =>
-      c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-    return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]);
-  };
-  const L1 = rel(fgHex);
-  const L2 = rel(bgHex);
-  return (Math.max(L1, L2) + 0.05) / (Math.min(L1, L2) + 0.05);
-}
-
-/** Relative luminance 0–1 from #rrggbb. */
-function relativeLuminance(hex) {
-  const h = hex.replace('#', '');
-  const rgb = [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
-  const f = (c) =>
-    c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
-  return 0.2126 * f(rgb[0]) + 0.7152 * f(rgb[1]) + 0.0722 * f(rgb[2]);
-}
 
 async function readTokens(page) {
   return page.evaluate(() => {
@@ -62,6 +41,7 @@ async function readTokens(page) {
       strokeDefault: sample('var(--Colors-Stroke-Default)'),
       strokeLight: sample('var(--Colors-Stroke-Light)'),
       strokeStrong: sample('var(--Colors-Stroke-Strong)'),
+      strokeStronger: sample('var(--Colors-Stroke-Stronger)'),
       strokePrimary: sample('var(--Colors-Stroke-Primary)'),
       tertiaryDefault: sample('var(--Colors-Buttons-Tertiary-Default)'),
     };
@@ -112,6 +92,17 @@ for (const colorScheme of ['light', 'dark']) {
         `${t.bodyLight} on ${t.bg} = ${light.toFixed(2)}:1`,
       ).toBeGreaterThanOrEqual(4.5);
       expect(light).toBeGreaterThanOrEqual(lighter);
+    });
+
+    test('Stroke-Stronger, the control-outline step, meets 3:1 on Main-Top', async ({
+      page,
+    }) => {
+      const t = await readTokens(page);
+      const ratio = contrastRatio(t.strokeStronger, t.bg);
+      expect(
+        ratio,
+        `${t.strokeStronger} on ${t.bg} = ${ratio.toFixed(2)}:1`,
+      ).toBeGreaterThanOrEqual(3);
     });
 
     test('button-secondary text meets 4.5:1 on Main-Top', async ({ page }) => {
