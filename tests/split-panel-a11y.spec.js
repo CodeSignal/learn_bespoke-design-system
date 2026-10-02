@@ -117,7 +117,7 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.height).toBeGreaterThanOrEqual(24);
       expect(state.flexBasis).toBe('4px');
       expect(state.afterWidth).toBe('2px');
-      expect(state.afterBackground).toBe('rgb(128, 138, 165)');
+      expect(state.afterBackground).toBe('rgb(104, 117, 156)');
       expect(
         contrastRatio(state.afterBackground, state.paneBackground),
       ).toBeGreaterThanOrEqual(3);
@@ -135,7 +135,7 @@ for (const colorScheme of ['light', 'dark']) {
       expect(state.height).toBeGreaterThanOrEqual(24);
       expect(state.flexBasis).toBe('4px');
       expect(state.afterHeight).toBe('2px');
-      expect(state.afterBackground).toBe('rgb(128, 138, 165)');
+      expect(state.afterBackground).toBe('rgb(104, 117, 156)');
       expect(
         contrastRatio(state.afterBackground, state.paneBackground),
       ).toBeGreaterThanOrEqual(3);

@@ -190,6 +190,11 @@
     </div>
 
     <div class="section">
+        <h3>Accent Magenta Scale</h3>
+        <div class="color-grid" id="magenta-scale"></div>
+    </div>
+
+    <div class="section">
         <h3>Accent Red Scale</h3>
         <div class="color-grid" id="red-scale"></div>
     </div>
@@ -240,6 +245,31 @@
     <div class="section">
         <h3>Alert Info Colors</h3>
         <div class="color-grid" id="info-colors"></div>
+    </div>
+
+    <div class="section">
+        <h3>Surface Colors</h3>
+        <div class="color-grid" id="surface-colors"></div>
+    </div>
+
+    <div class="section">
+        <h3>Border Colors (alpha)</h3>
+        <div class="color-grid" id="border-colors"></div>
+    </div>
+
+    <div class="section">
+        <h3>Alpha Ramps</h3>
+        <div class="color-grid" id="alpha-colors"></div>
+    </div>
+
+    <div class="section">
+        <h3>Control Colors</h3>
+        <div class="color-grid" id="control-colors"></div>
+    </div>
+
+    <div class="section">
+        <h3>Emphasis Colors</h3>
+        <div class="color-grid" id="emphasis-colors"></div>
     </div>
 
     <script>
@@ -409,7 +439,7 @@
         // Numbered scales
         const numberedScales = {
             'primary-scale': [
-                '--Colors-Base-Primary-20', '--Colors-Base-Primary-50', '--Colors-Base-Primary-100', '--Colors-Base-Primary-150',
+                '--Colors-Base-Primary-10', '--Colors-Base-Primary-20', '--Colors-Base-Primary-50', '--Colors-Base-Primary-100', '--Colors-Base-Primary-150',
                 '--Colors-Base-Primary-200', '--Colors-Base-Primary-250', '--Colors-Base-Primary-300', '--Colors-Base-Primary-350',
                 '--Colors-Base-Primary-400', '--Colors-Base-Primary-450', '--Colors-Base-Primary-500', '--Colors-Base-Primary-550',
                 '--Colors-Base-Primary-600', '--Colors-Base-Primary-650', '--Colors-Base-Primary-700', '--Colors-Base-Primary-750',
@@ -419,7 +449,7 @@
                 '--Colors-Base-Primary-1400'
             ],
             'neutral-scale': [
-                '--Colors-Base-Neutral-00', '--Colors-Base-Neutral-20', '--Colors-Base-Neutral-50', '--Colors-Base-Neutral-100',
+                '--Colors-Base-Neutral-00', '--Colors-Base-Neutral-10', '--Colors-Base-Neutral-20', '--Colors-Base-Neutral-50', '--Colors-Base-Neutral-100',
                 '--Colors-Base-Neutral-150', '--Colors-Base-Neutral-200', '--Colors-Base-Neutral-250', '--Colors-Base-Neutral-300',
                 '--Colors-Base-Neutral-350', '--Colors-Base-Neutral-400', '--Colors-Base-Neutral-450', '--Colors-Base-Neutral-500',
                 '--Colors-Base-Neutral-550', '--Colors-Base-Neutral-600', '--Colors-Base-Neutral-650', '--Colors-Base-Neutral-700',
@@ -427,7 +457,7 @@
                 '--Colors-Base-Neutral-950', '--Colors-Base-Neutral-1000', '--Colors-Base-Neutral-1050', '--Colors-Base-Neutral-1100',
                 '--Colors-Base-Neutral-1150', '--Colors-Base-Neutral-1200', '--Colors-Base-Neutral-1250', '--Colors-Base-Neutral-1300',
                 '--Colors-Base-Neutral-1350', '--Colors-Base-Neutral-1400', '--Colors-Base-Neutral-1450', '--Colors-Base-Neutral-1500',
-                '--Colors-Base-Neutral-1600'
+                '--Colors-Base-Neutral-1550', '--Colors-Base-Neutral-1600'
             ],
             'green-scale': [
                 '--Colors-Base-Accent-Green-20', '--Colors-Base-Accent-Green-50', '--Colors-Base-Accent-Green-100',
@@ -436,14 +466,14 @@
                 '--Colors-Base-Accent-Green-800', '--Colors-Base-Accent-Green-900', '--Colors-Base-Accent-Green-1000'
             ],
             'sky-blue-scale': [
-                '--Colors-Base-Accent-Sky-Blue-20', '--Colors-Base-Accent-Sky-Blue-50', '--Colors-Base-Accent-Sky-Blue-100',
+                '--Colors-Base-Accent-Sky-Blue-10', '--Colors-Base-Accent-Sky-Blue-20', '--Colors-Base-Accent-Sky-Blue-50', '--Colors-Base-Accent-Sky-Blue-100',
                 '--Colors-Base-Accent-Sky-Blue-200', '--Colors-Base-Accent-Sky-Blue-300', '--Colors-Base-Accent-Sky-Blue-400',
                 '--Colors-Base-Accent-Sky-Blue-500', '--Colors-Base-Accent-Sky-Blue-600', '--Colors-Base-Accent-Sky-Blue-700',
                 '--Colors-Base-Accent-Sky-Blue-800', '--Colors-Base-Accent-Sky-Blue-900', '--Colors-Base-Accent-Sky-Blue-1000',
                 '--Colors-Base-Accent-Sky-Blue-1100', '--Colors-Base-Accent-Sky-Blue-1200'
             ],
             'midnight-blue-scale': [
-                '--Colors-Base-Accent-Midnight-Blue-20', '--Colors-Base-Accent-Midnight-Blue-50', '--Colors-Base-Accent-Midnight-Blue-100',
+                '--Colors-Base-Accent-Midnight-Blue-10', '--Colors-Base-Accent-Midnight-Blue-20', '--Colors-Base-Accent-Midnight-Blue-50', '--Colors-Base-Accent-Midnight-Blue-100',
                 '--Colors-Base-Accent-Midnight-Blue-200', '--Colors-Base-Accent-Midnight-Blue-300', '--Colors-Base-Accent-Midnight-Blue-400',
                 '--Colors-Base-Accent-Midnight-Blue-500', '--Colors-Base-Accent-Midnight-Blue-600', '--Colors-Base-Accent-Midnight-Blue-700',
                 '--Colors-Base-Accent-Midnight-Blue-800', '--Colors-Base-Accent-Midnight-Blue-900', '--Colors-Base-Accent-Midnight-Blue-1000',
@@ -466,6 +496,12 @@
                 '--Colors-Base-Accent-Red-200', '--Colors-Base-Accent-Red-300', '--Colors-Base-Accent-Red-400',
                 '--Colors-Base-Accent-Red-500', '--Colors-Base-Accent-Red-600', '--Colors-Base-Accent-Red-700',
                 '--Colors-Base-Accent-Red-800', '--Colors-Base-Accent-Red-900', '--Colors-Base-Accent-Red-1000'
+            ],
+            'magenta-scale': [
+                '--Colors-Base-Accent-Magenta-20', '--Colors-Base-Accent-Magenta-50', '--Colors-Base-Accent-Magenta-100',
+                '--Colors-Base-Accent-Magenta-200', '--Colors-Base-Accent-Magenta-300', '--Colors-Base-Accent-Magenta-400',
+                '--Colors-Base-Accent-Magenta-500', '--Colors-Base-Accent-Magenta-600', '--Colors-Base-Accent-Magenta-700',
+                '--Colors-Base-Accent-Magenta-800', '--Colors-Base-Accent-Magenta-900', '--Colors-Base-Accent-Magenta-1000'
             ]
         };
 
@@ -484,10 +520,14 @@
             ],
             'text-colors': [
                 '--Colors-Text-Body-Default', '--Colors-Text-Body-Medium', '--Colors-Text-Body-Light',
-                '--Colors-Text-Body-Strong', '--Colors-Text-Body-Strongest'
+                '--Colors-Text-Body-Lighter', '--Colors-Text-Body-Strong', '--Colors-Text-Body-Strongest',
+                '--Colors-Text-Body-Primary', '--Colors-Text-Body-Primary-Strong',
+                '--Colors-Text-Body-Sky-Blue', '--Colors-Text-Body-Midnight-Blue'
             ],
             'icon-colors': [
-                '--Colors-Icon-Default', '--Colors-Icon-Medium', '--Colors-Icon-Strong', '--Colors-Icon-Primary'
+                '--Colors-Icon-Default', '--Colors-Icon-Light', '--Colors-Icon-Medium', '--Colors-Icon-Strong',
+                '--Colors-Icon-Stronger', '--Colors-Icon-Primary', '--Colors-Icon-Primary-Light',
+                '--Colors-Icon-Primary-Medium', '--Colors-Icon-Primary-Strong'
             ],
             'stroke-colors': [
                 '--Colors-Stroke-Default', '--Colors-Stroke-Lighter', '--Colors-Stroke-Light',
@@ -510,6 +550,41 @@
             'info-colors': [
                 '--Colors-Alert-Info-Default', '--Colors-Alert-Info-Lighter', '--Colors-Alert-Info-Light',
                 '--Colors-Alert-Info-Medium', '--Colors-Alert-Info-Medium-Dark', '--Colors-Alert-Info-Dark'
+            ],
+            'surface-colors': [
+                '--Colors-Surface-App-Base', '--Colors-Surface-App-Subtle', '--Colors-Surface-App-Low', '--Colors-Surface-App-High',
+                '--Colors-Surface-Container-Base', '--Colors-Surface-Container-Ground', '--Colors-Surface-Container-Subtle',
+                '--Colors-Surface-Container-Soft', '--Colors-Surface-Container-High', '--Colors-Surface-Container-Highest',
+                '--Colors-Surface-Nav-Base', '--Colors-Surface-Scrim', '--Colors-Surface-Scrim-Tinted'
+            ],
+            'border-colors': [
+                '--Colors-Border-Lightest', '--Colors-Border-Subtle', '--Colors-Border-Soft', '--Colors-Border-Medium',
+                '--Colors-Border-Strong', '--Colors-Border-Stronger', '--Colors-Border-High',
+                '--Colors-Border-Primary-Subtle', '--Colors-Border-Primary-Soft', '--Colors-Border-Primary-Medium',
+                '--Colors-Border-Primary-Strong', '--Colors-Border-Primary-Stronger', '--Colors-Border-Focus-Visible'
+            ],
+            'alpha-colors': [
+                '--Colors-Alpha-Neutral-Subtle', '--Colors-Alpha-Neutral-Soft', '--Colors-Alpha-Neutral-Medium-Soft',
+                '--Colors-Alpha-Neutral-Medium', '--Colors-Alpha-Neutral-Medium-Strong', '--Colors-Alpha-Neutral-Strong',
+                '--Colors-Alpha-Neutral-Bold', '--Colors-Alpha-Neutral-Boldest',
+                '--Colors-Alpha-Primary-Subtle', '--Colors-Alpha-Primary-Soft', '--Colors-Alpha-Primary-Medium-Soft',
+                '--Colors-Alpha-Primary-Medium', '--Colors-Alpha-Primary-Medium-Strong', '--Colors-Alpha-Primary-Strong',
+                '--Colors-Alpha-Primary-Bold', '--Colors-Alpha-Primary-Boldest'
+            ],
+            'control-colors': [
+                '--Colors-Control-Neutral-Base', '--Colors-Control-Neutral-Subtle', '--Colors-Control-Neutral-Soft',
+                '--Colors-Control-Neutral-Medium', '--Colors-Control-Neutral-Strong', '--Colors-Control-Input',
+                '--Colors-Control-Primary-Base', '--Colors-Control-Primary-Subtle', '--Colors-Control-Primary-Soft',
+                '--Colors-Control-Primary-Medium', '--Colors-Control-Primary-Strong', '--Colors-Control-Primary-Selected',
+                '--Colors-Control-Toggle-Primary', '--Colors-Control-Progress-Primary-Track',
+                '--Colors-Control-Progress-Primary-Thumb', '--Colors-Control-Progress-Primary-Handle'
+            ],
+            'emphasis-colors': [
+                '--Colors-Emphasis-Subtle', '--Colors-Emphasis-Medium', '--Colors-Emphasis-Strong',
+                '--Colors-Emphasis-Success', '--Colors-Emphasis-Error', '--Colors-Emphasis-Primary-Subtle',
+                '--Colors-Emphasis-Primary-Medium', '--Colors-Emphasis-Primary-Strong',
+                '--Colors-Emphasis-Shadow-Subtle', '--Colors-Emphasis-Shadow-Soft',
+                '--Colors-Emphasis-Shadow-Medium', '--Colors-Emphasis-Shadow-Strong'
             ]
         };
 

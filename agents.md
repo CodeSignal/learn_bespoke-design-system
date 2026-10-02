@@ -97,12 +97,16 @@ Pattern: `--Colors-Base-[Family]-[Step]`
 - `Accent-Yellow`: Warning states
 - `Accent-Orange`: Warning states
 - `Accent-Red`: Error/Danger states
+- `Accent-Magenta`: Magenta accent
+- `Accent-Midnight-Blue`: Midnight blue accent
+
+Also available: `--Colors-Alpha-Neutral-*` / `--Colors-Alpha-Primary-*` (Subtle → Boldest).
 
 **Example:**
 ```css
 --Colors-Base-Primary-700: #1062FB;
---Colors-Base-Neutral-600: #ACB4C7;
---Colors-Base-Accent-Green-600: #10B981;
+--Colors-Base-Neutral-600: #97A1BF;
+--Colors-Base-Accent-Green-600: #1BB267;
 ```
 
 #### Semantic Tokens (Preferred)
@@ -115,30 +119,41 @@ Pattern: `--Colors-Base-[Family]-[Step]`
    - `--Colors-Primary-Medium`
    - `--Colors-Primary-Strong`
 
-2. **Backgrounds**
+2. **Backgrounds** (legacy; still supported)
    - `--Colors-Backgrounds-Main-Default`
    - `--Colors-Backgrounds-Main-Top`
    - `--Colors-Backgrounds-Main-Medium`
    - `--Colors-Backgrounds-Main-Strong`
 
-3. **Text Colors**
+3. **Surface** (co-design-al parity)
+   - `--Colors-Surface-App-Base`
+   - `--Colors-Surface-Container-Base`
+   - `--Colors-Surface-Nav-Base`
+
+4. **Text Colors**
    - `--Colors-Text-Body-Default`
    - `--Colors-Text-Body-Secondary`
    - `--Colors-Text-Body-Medium`
    - `--Colors-Text-Body-Strong`
    - `--Colors-Text-Body-Strongest`
+   - `--Colors-Text-Body-Primary`
 
-4. **Icon Colors**
+5. **Icon Colors**
    - `--Colors-Icon-Default`
    - `--Colors-Icon-Primary`
    - `--Colors-Icon-Secondary`
 
-5. **Stroke/Border Colors**
-   - `--Colors-Stroke-Default`
+6. **Stroke/Border Colors**
+   - `--Colors-Stroke-Default` (legacy opaque)
    - `--Colors-Stroke-Strong`
-   - `--Colors-Stroke-Strongest`
+   - `--Colors-Border-Medium` (alpha; preferred for new work)
+   - `--Colors-Border-Focus-Visible`
 
-6. **Alert Colors**
+7. **Control / Emphasis**
+   - `--Colors-Control-Neutral-*`, `--Colors-Control-Primary-*`
+   - `--Colors-Emphasis-Subtle`, `--Colors-Emphasis-Shadow-*`
+
+8. **Alert Colors**
    - `--Colors-Alert-Success-Default`, `--Colors-Alert-Success-Medium`
    - `--Colors-Alert-Error-Default`, `--Colors-Alert-Error-Medium`
    - `--Colors-Alert-Warning-Default`, `--Colors-Alert-Warning-Medium`

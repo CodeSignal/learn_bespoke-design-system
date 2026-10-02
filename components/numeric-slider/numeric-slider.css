@@ -63,7 +63,7 @@
   padding-right: var(--UI-Spacing-spacing-mxs);
   padding-top: var(--UI-Spacing-spacing-none);
   padding-bottom: var(--UI-Spacing-spacing-none);
-  border: 1.5px solid var(--Colors-Input-Border-Default, #394563);
+  border: 1.5px solid var(--Colors-Input-Border-Default, #28314D);
 }
 
 /* Hide spinner buttons for numeric slider inputs */
