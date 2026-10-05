@@ -2,6 +2,10 @@
  * CodeSignal Design System Colors
  * Generated from Figma Design System
  * Semantic names reference numbered scale variables for single source of truth
+ *
+ * Base + semantic values synced to co-design-al foundations (Figma tables, #851).
+ * Existing variable names are stable. New Surface/Border/Control/Emphasis/Alpha
+ * tokens mirror co-design-al foundations; legacy Backgrounds/Stroke names remain.
  */
 
  :root {
@@ -9,6 +13,7 @@
   /* These are the base definitions - all other colors reference these */
 
   /* Primary Numbered Scale */
+  --Colors-Base-Primary-10: #F5F8FF;
   --Colors-Base-Primary-20: #ECF2FF;
   --Colors-Base-Primary-50: #E2ECFF;
   --Colors-Base-Primary-100: #D2E2FF;
@@ -31,75 +36,77 @@
   --Colors-Base-Primary-950: #083EA3;
   --Colors-Base-Primary-1000: #063690;
   --Colors-Base-Primary-1050: #102E7E;
-  --Colors-Base-Primary-1100: #063690;
-  --Colors-Base-Primary-1150: #102E7E;
+  --Colors-Base-Primary-1100: #0D276C;
+  --Colors-Base-Primary-1150: #0A2159;
   --Colors-Base-Primary-1200: #071B48;
   --Colors-Base-Primary-1250: #051436;
   --Colors-Base-Primary-1300: #030D23;
   --Colors-Base-Primary-1350: #010712;
   --Colors-Base-Primary-1400: #000000;
 
-  /* Neutral Numbered Scale */
+  /* Neutral Numbered Scale (synced to co-design-al gray) */
   --Colors-Base-Neutral-00: #FFFFFF;
-  --Colors-Base-Neutral-20: #F4F5F9;
-  --Colors-Base-Neutral-50: #F4F5F9;
-  --Colors-Base-Neutral-100: #EDEFF5;
-  --Colors-Base-Neutral-150: #E7EAF2;
-  --Colors-Base-Neutral-200: #E2E5EE;
-  --Colors-Base-Neutral-250: #DDE0EA;
-  --Colors-Base-Neutral-300: #D7DAE6;
-  --Colors-Base-Neutral-350: #CED2DF;
-  --Colors-Base-Neutral-400: #C8CDDB;
-  --Colors-Base-Neutral-450: #C1C7D7;
-  --Colors-Base-Neutral-500: #BBC1D1;
-  --Colors-Base-Neutral-550: #B4BBCD;
-  --Colors-Base-Neutral-600: #ACB4C7;
-  --Colors-Base-Neutral-650: #A3ABBE;
-  --Colors-Base-Neutral-700: #979FB4;
-  --Colors-Base-Neutral-750: #8B94AB;
-  --Colors-Base-Neutral-800: #808AA5;
-  --Colors-Base-Neutral-850: #75809E;
-  --Colors-Base-Neutral-900: #66718F;
-  --Colors-Base-Neutral-950: #5B6684;
-  --Colors-Base-Neutral-1000: #515C7A;
-  --Colors-Base-Neutral-1050: #495573;
-  --Colors-Base-Neutral-1100: #414D6B;
-  --Colors-Base-Neutral-1150: #394563;  
-  --Colors-Base-Neutral-1200: #2D3855;
-  --Colors-Base-Neutral-1250: #26314C;  
-  --Colors-Base-Neutral-1300: #1D2740;  
-  --Colors-Base-Neutral-1350: #182139;
-  --Colors-Base-Neutral-1400: #11192E;  
-  --Colors-Base-Neutral-1450: #0A1122;
+  --Colors-Base-Neutral-10: #F8F9FC;
+  --Colors-Base-Neutral-20: #F4F5FA;
+  --Colors-Base-Neutral-50: #F1F3F9;
+  --Colors-Base-Neutral-100: #EDF0F7;
+  --Colors-Base-Neutral-150: #E6EAF4;
+  --Colors-Base-Neutral-200: #DFE4F1;
+  --Colors-Base-Neutral-250: #D8DEEE;
+  --Colors-Base-Neutral-300: #D1D7EB;
+  --Colors-Base-Neutral-350: #C7CFE5;
+  --Colors-Base-Neutral-400: #BEC7DF;
+  --Colors-Base-Neutral-450: #B6BED8;
+  --Colors-Base-Neutral-500: #ADB6D2;
+  --Colors-Base-Neutral-550: #A4AECB;
+  --Colors-Base-Neutral-600: #97A1BF;
+  --Colors-Base-Neutral-650: #8B96B6;
+  --Colors-Base-Neutral-700: #7F8BAD;
+  --Colors-Base-Neutral-750: #7380A5;
+  --Colors-Base-Neutral-800: #68759C;
+  --Colors-Base-Neutral-850: #5B688F;
+  --Colors-Base-Neutral-900: #4F5C82;
+  --Colors-Base-Neutral-950: #465277;
+  --Colors-Base-Neutral-1000: #3C4767;
+  --Colors-Base-Neutral-1050: #35405F;
+  --Colors-Base-Neutral-1100: #2E3856;
+  --Colors-Base-Neutral-1150: #28314D;
+  --Colors-Base-Neutral-1200: #212A45;
+  --Colors-Base-Neutral-1250: #1C253F;
+  --Colors-Base-Neutral-1300: #192139;
+  --Colors-Base-Neutral-1350: #151C32;
+  --Colors-Base-Neutral-1400: #11182C;
+  --Colors-Base-Neutral-1450: #0B1223;
   --Colors-Base-Neutral-1500: #060C1C;
+  --Colors-Base-Neutral-1550: #040813;
   --Colors-Base-Neutral-1600: #040813;
 
-  /* Neutrals with Alpha */
-  --Colors-Base-Neutral-Alphas-1000-25: rgba(82, 93, 123, 0.25);
-  --Colors-Base-Neutral-Alphas-1000-50: rgba(82, 93, 123, 0.50);
-  --Colors-Base-Neutral-Alphas-1050-25: rgba(73, 85, 115, 0.25);
-  --Colors-Base-Neutral-Alphas-1050-50: rgba(73, 85, 115, 0.50);
-  --Colors-Base-Neutral-Alphas-1100-25: rgba(65, 77, 103, 0.25);
-  --Colors-Base-Neutral-Alphas-1100-50: rgba(65, 77, 103, 0.50);
-  --Colors-Base-Neutral-Alphas-1150-25: rgba(57, 69, 99, 0.25);
-  --Colors-Base-Neutral-Alphas-1150-50: rgba(57, 69, 99, 0.50);
-  --Colors-Base-Neutral-Alphas-1200-25: rgba(45, 56, 85, 0.25);
-  --Colors-Base-Neutral-Alphas-1200-50: rgba(45, 56, 85, 0.50);
-  --Colors-Base-Neutral-Alphas-1250-25: rgba(38, 49, 76, 0.25);
-  --Colors-Base-Neutral-Alphas-1250-50: rgba(38, 49, 76, 0.50);
-  --Colors-Base-Neutral-Alphas-1300-25: rgba(30, 41, 67, 0.25);
-  --Colors-Base-Neutral-Alphas-1300-50: rgba(30, 41, 67, 0.50);
-  --Colors-Base-Neutral-Alphas-1350-25: rgba(24, 33, 57, 0.25);
-  --Colors-Base-Neutral-Alphas-1350-50: rgba(24, 33, 57, 0.50);
-  --Colors-Base-Neutral-Alphas-1400-25: rgba(17, 25, 46, 0.25);
-  --Colors-Base-Neutral-Alphas-1400-50: rgba(17, 25, 46, 0.50);
-  --Colors-Base-Neutral-Alphas-1450-25: rgba(10, 17, 34, 0.25);
-  --Colors-Base-Neutral-Alphas-1450-50: rgba(10, 17, 34, 0.50);
+  /* Neutrals with Alpha (RGB synced to Neutral scale above) */
+  --Colors-Base-Neutral-Alphas-1000-25: rgba(60, 71, 103, 0.25);
+  --Colors-Base-Neutral-Alphas-1000-50: rgba(60, 71, 103, 0.50);
+  --Colors-Base-Neutral-Alphas-1050-25: rgba(53, 64, 95, 0.25);
+  --Colors-Base-Neutral-Alphas-1050-50: rgba(53, 64, 95, 0.50);
+  --Colors-Base-Neutral-Alphas-1100-25: rgba(46, 56, 86, 0.25);
+  --Colors-Base-Neutral-Alphas-1100-50: rgba(46, 56, 86, 0.50);
+  --Colors-Base-Neutral-Alphas-1150-25: rgba(40, 49, 77, 0.25);
+  --Colors-Base-Neutral-Alphas-1150-50: rgba(40, 49, 77, 0.50);
+  --Colors-Base-Neutral-Alphas-1200-25: rgba(33, 42, 69, 0.25);
+  --Colors-Base-Neutral-Alphas-1200-50: rgba(33, 42, 69, 0.50);
+  --Colors-Base-Neutral-Alphas-1250-25: rgba(28, 37, 63, 0.25);
+  --Colors-Base-Neutral-Alphas-1250-50: rgba(28, 37, 63, 0.50);
+  --Colors-Base-Neutral-Alphas-1300-25: rgba(25, 33, 57, 0.25);
+  --Colors-Base-Neutral-Alphas-1300-50: rgba(25, 33, 57, 0.50);
+  --Colors-Base-Neutral-Alphas-1350-25: rgba(21, 28, 50, 0.25);
+  --Colors-Base-Neutral-Alphas-1350-50: rgba(21, 28, 50, 0.50);
+  --Colors-Base-Neutral-Alphas-1400-25: rgba(17, 24, 44, 0.25);
+  --Colors-Base-Neutral-Alphas-1400-50: rgba(17, 24, 44, 0.50);
+  --Colors-Base-Neutral-Alphas-1450-25: rgba(11, 18, 35, 0.25);
+  --Colors-Base-Neutral-Alphas-1450-50: rgba(11, 18, 35, 0.50);
 
   /* Success (Green) Numbered Scale */
   --Colors-Base-Accent-Green-20: #E5F8F0;
   --Colors-Base-Accent-Green-50: #D3F5E6;
-  --Colors-Base-Accent-Green-100: #A6ECCD;
+  --Colors-Base-Accent-Green-100: #A6ECC2;
   --Colors-Base-Accent-Green-200: #7AE2B4;
   --Colors-Base-Accent-Green-300: #4DD99B;
   --Colors-Base-Accent-Green-400: #21CF82;
@@ -111,7 +118,8 @@
   --Colors-Base-Accent-Green-1000: #0E562B;
 
   /* Info (Blue) Numbered Scale */
-  --Colors-Base-Accent-Sky-Blue-20: #ECFAFF;
+  --Colors-Base-Accent-Sky-Blue-10: #F0FBFF;
+  --Colors-Base-Accent-Sky-Blue-20: #E5F8FF;
   --Colors-Base-Accent-Sky-Blue-50: #D8F4FF;
   --Colors-Base-Accent-Sky-Blue-100: #C1EDFF;
   --Colors-Base-Accent-Sky-Blue-200: #A2E5FF;
@@ -128,6 +136,7 @@
 
 
   /* Accent Midnight Blue Numbered Scale */
+  --Colors-Base-Accent-Midnight-Blue-10: #F0F3FF;
   --Colors-Base-Accent-Midnight-Blue-20: #E4EAFF;
   --Colors-Base-Accent-Midnight-Blue-50: #D6DEFF;
   --Colors-Base-Accent-Midnight-Blue-100: #C7D0FF;
@@ -185,6 +194,20 @@
   --Colors-Base-Accent-Red-900: #7C001C;
   --Colors-Base-Accent-Red-1000: #610016;
 
+  /* Accent Magenta Numbered Scale */
+  --Colors-Base-Accent-Magenta-20: #FBEAF2;
+  --Colors-Base-Accent-Magenta-50: #F6D5E4;
+  --Colors-Base-Accent-Magenta-100: #F2BFD7;
+  --Colors-Base-Accent-Magenta-200: #EEAACA;
+  --Colors-Base-Accent-Magenta-300: #EA99BF;
+  --Colors-Base-Accent-Magenta-400: #E580AF;
+  --Colors-Base-Accent-Magenta-500: #DF6DA2;
+  --Colors-Base-Accent-Magenta-600: #D95492;
+  --Colors-Base-Accent-Magenta-700: #D33B82;
+  --Colors-Base-Accent-Magenta-800: #C42C73;
+  --Colors-Base-Accent-Magenta-900: #AF2767;
+  --Colors-Base-Accent-Magenta-1000: #9A225B;
+
 
   /* ===== SEMANTIC COLOR NAMES ===== */
   /* These reference the numbered scales above */
@@ -201,8 +224,8 @@
   --Colors-Primary-Darker: var(--Colors-Base-Primary-1000);
   --Colors-Primary-Darkest: var(--Colors-Base-Primary-1150);
 
-  /* Background Colors */
-  --Colors-Backgrounds-Main-Default: var(--Colors-Base-Neutral-50);
+  /* Background Colors — map to co-design-al surface-app ladder */
+  --Colors-Backgrounds-Main-Default: var(--Colors-Base-Neutral-20);
   --Colors-Backgrounds-Main-Light: var(--Colors-Base-Neutral-100);
   --Colors-Backgrounds-Main-Medium: var(--Colors-Base-Neutral-150);
   --Colors-Backgrounds-Main-Strong: var(--Colors-Base-Neutral-200);
@@ -211,22 +234,23 @@
   --Colors-Backgrounds-Main-Top: var(--Colors-Base-Neutral-00);
   --Colors-Backgrounds-Main-Black: var(--Colors-Base-Primary-1400);
 
-  /* Text Colors */
+  /* Text Colors — map to co-design-al text tokens */
   --Colors-Text-Body-White: var(--Colors-Base-Neutral-00);
-  --Colors-Text-Body-Default: var(--Colors-Base-Neutral-1200);
-  --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-1050);
-  /* Light/Lighter darkened for WCAG 1.4.3 (A8). Lighter clears 4.5:1 on
-     Backgrounds-Main-Top; Light stays one step stronger for hierarchy and
-     input placeholders. Do not fade these tokens with opacity. */
-  --Colors-Text-Body-Light: var(--Colors-Base-Neutral-1000);
-  --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-950);
-  --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-1350);
-  --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-1450); 
+  --Colors-Text-Body-Default: var(--Colors-Base-Neutral-1100);
+  --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-900);
+  /* Light/Lighter must clear WCAG 1.4.3 (A8) on Main-Top at full opacity.
+     Light = text-light (Neutral-850); Lighter is one step softer (Neutral-800).
+     Do not fade these tokens with opacity. */
+  --Colors-Text-Body-Light: var(--Colors-Base-Neutral-850);
+  --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-800);
+  --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-1450);
+  --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-1450);
 
-  /* Icon Colors - Semantic Names */  
-  --Colors-Icon-Default: var(--Colors-Base-Neutral-600);
-  --Colors-Icon-Medium: var(--Colors-Base-Neutral-850);
-  --Colors-Icon-Strong: var(--Colors-Base-Neutral-1300);
+  /* Icon Colors - Semantic Names
+     Opaque approximations of co-design-al alpha icon ramps. */
+  --Colors-Icon-Default: var(--Colors-Base-Neutral-850);
+  --Colors-Icon-Medium: var(--Colors-Base-Neutral-1000);
+  --Colors-Icon-Strong: var(--Colors-Base-Neutral-1200);
   --Colors-Icon-Primary: var(--Colors-Base-Primary-600);
     
   /* Stroke Colors */
@@ -258,32 +282,213 @@
   --Colors-Alert-Error-Medium-Dark: var(--Colors-Base-Accent-Red-700);
   --Colors-Alert-Error-Dark: var(--Colors-Base-Accent-Red-900);
 
-  /* Warning Colors - Semantic Names */
-  --Colors-Alert-Warning-Default: var(--Colors-Base-Accent-Orange-600);
-  --Colors-Alert-Warning-Lighter: var(--Colors-Base-Accent-Orange-50);
-  --Colors-Alert-Warning-Light: var(--Colors-Base-Accent-Orange-100);
-  --Colors-Alert-Warning-Medium: var(--Colors-Base-Accent-Orange-300);
-  --Colors-Alert-Warning-Medium-Dark: var(--Colors-Base-Accent-Orange-700);
-  --Colors-Alert-Warning-Dark: var(--Colors-Base-Accent-Orange-900);
+  /* Warning Colors - Semantic Names (Yellow, matching co-design-al) */
+  --Colors-Alert-Warning-Default: var(--Colors-Base-Accent-Yellow-600);
+  --Colors-Alert-Warning-Lighter: var(--Colors-Base-Accent-Yellow-50);
+  --Colors-Alert-Warning-Light: var(--Colors-Base-Accent-Yellow-100);
+  --Colors-Alert-Warning-Medium: var(--Colors-Base-Accent-Yellow-300);
+  --Colors-Alert-Warning-Medium-Dark: var(--Colors-Base-Accent-Yellow-700);
+  --Colors-Alert-Warning-Dark: var(--Colors-Base-Accent-Yellow-900);
 
   /* Info Colors - Semantic Names */
-  --Colors-Alert-Info-Default: var(--Colors-Base-Accent-Sky-Blue-600);
+  --Colors-Alert-Info-Default: var(--Colors-Base-Accent-Sky-Blue-700);
   --Colors-Alert-Info-Lighter: var(--Colors-Base-Accent-Sky-Blue-50);
   --Colors-Alert-Info-Light: var(--Colors-Base-Accent-Sky-Blue-100);
   --Colors-Alert-Info-Medium: var(--Colors-Base-Accent-Sky-Blue-300);
   --Colors-Alert-Info-Medium-Dark: var(--Colors-Base-Accent-Sky-Blue-700);
   --Colors-Alert-Info-Dark: var(--Colors-Base-Accent-Sky-Blue-900);
+
+/* ===== NEW TOKENS (additive; existing names unchanged) ===== */
+
+  /* Alpha Neutral ramp (composites on surfaces) */
+  --Colors-Alpha-Neutral-Subtle: rgba(209, 215, 235, 0.2);
+  --Colors-Alpha-Neutral-Soft: rgba(209, 215, 235, 0.36);
+  --Colors-Alpha-Neutral-Medium-Soft: rgba(209, 215, 235, 0.56);
+  --Colors-Alpha-Neutral-Medium: rgba(199, 207, 229, 0.72);
+  --Colors-Alpha-Neutral-Medium-Strong: rgba(151, 161, 191, 0.52);
+  --Colors-Alpha-Neutral-Strong: rgba(127, 139, 173, 0.7);
+  --Colors-Alpha-Neutral-Bold: rgba(104, 117, 156, 0.8);
+  --Colors-Alpha-Neutral-Boldest: rgba(104, 117, 156, 0.9);
+
+  /* Alpha Primary ramp (light theme; dark mirrors Neutral) */
+  --Colors-Alpha-Primary-Subtle: rgba(144, 183, 255, 0.17);
+  --Colors-Alpha-Primary-Soft: rgba(144, 183, 255, 0.26);
+  --Colors-Alpha-Primary-Medium-Soft: rgba(144, 183, 255, 0.36);
+  --Colors-Alpha-Primary-Medium: rgba(55, 125, 255, 0.31);
+  --Colors-Alpha-Primary-Medium-Strong: rgba(55, 125, 255, 0.46);
+  --Colors-Alpha-Primary-Strong: rgba(55, 125, 255, 0.66);
+  --Colors-Alpha-Primary-Bold: rgba(16, 98, 251, 0.88);
+  --Colors-Alpha-Primary-Boldest: rgba(9, 69, 181, 0.9);
+
+  /* Surface — App */
+  --Colors-Surface-App-Base: var(--Colors-Base-Neutral-20);
+  --Colors-Surface-App-Subtle: var(--Colors-Base-Neutral-100);
+  --Colors-Surface-App-Low: var(--Colors-Base-Neutral-150);
+  --Colors-Surface-App-High: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-App-Inverse-Base: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-App-Inverse-Subtle: var(--Colors-Base-Neutral-10);
+  --Colors-Surface-App-Inverse-Low: var(--Colors-Base-Neutral-20);
+  --Colors-Surface-App-Inverse-High: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-App-Tinted-Base: var(--Colors-Base-Primary-10);
+  --Colors-Surface-App-Tinted-Subtle: var(--Colors-Base-Primary-50);
+  --Colors-Surface-App-Tinted-Low: var(--Colors-Base-Primary-100);
+  --Colors-Surface-App-Tinted-High: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-Nav-Base: var(--Colors-Base-Neutral-00);
+
+  /* Surface — Container */
+  --Colors-Surface-Container-Base: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-Container-Ground: var(--Colors-Base-Neutral-100);
+  --Colors-Surface-Container-Subtle: var(--Colors-Base-Neutral-10);
+  --Colors-Surface-Container-Soft: var(--Colors-Base-Neutral-20);
+  --Colors-Surface-Container-High: var(--Colors-Base-Neutral-10);
+  --Colors-Surface-Container-Highest: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-Container-Tinted-Base: var(--Colors-Base-Primary-20);
+  --Colors-Surface-Container-Tinted-Ground: var(--Colors-Base-Primary-100);
+  --Colors-Surface-Container-Tinted-Subtle: var(--Colors-Base-Primary-10);
+  --Colors-Surface-Container-Tinted-Soft: var(--Colors-Base-Primary-20);
+  --Colors-Surface-Container-Tinted-High: var(--Colors-Base-Primary-10);
+  --Colors-Surface-Container-Tinted-Highest: var(--Colors-Base-Neutral-00);
+  --Colors-Surface-Container-Subtle-Alt: rgba(255, 255, 255, 0);
+  --Colors-Surface-Container-Soft-Alt: rgba(244, 245, 250, 0);
+  --Colors-Surface-Scrim: rgba(33, 42, 69, 0.24);
+  --Colors-Surface-Scrim-Tinted: rgba(16, 98, 251, 0.8);
+
+  /* Border (alpha-composited; parallel to Stroke) */
+  --Colors-Border-Lightest: var(--Colors-Alpha-Neutral-Soft);
+  --Colors-Border-Subtle: var(--Colors-Alpha-Neutral-Medium-Soft);
+  --Colors-Border-Soft: var(--Colors-Alpha-Neutral-Medium);
+  --Colors-Border-Medium: var(--Colors-Alpha-Neutral-Medium-Strong);
+  --Colors-Border-Strong: var(--Colors-Alpha-Neutral-Strong);
+  --Colors-Border-Stronger: var(--Colors-Alpha-Neutral-Bold);
+  --Colors-Border-Lightest-Alt: var(--Colors-Alpha-Neutral-Soft);
+  --Colors-Border-Subtle-Alt: var(--Colors-Alpha-Neutral-Medium-Soft);
+  --Colors-Border-Soft-Alt: var(--Colors-Alpha-Neutral-Medium);
+  --Colors-Border-Medium-Alt: var(--Colors-Alpha-Neutral-Medium-Strong);
+  --Colors-Border-Strong-Alt: var(--Colors-Alpha-Neutral-Strong);
+  --Colors-Border-Stronger-Alt: var(--Colors-Alpha-Neutral-Bold);
+  --Colors-Border-High: var(--Colors-Base-Neutral-00);
+  --Colors-Border-Primary-Subtle: var(--Colors-Alpha-Primary-Medium);
+  --Colors-Border-Primary-Soft: var(--Colors-Alpha-Primary-Medium-Strong);
+  --Colors-Border-Primary-Medium: var(--Colors-Alpha-Primary-Strong);
+  --Colors-Border-Primary-Strong: var(--Colors-Alpha-Primary-Bold);
+  --Colors-Border-Primary-Stronger: var(--Colors-Base-Primary-800);
+  --Colors-Border-Primary-Selection: var(--Colors-Alpha-Primary-Medium-Soft);
+  --Colors-Border-Highlight: var(--Colors-Base-Primary-550);
+  --Colors-Border-Highlight-Strong: var(--Colors-Base-Primary-700);
+  --Colors-Border-Highlight-Subtle: var(--Colors-Base-Primary-300);
+  --Colors-Border-Focus-Visible: var(--Colors-Base-Primary-700);
+
+  /* Text — additional semantic (Body-* names preserved; these are additive) */
+  --Colors-Text-Body-Primary: var(--Colors-Base-Primary-750);
+  --Colors-Text-Body-Primary-Strong: var(--Colors-Base-Primary-900);
+  --Colors-Text-Body-Sky-Blue: var(--Colors-Base-Accent-Sky-Blue-900);
+  --Colors-Text-Body-Midnight-Blue: var(--Colors-Base-Accent-Midnight-Blue-1000);
+
+  /* Icon — additional steps (alpha-accurate where upstream uses alpha) */
+  --Colors-Icon-Light: rgba(60, 71, 103, 0.6);
+  --Colors-Icon-Stronger: rgba(25, 33, 57, 0.86);
+  --Colors-Icon-Primary-Strong: var(--Colors-Base-Primary-850);
+  --Colors-Icon-Primary-Light: rgba(16, 98, 251, 0.5);
+  --Colors-Icon-Primary-Medium: rgba(16, 98, 251, 0.68);
+
+  /* Control — Neutral */
+  --Colors-Control-Neutral-Base: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Subtle: var(--Colors-Alpha-Neutral-Subtle);
+  --Colors-Control-Neutral-Soft: var(--Colors-Alpha-Neutral-Soft);
+  --Colors-Control-Neutral-Medium: var(--Colors-Alpha-Neutral-Medium);
+  --Colors-Control-Neutral-Strong: var(--Colors-Alpha-Neutral-Bold);
+  --Colors-Control-Neutral-Contrast: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Contrast-Inverse: var(--Colors-Base-Neutral-750);
+  --Colors-Control-Neutral-Inverse-Subtle: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Inverse-Soft: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Inverse-Medium: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Inverse-Strong: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Hover-Base: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Hover-Subtle: var(--Colors-Alpha-Neutral-Soft);
+  --Colors-Control-Neutral-Hover-Soft: var(--Colors-Alpha-Neutral-Medium-Soft);
+  --Colors-Control-Neutral-Hover-Medium: var(--Colors-Alpha-Neutral-Medium-Strong);
+  --Colors-Control-Neutral-Hover-Strong: var(--Colors-Alpha-Neutral-Bold);
+  --Colors-Control-Neutral-Hover-Inverse-Subtle: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Hover-Inverse-Soft: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Hover-Inverse-Medium: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Neutral-Hover-Inverse-Strong: var(--Colors-Base-Neutral-00);
+
+  /* Control — Primary */
+  --Colors-Control-Primary-Base: var(--Colors-Base-Primary-100);
+  --Colors-Control-Primary-Subtle: var(--Colors-Alpha-Primary-Subtle);
+  --Colors-Control-Primary-Soft: var(--Colors-Alpha-Primary-Soft);
+  --Colors-Control-Primary-Medium: var(--Colors-Alpha-Primary-Medium);
+  --Colors-Control-Primary-Strong: var(--Colors-Alpha-Primary-Strong);
+  --Colors-Control-Primary-Contrast: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Primary-Contrast-Inverse: var(--Colors-Base-Primary-700);
+  --Colors-Control-Primary-Hover-Base: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Primary-Hover-Subtle: var(--Colors-Alpha-Primary-Soft);
+  --Colors-Control-Primary-Hover-Soft: var(--Colors-Alpha-Primary-Medium-Soft);
+  --Colors-Control-Primary-Hover-Medium: var(--Colors-Alpha-Primary-Medium-Strong);
+  --Colors-Control-Primary-Hover-Strong: var(--Colors-Alpha-Primary-Bold);
+  --Colors-Control-Primary-Selected: rgba(210, 226, 255, 0.66);
+  --Colors-Control-Input: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Toggle-Primary: var(--Colors-Base-Primary-600);
+  --Colors-Control-Toggle-Primary-Hover: var(--Colors-Base-Primary-800);
+
+  /* Control — Progress Neutral */
+  --Colors-Control-Progress-Neutral-Track: var(--Colors-Alpha-Neutral-Medium-Soft);
+  --Colors-Control-Progress-Neutral-Track-Hover: var(--Colors-Alpha-Neutral-Medium-Strong);
+  --Colors-Control-Progress-Neutral-Thumb: var(--Colors-Alpha-Neutral-Strong);
+  --Colors-Control-Progress-Neutral-Thumb-Hover: var(--Colors-Alpha-Neutral-Bold);
+  --Colors-Control-Progress-Neutral-Thumb-Contrast: var(--Colors-Base-Neutral-00);
+  --Colors-Control-Progress-Neutral-Handle: var(--Colors-Base-Neutral-550);
+  --Colors-Control-Progress-Neutral-Handle-Hover: var(--Colors-Base-Neutral-700);
+  --Colors-Control-Progress-Neutral-Strong-Thumb: var(--Colors-Base-Neutral-800);
+  --Colors-Control-Progress-Neutral-Strong-Thumb-Hover: var(--Colors-Base-Neutral-950);
+
+  /* Control — Progress Primary */
+  --Colors-Control-Progress-Primary-Track: var(--Colors-Alpha-Primary-Medium-Soft);
+  --Colors-Control-Progress-Primary-Track-Hover: var(--Colors-Alpha-Primary-Medium-Strong);
+  --Colors-Control-Progress-Primary-Thumb: var(--Colors-Alpha-Primary-Strong);
+  --Colors-Control-Progress-Primary-Thumb-Hover: var(--Colors-Alpha-Primary-Bold);
+  --Colors-Control-Progress-Primary-Handle: var(--Colors-Base-Primary-700);
+  --Colors-Control-Progress-Primary-Handle-Hover: var(--Colors-Base-Primary-800);
+
+  /* Control — Progress accent tracks */
+  --Colors-Control-Progress-Green-Track: var(--Colors-Base-Accent-Green-50);
+  --Colors-Control-Progress-Green-Thumb: var(--Colors-Base-Accent-Green-700);
+  --Colors-Control-Progress-Green-Thumb-Hover: var(--Colors-Base-Accent-Green-800);
+  --Colors-Control-Progress-Yellow-Track: var(--Colors-Base-Accent-Yellow-50);
+  --Colors-Control-Progress-Yellow-Thumb: var(--Colors-Base-Accent-Yellow-600);
+  --Colors-Control-Progress-Yellow-Thumb-Hover: var(--Colors-Base-Accent-Yellow-800);
+  --Colors-Control-Progress-Sky-Blue-Track: var(--Colors-Base-Accent-Sky-Blue-20);
+  --Colors-Control-Progress-Sky-Blue-Thumb: var(--Colors-Base-Accent-Sky-Blue-700);
+  --Colors-Control-Progress-Sky-Blue-Thumb-Hover: var(--Colors-Base-Accent-Sky-Blue-800);
+  --Colors-Control-Progress-Midnight-Blue-Track: var(--Colors-Base-Accent-Midnight-Blue-20);
+  --Colors-Control-Progress-Midnight-Blue-Thumb: var(--Colors-Base-Accent-Midnight-Blue-600);
+  --Colors-Control-Progress-Midnight-Blue-Thumb-Hover: var(--Colors-Base-Accent-Midnight-Blue-800);
+
+  /* Emphasis */
+  --Colors-Emphasis-Subtle: rgba(151, 161, 191, 0.1);
+  --Colors-Emphasis-Medium: rgba(151, 161, 191, 0.18);
+  --Colors-Emphasis-Strong: rgba(151, 161, 191, 0.26);
+  --Colors-Emphasis-Success: rgba(27, 178, 103, 0.2);
+  --Colors-Emphasis-Error: rgba(198, 9, 58, 0.2);
+  --Colors-Emphasis-Midnight-Blue: rgba(96, 111, 210, 0.2);
+  --Colors-Emphasis-Sky-Blue: rgba(0, 161, 233, 0.2);
+  --Colors-Emphasis-Primary-Subtle: rgba(55, 125, 255, 0.16);
+  --Colors-Emphasis-Primary-Medium: rgba(55, 125, 255, 0.3);
+  --Colors-Emphasis-Primary-Strong: rgba(55, 125, 255, 0.5);
+  --Colors-Emphasis-Shadow-Subtle: rgba(60, 71, 103, 0.08);
+  --Colors-Emphasis-Shadow-Soft: rgba(60, 71, 103, 0.16);
+  --Colors-Emphasis-Shadow-Medium: rgba(60, 71, 103, 0.26);
+  --Colors-Emphasis-Shadow-Strong: rgba(60, 71, 103, 0.4);
 }
 
 /* ===== DARK MODE ===== */
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Primary Colors - Semantic Names (ElevatedDark Mode) */
-    /* Lightened so focus rings / Primary-Default meet 3:1 on dark surfaces (A7). */
-    --Colors-Primary-Default: var(--Colors-Base-Primary-450);
-    --Colors-Primary-Lightest: var(--Colors-Base-Primary-400);   
-    --Colors-Primary-Lighter: var(--Colors-Base-Primary-450);    
-    --Colors-Primary-Light: var(--Colors-Base-Primary-450);      
+    /* Primary Colors - Semantic Names (match co-design-al; Default stays 700) */
+    --Colors-Primary-Default: var(--Colors-Base-Primary-700);
+    --Colors-Primary-Lightest: var(--Colors-Base-Primary-400);
+    --Colors-Primary-Lighter: var(--Colors-Base-Primary-450);
+    --Colors-Primary-Light: var(--Colors-Base-Primary-450);
     --Colors-Primary-Medium-Light: var(--Colors-Base-Primary-500);
     --Colors-Primary-Medium: var(--Colors-Base-Primary-600);
     --Colors-Primary-Medium-Dark: var(--Colors-Base-Primary-800);
@@ -291,47 +496,248 @@
     --Colors-Primary-Darker: var(--Colors-Base-Primary-1000);
     --Colors-Primary-Darkest: var(--Colors-Base-Primary-1050);
 
-    /* Background Colors - Semantic Names (Elevated Dark Mode) */
-    --Colors-Backgrounds-Main-Default: var(--Colors-Base-Neutral-1300);
-    --Colors-Backgrounds-Main-Light: var(--Colors-Base-Neutral-1250);      
-    --Colors-Backgrounds-Main-Medium: var(--Colors-Base-Neutral-1200);     
-    --Colors-Backgrounds-Main-Strong: var(--Colors-Base-Neutral-1150);     
-    --Colors-Backgrounds-Main-Dark: var(--Colors-Base-Neutral-1350);       
-    --Colors-Backgrounds-Main-Darker: var(--Colors-Base-Neutral-1400);     
-    --Colors-Backgrounds-Main-Top: var(--Colors-Base-Neutral-1300);
+    /* Background Colors — near-black surface-app / container ladder */
+    --Colors-Backgrounds-Main-Default: var(--Colors-Base-Neutral-1500);
+    --Colors-Backgrounds-Main-Light: var(--Colors-Base-Neutral-1450);
+    --Colors-Backgrounds-Main-Medium: var(--Colors-Base-Primary-1400);
+    --Colors-Backgrounds-Main-Strong: var(--Colors-Base-Neutral-1400);
+    --Colors-Backgrounds-Main-Dark: var(--Colors-Base-Neutral-1500);
+    --Colors-Backgrounds-Main-Darker: var(--Colors-Base-Neutral-1600);
+    --Colors-Backgrounds-Main-Top: var(--Colors-Base-Neutral-1400);
     --Colors-Backgrounds-Main-Black: var(--Colors-Base-Neutral-200);
 
-    /* Text Colors - Semantic Names (Elevated Dark Mode) */
-    --Colors-Text-Body-Default: var(--Colors-Base-Neutral-450);
-    --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-650);
+    /* Text Colors */
+    --Colors-Text-Body-Default: var(--Colors-Base-Neutral-400);
+    --Colors-Text-Body-Medium: var(--Colors-Base-Neutral-600);
     /* Light/Lighter raised for WCAG 1.4.3 (A8); Light stays stronger than Lighter. */
-    --Colors-Text-Body-Light: var(--Colors-Base-Neutral-650);
-    --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-700);
+    --Colors-Text-Body-Light: var(--Colors-Base-Neutral-700);
+    --Colors-Text-Body-Lighter: var(--Colors-Base-Neutral-750);
     --Colors-Text-Body-Strong: var(--Colors-Base-Neutral-00);
     --Colors-Text-Body-Strongest: var(--Colors-Base-Neutral-00);
     
-    /* Icon Colors - Semantic Names (Elevated Dark Mode) */  
-    --Colors-Icon-Default: var(--Colors-Base-Neutral-850);
-    --Colors-Icon-Medium: var(--Colors-Base-Neutral-750);
+    /* Icon Colors */
+    --Colors-Icon-Default: var(--Colors-Base-Neutral-750);
+    --Colors-Icon-Medium: var(--Colors-Base-Neutral-600);
     --Colors-Icon-Strong: var(--Colors-Base-Neutral-00);
-    --Colors-Icon-Primary: var(--Colors-Base-Primary-700);
+    --Colors-Icon-Primary: var(--Colors-Base-Primary-550);
 
-    /* Stroke Colors (Elevated Dark Mode)
-       Light mode kept near-white neutrals for borders on white surfaces.
-       Those same steps glow on dark backgrounds, so remap onto the dark
-       neutral / primary scales while preserving Lighter → Stronger rank
-       (closer to Main-Top → more contrast). Aligned with input/box dark
-       borders (Neutral-1250…1100) and A7's Primary-450 focus token (D12). */
-    --Colors-Stroke-Background: var(--Colors-Base-Neutral-1300);
-    --Colors-Stroke-Lighter: var(--Colors-Base-Neutral-1250);
-    --Colors-Stroke-Light: var(--Colors-Base-Neutral-1200);
-    --Colors-Stroke-Default: var(--Colors-Base-Neutral-1150);
-    --Colors-Stroke-Medium: var(--Colors-Base-Neutral-1100);
+    /* Stroke Colors
+       Remap onto dark neutrals / primary while preserving Lighter → Stronger rank.
+       Aligned with near-black surfaces; Primary tracks focus-visible (Primary-400). */
+    --Colors-Stroke-Background: var(--Colors-Base-Neutral-1500);
+    --Colors-Stroke-Lighter: var(--Colors-Base-Neutral-1400);
+    --Colors-Stroke-Light: var(--Colors-Base-Neutral-1350);
+    --Colors-Stroke-Default: var(--Colors-Base-Neutral-1300);
+    --Colors-Stroke-Medium: var(--Colors-Base-Neutral-1200);
     --Colors-Stroke-Strong: var(--Colors-Base-Neutral-1000);
     --Colors-Stroke-Stronger: var(--Colors-Base-Neutral-800);
-    --Colors-Stroke-Primary: var(--Colors-Base-Primary-450);
+    --Colors-Stroke-Primary: var(--Colors-Base-Primary-400);
     --Colors-Stroke-Primary-Light: var(--Colors-Base-Primary-350);
     --Colors-Stroke-Primary-Medium: var(--Colors-Base-Primary-500);
     --Colors-Stroke-Primary-Dark: var(--Colors-Base-Primary-600);
+
+    /* Alert Colors (dark theme remaps from co-design-al) */
+    --Colors-Alert-Success-Default: var(--Colors-Base-Accent-Green-700);
+    --Colors-Alert-Success-Lighter: var(--Colors-Base-Accent-Green-200);
+    --Colors-Alert-Success-Light: var(--Colors-Base-Accent-Green-200);
+    --Colors-Alert-Success-Medium: var(--Colors-Base-Accent-Green-300);
+    --Colors-Alert-Success-Medium-Dark: var(--Colors-Base-Accent-Green-800);
+    --Colors-Alert-Success-Dark: var(--Colors-Base-Accent-Green-900);
+
+    --Colors-Alert-Error-Default: var(--Colors-Base-Accent-Red-600);
+    --Colors-Alert-Error-Lighter: var(--Colors-Base-Accent-Red-100);
+    --Colors-Alert-Error-Light: var(--Colors-Base-Accent-Red-200);
+    --Colors-Alert-Error-Medium: var(--Colors-Base-Accent-Red-300);
+    --Colors-Alert-Error-Medium-Dark: var(--Colors-Base-Accent-Red-700);
+    --Colors-Alert-Error-Dark: var(--Colors-Base-Accent-Red-900);
+
+    --Colors-Alert-Warning-Default: var(--Colors-Base-Accent-Yellow-700);
+    --Colors-Alert-Warning-Lighter: var(--Colors-Base-Accent-Yellow-100);
+    --Colors-Alert-Warning-Light: var(--Colors-Base-Accent-Yellow-200);
+    --Colors-Alert-Warning-Medium: var(--Colors-Base-Accent-Yellow-300);
+    --Colors-Alert-Warning-Medium-Dark: var(--Colors-Base-Accent-Yellow-800);
+    --Colors-Alert-Warning-Dark: var(--Colors-Base-Accent-Yellow-900);
+
+    --Colors-Alert-Info-Default: var(--Colors-Base-Accent-Sky-Blue-600);
+    --Colors-Alert-Info-Lighter: var(--Colors-Base-Accent-Sky-Blue-100);
+    --Colors-Alert-Info-Light: var(--Colors-Base-Accent-Sky-Blue-200);
+    --Colors-Alert-Info-Medium: var(--Colors-Base-Accent-Sky-Blue-300);
+    --Colors-Alert-Info-Medium-Dark: var(--Colors-Base-Accent-Sky-Blue-700);
+    --Colors-Alert-Info-Dark: var(--Colors-Base-Accent-Sky-Blue-900);
+
+
+      /* Alpha Neutral / Primary (dark: Primary mirrors Neutral) */
+      --Colors-Alpha-Neutral-Subtle: rgba(46, 56, 86, 0.38);
+      --Colors-Alpha-Primary-Subtle: rgba(46, 56, 86, 0.38);
+      --Colors-Alpha-Neutral-Soft: rgba(46, 56, 86, 0.6);
+      --Colors-Alpha-Primary-Soft: rgba(46, 56, 86, 0.6);
+      --Colors-Alpha-Neutral-Medium-Soft: rgba(79, 92, 130, 0.58);
+      --Colors-Alpha-Primary-Medium-Soft: rgba(79, 92, 130, 0.58);
+      --Colors-Alpha-Neutral-Medium: rgba(79, 92, 130, 0.8);
+      --Colors-Alpha-Primary-Medium: rgba(79, 92, 130, 0.8);
+      --Colors-Alpha-Neutral-Medium-Strong: rgba(104, 117, 156, 0.72);
+      --Colors-Alpha-Primary-Medium-Strong: rgba(104, 117, 156, 0.72);
+      --Colors-Alpha-Neutral-Strong: rgba(104, 117, 156, 0.8);
+      --Colors-Alpha-Primary-Strong: rgba(104, 117, 156, 0.8);
+      --Colors-Alpha-Neutral-Bold: rgba(127, 139, 173, 0.8);
+      --Colors-Alpha-Primary-Bold: rgba(127, 139, 173, 0.8);
+      --Colors-Alpha-Neutral-Boldest: rgba(151, 161, 191, 0.85);
+      --Colors-Alpha-Primary-Boldest: rgba(151, 161, 191, 0.85);
+
+      /* Surface — App (dark) */
+      --Colors-Surface-App-Base: var(--Colors-Base-Neutral-1500);
+      --Colors-Surface-App-Subtle: var(--Colors-Base-Neutral-1450);
+      --Colors-Surface-App-Low: var(--Colors-Base-Primary-1400);
+      --Colors-Surface-App-High: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-App-Inverse-Base: var(--Colors-Base-Neutral-1500);
+      --Colors-Surface-App-Inverse-Subtle: var(--Colors-Base-Neutral-1450);
+      --Colors-Surface-App-Inverse-Low: var(--Colors-Base-Primary-1400);
+      --Colors-Surface-App-Inverse-High: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-App-Tinted-Base: var(--Colors-Base-Neutral-1500);
+      --Colors-Surface-App-Tinted-Subtle: var(--Colors-Base-Neutral-1450);
+      --Colors-Surface-App-Tinted-Low: var(--Colors-Base-Primary-1400);
+      --Colors-Surface-App-Tinted-High: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-Nav-Base: var(--Colors-Base-Neutral-1500);
+
+      /* Surface — Container (dark) */
+      --Colors-Surface-Container-Base: var(--Colors-Base-Neutral-1450);
+      --Colors-Surface-Container-Ground: var(--Colors-Base-Neutral-1500);
+      --Colors-Surface-Container-Subtle: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-Container-Soft: var(--Colors-Base-Neutral-1350);
+      --Colors-Surface-Container-High: var(--Colors-Base-Neutral-1300);
+      --Colors-Surface-Container-Highest: var(--Colors-Base-Neutral-1300);
+      --Colors-Surface-Container-Tinted-Base: var(--Colors-Base-Neutral-1450);
+      --Colors-Surface-Container-Tinted-Ground: var(--Colors-Base-Neutral-1500);
+      --Colors-Surface-Container-Tinted-Subtle: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-Container-Tinted-Soft: var(--Colors-Base-Neutral-1350);
+      --Colors-Surface-Container-Tinted-High: var(--Colors-Base-Neutral-1300);
+      --Colors-Surface-Container-Tinted-Highest: var(--Colors-Base-Neutral-1300);
+      --Colors-Surface-Container-Subtle-Alt: var(--Colors-Base-Neutral-1400);
+      --Colors-Surface-Container-Soft-Alt: var(--Colors-Base-Neutral-1350);
+      --Colors-Surface-Scrim: rgba(0, 0, 0, 0.9);
+      --Colors-Surface-Scrim-Tinted: rgba(0, 0, 0, 0.9);
+
+      /* Border (dark) */
+      --Colors-Border-Lightest: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Border-Subtle: var(--Colors-Alpha-Neutral-Medium-Soft);
+      --Colors-Border-Soft: var(--Colors-Alpha-Neutral-Medium);
+      --Colors-Border-Medium: var(--Colors-Alpha-Neutral-Medium-Strong);
+      --Colors-Border-Strong: var(--Colors-Alpha-Neutral-Strong);
+      --Colors-Border-Stronger: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Border-Lightest-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-Subtle-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-Soft-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-Medium-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-Strong-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-Stronger-Alt: rgba(60, 71, 103, 0);
+      --Colors-Border-High: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Border-Primary-Subtle: rgba(55, 125, 255, 0.36);
+      --Colors-Border-Primary-Soft: rgba(55, 125, 255, 0.48);
+      --Colors-Border-Primary-Medium: rgba(72, 136, 255, 0.6);
+      --Colors-Border-Primary-Strong: rgba(92, 148, 255, 0.8);
+      --Colors-Border-Primary-Stronger: rgba(144, 183, 255, 0.86);
+      --Colors-Border-Primary-Selection: rgba(72, 136, 255, 0.6);
+      --Colors-Border-Highlight: rgba(103, 156, 255, 0.64);
+      --Colors-Border-Highlight-Strong: rgba(103, 156, 255, 0.8);
+      --Colors-Border-Highlight-Subtle: rgba(103, 156, 255, 0.5);
+      --Colors-Border-Focus-Visible: var(--Colors-Base-Primary-400);
+
+      /* Text additive (dark) */
+      --Colors-Text-Body-Primary: var(--Colors-Base-Primary-550);
+      --Colors-Text-Body-Primary-Strong: var(--Colors-Base-Primary-450);
+      --Colors-Text-Body-Sky-Blue: var(--Colors-Base-Accent-Sky-Blue-500);
+      --Colors-Text-Body-Midnight-Blue: var(--Colors-Base-Accent-Midnight-Blue-700);
+
+      /* Icon additive (dark) */
+      --Colors-Icon-Light: rgba(115, 128, 165, 0.78);
+      --Colors-Icon-Stronger: var(--Colors-Base-Neutral-350);
+      --Colors-Icon-Primary-Strong: var(--Colors-Base-Primary-400);
+      --Colors-Icon-Primary-Light: rgba(55, 125, 255, 0.6);
+      --Colors-Icon-Primary-Medium: rgba(55, 125, 255, 0.8);
+
+      /* Control Neutral (dark) */
+      --Colors-Control-Neutral-Base: rgba(33, 42, 69, 0.14);
+      --Colors-Control-Neutral-Subtle: var(--Colors-Alpha-Neutral-Subtle);
+      --Colors-Control-Neutral-Soft: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Control-Neutral-Medium: var(--Colors-Alpha-Neutral-Medium);
+      --Colors-Control-Neutral-Strong: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Control-Neutral-Contrast: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Neutral-Contrast-Inverse: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Neutral-Inverse-Subtle: var(--Colors-Alpha-Neutral-Subtle);
+      --Colors-Control-Neutral-Inverse-Soft: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Control-Neutral-Inverse-Medium: var(--Colors-Alpha-Neutral-Medium);
+      --Colors-Control-Neutral-Inverse-Strong: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Control-Neutral-Hover-Base: rgba(33, 42, 69, 0.26);
+      --Colors-Control-Neutral-Hover-Subtle: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Control-Neutral-Hover-Soft: var(--Colors-Alpha-Neutral-Medium-Soft);
+      --Colors-Control-Neutral-Hover-Medium: var(--Colors-Alpha-Neutral-Medium-Strong);
+      --Colors-Control-Neutral-Hover-Strong: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Control-Neutral-Hover-Inverse-Subtle: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Control-Neutral-Hover-Inverse-Soft: var(--Colors-Alpha-Neutral-Medium-Soft);
+      --Colors-Control-Neutral-Hover-Inverse-Medium: var(--Colors-Alpha-Neutral-Medium-Strong);
+      --Colors-Control-Neutral-Hover-Inverse-Strong: var(--Colors-Alpha-Neutral-Bold);
+
+      /* Control Primary (dark) */
+      --Colors-Control-Primary-Base: rgba(33, 42, 69, 0.14);
+      --Colors-Control-Primary-Subtle: var(--Colors-Alpha-Primary-Subtle);
+      --Colors-Control-Primary-Soft: var(--Colors-Alpha-Primary-Soft);
+      --Colors-Control-Primary-Medium: var(--Colors-Alpha-Primary-Medium);
+      --Colors-Control-Primary-Strong: var(--Colors-Alpha-Primary-Strong);
+      --Colors-Control-Primary-Contrast: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Primary-Contrast-Inverse: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Primary-Hover-Base: rgba(33, 42, 69, 0.26);
+      --Colors-Control-Primary-Hover-Subtle: var(--Colors-Alpha-Primary-Soft);
+      --Colors-Control-Primary-Hover-Soft: var(--Colors-Alpha-Primary-Medium-Soft);
+      --Colors-Control-Primary-Hover-Medium: var(--Colors-Alpha-Primary-Medium-Strong);
+      --Colors-Control-Primary-Hover-Strong: var(--Colors-Alpha-Primary-Bold);
+      --Colors-Control-Primary-Selected: rgba(33, 42, 69, 0.72);
+      --Colors-Control-Input: var(--Colors-Alpha-Neutral-Soft);
+      --Colors-Control-Toggle-Primary: var(--Colors-Base-Primary-600);
+      --Colors-Control-Toggle-Primary-Hover: var(--Colors-Base-Primary-500);
+
+      /* Control Progress (dark) */
+      --Colors-Control-Progress-Neutral-Track: var(--Colors-Alpha-Neutral-Medium-Soft);
+      --Colors-Control-Progress-Neutral-Track-Hover: var(--Colors-Alpha-Neutral-Medium-Strong);
+      --Colors-Control-Progress-Neutral-Thumb: var(--Colors-Alpha-Neutral-Strong);
+      --Colors-Control-Progress-Neutral-Thumb-Hover: var(--Colors-Alpha-Neutral-Bold);
+      --Colors-Control-Progress-Neutral-Thumb-Contrast: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Progress-Neutral-Handle: var(--Colors-Base-Neutral-900);
+      --Colors-Control-Progress-Neutral-Handle-Hover: var(--Colors-Base-Neutral-800);
+      --Colors-Control-Progress-Neutral-Strong-Thumb: var(--Colors-Base-Neutral-550);
+      --Colors-Control-Progress-Neutral-Strong-Thumb-Hover: var(--Colors-Base-Neutral-300);
+      --Colors-Control-Progress-Primary-Track: var(--Colors-Alpha-Primary-Medium-Soft);
+      --Colors-Control-Progress-Primary-Track-Hover: var(--Colors-Alpha-Primary-Medium-Strong);
+      --Colors-Control-Progress-Primary-Thumb: var(--Colors-Base-Primary-500);
+      --Colors-Control-Progress-Primary-Thumb-Hover: var(--Colors-Alpha-Primary-Bold);
+      --Colors-Control-Progress-Primary-Handle: var(--Colors-Base-Primary-550);
+      --Colors-Control-Progress-Primary-Handle-Hover: var(--Colors-Base-Primary-450);
+      --Colors-Control-Progress-Green-Track: rgba(70, 82, 119, 0.28);
+      --Colors-Control-Progress-Green-Thumb: var(--Colors-Base-Accent-Green-600);
+      --Colors-Control-Progress-Green-Thumb-Hover: var(--Colors-Base-Accent-Green-400);
+      --Colors-Control-Progress-Yellow-Track: rgba(70, 82, 119, 0.28);
+      --Colors-Control-Progress-Yellow-Thumb: var(--Colors-Base-Accent-Yellow-600);
+      --Colors-Control-Progress-Yellow-Thumb-Hover: var(--Colors-Base-Accent-Yellow-400);
+      --Colors-Control-Progress-Sky-Blue-Track: rgba(70, 82, 119, 0.28);
+      --Colors-Control-Progress-Sky-Blue-Thumb: var(--Colors-Base-Accent-Sky-Blue-700);
+      --Colors-Control-Progress-Sky-Blue-Thumb-Hover: var(--Colors-Base-Accent-Sky-Blue-500);
+      --Colors-Control-Progress-Midnight-Blue-Track: rgba(70, 82, 119, 0.28);
+      --Colors-Control-Progress-Midnight-Blue-Thumb: var(--Colors-Base-Accent-Midnight-Blue-700);
+      --Colors-Control-Progress-Midnight-Blue-Thumb-Hover: var(--Colors-Base-Accent-Midnight-Blue-500);
+
+      /* Emphasis (dark) */
+      --Colors-Emphasis-Subtle: rgba(46, 56, 86, 0.28);
+      --Colors-Emphasis-Medium: rgba(46, 56, 86, 0.42);
+      --Colors-Emphasis-Strong: rgba(46, 56, 86, 0.58);
+      --Colors-Emphasis-Success: rgba(27, 178, 103, 0.3);
+      --Colors-Emphasis-Error: rgba(198, 9, 58, 0.34);
+      --Colors-Emphasis-Midnight-Blue: rgba(96, 111, 210, 0.34);
+      --Colors-Emphasis-Sky-Blue: rgba(0, 161, 233, 0.34);
+      --Colors-Emphasis-Primary-Subtle: rgba(46, 56, 86, 0.28);
+      --Colors-Emphasis-Primary-Medium: rgba(46, 56, 86, 0.42);
+      --Colors-Emphasis-Primary-Strong: rgba(46, 56, 86, 0.48);
+      --Colors-Emphasis-Shadow-Subtle: rgba(4, 8, 19, 0.3);
+      --Colors-Emphasis-Shadow-Soft: rgba(4, 8, 19, 0.42);
+      --Colors-Emphasis-Shadow-Medium: rgba(4, 8, 19, 0.64);
+      --Colors-Emphasis-Shadow-Strong: rgba(4, 8, 19, 0.9);
   }
 }
