@@ -41,6 +41,15 @@
     --Colors-Buttons-Text-Primary-Hover: var(--Colors-Base-Primary-800);
     --Colors-Buttons-Text-Pressed: var(--Colors-Base-Neutral-1300);
     --Colors-Buttons-Text-Primary-Pressed: var(--Colors-Base-Primary-900);
+
+    /* Opaque disabled colors. Fading the whole control to 0.24 left primary
+       text near 1.4:1 (light) and 1.7:1 (dark) after compositing. */
+    --Colors-Buttons-Primary-Disabled: var(--Colors-Base-Primary-100);
+    --Colors-Buttons-Primary-Disabled-Text: var(--Colors-Base-Neutral-900);
+    --Colors-Buttons-Secondary-Disabled: var(--Colors-Base-Neutral-850);
+    --Colors-Buttons-Secondary-Disabled-Text: var(--Colors-Base-Neutral-850);
+    --Colors-Buttons-Tertiary-Disabled: var(--Colors-Base-Neutral-850);
+    --Colors-Buttons-Tertiary-Disabled-Text: var(--Colors-Base-Neutral-850);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -68,6 +77,13 @@
         --Colors-Buttons-Text-Primary-Hover: var(--Colors-Base-Primary-400);
         --Colors-Buttons-Text-Pressed: var(--Colors-Base-Neutral-900);
         --Colors-Buttons-Text-Primary-Pressed: var(--Colors-Base-Primary-700);
+
+        --Colors-Buttons-Primary-Disabled: var(--Colors-Base-Primary-900);
+        --Colors-Buttons-Primary-Disabled-Text: var(--Colors-Base-Neutral-400);
+        --Colors-Buttons-Secondary-Disabled: var(--Colors-Base-Neutral-700);
+        --Colors-Buttons-Secondary-Disabled-Text: var(--Colors-Base-Neutral-700);
+        --Colors-Buttons-Tertiary-Disabled: var(--Colors-Base-Neutral-700);
+        --Colors-Buttons-Tertiary-Disabled-Text: var(--Colors-Base-Neutral-700);
     }
 }
 
@@ -100,7 +116,7 @@
 .button.disabled {
     cursor: not-allowed;
     pointer-events: none;
-    opacity: 0.24;
+    opacity: 0.5;
 }
 
 /* Primary Button Variant */
@@ -127,6 +143,13 @@
     /* The 20% focus shadow sits under 3:1. Same 2px stroke ring as mail rows. */
     outline: 2px solid var(--Colors-Stroke-Primary);
     outline-offset: 2px;
+}
+
+.button-primary:disabled,
+.button-primary.disabled {
+    opacity: 1;
+    background-color: var(--Colors-Buttons-Primary-Disabled);
+    color: var(--Colors-Buttons-Primary-Disabled-Text);
 }
 
 .button-secondary {
@@ -158,7 +181,9 @@
 
 .button-secondary:disabled,
 .button-secondary.disabled {
-    opacity: 0.3;
+    opacity: 1;
+    border-color: var(--Colors-Buttons-Secondary-Disabled);
+    color: var(--Colors-Buttons-Secondary-Disabled-Text);
 }
 
 .button-tertiary {
@@ -192,7 +217,9 @@
 
 .button-tertiary:disabled,
 .button-tertiary.disabled {
-    opacity: 0.3;
+    opacity: 1;
+    border-color: var(--Colors-Buttons-Tertiary-Disabled);
+    color: var(--Colors-Buttons-Tertiary-Disabled-Text);
 }
 
 .button-danger {
@@ -298,7 +325,7 @@
 
 .button-text:disabled,
 .button-text.disabled {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .button-text-primary,
@@ -332,7 +359,7 @@
 .button-text-primary:disabled,
 .button-text-primary.disabled {
     color: var(--Colors-Buttons-Primary-Default);
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .button-text.button-danger,
@@ -366,7 +393,7 @@
 
 .button-text.button-danger:disabled,
 .button-text.button-danger.disabled {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 @media (prefers-color-scheme: dark) {
