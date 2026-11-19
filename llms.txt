@@ -83,6 +83,7 @@ Also include Work Sans font from Google Fonts.
 ### Dropdown (JS Component)
 - Import: `import Dropdown from '/design-system/components/dropdown/dropdown.js'`
 - Initialize: `new Dropdown(selector, { items, placeholder, onSelect, ... })`
+- Items are `{ value, label }`; add `group: 'Heading'` to consecutive items to render them under a group heading
 - Methods: `getValue()`, `setValue(value)`, `open()`, `close()`, `toggleOpen()`, `destroy()`
 
 ### Horizontal Cards (JS Component)

@@ -195,6 +195,28 @@
   overflow-y: visible;
 }
 
+/* Option groups: a labelled role="group" around consecutive options */
+.dropdown-menu-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--UI-Spacing-spacing-xxs);
+}
+
+/* Height must match groupLabelHeight in dropdown.js (menu height calculation) */
+.dropdown-menu-group-label {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 28px;
+  padding: var(--UI-Spacing-spacing-none) var(--Menu-Item-Padding-Horizontal) var(--UI-Spacing-spacing-xxs);
+  color: var(--Colors-Text-Body-Medium);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
 /* Menu Items (div[role=option]; not <button> — D3) */
 .dropdown-menu-item {
   display: flex;
