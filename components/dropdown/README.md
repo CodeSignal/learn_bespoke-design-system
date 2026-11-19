@@ -43,12 +43,33 @@ const dropdown = new Dropdown('#my-dropdown', {
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `items` | Array | `[]` | Array of objects with `value` and `label` properties. |
+| `items` | Array | `[]` | Array of objects with `value` and `label` properties, and an optional `group` (see [Grouped options](#grouped-options)). |
 | `placeholder` | String | `'Select option'` | Text displayed when no item is selected. This is also the combobox accessible name until a value is chosen, so pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value. |
 | `width` | String/Number | `'auto'` | Fixed width of the dropdown (e.g., `200`, `'100%'`). Ignored if `growToFit` is true. |
 | `growToFit` | Boolean | `false` | If `true`, the dropdown automatically resizes to fit the selected content. |
 | `onSelect` | Function | `null` | Callback function triggered when an item is selected. Receives `(value, item)`. |
+
+## Grouped options
+
+Give items a `group` to show them under a heading. Consecutive items with the same `group` form one group; items without a `group` are rendered on their own. Options stay in the order you pass them.
+
+```javascript
+new Dropdown('#model', {
+  placeholder: 'Select model',
+  items: [
+    { value: 'gpt-6-luna', label: 'GPT-6 Luna', group: 'OpenAI' },
+    { value: 'gpt-6.2-sol', label: 'GPT-6.2 Sol', group: 'OpenAI' },
+    { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5', group: 'Anthropic' },
+    { value: 'claude-haiku-5-5', label: 'Claude Haiku 5.5', group: 'Anthropic' }
+  ]
+});
+```
+
+- Headings are not options: they cannot be focused or selected, and arrow keys, Home and End skip them.
+- The toggle shows only the selected option's `label`, so keep labels meaningful without their heading.
+- Pass an already-translated string as `group`; it is the group's accessible name.
+- A heading counts toward the menu height, which still scrolls beyond the height of six options.
 
 ## Keyboard
 
@@ -67,6 +88,7 @@ Select-only combobox pattern (APG):
 - Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup. The accessible name comes from the visible label (`placeholder` when nothing is selected). There is no separate i18n runtime; pass a translated `placeholder`.
 - Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
 - Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
+- Grouped options sit inside `role="group"` elements named by their heading through `aria-labelledby` (APG listbox with grouped options). The heading itself is presentational.
 - Every option exposes `aria-selected="true"` or `"false"`; the checkmark SVG is decorative (`aria-hidden`) and is not the only selection cue.
 
 ## API Methods

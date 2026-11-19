@@ -87,10 +87,27 @@ class Dropdown {
     this.menuList.className = 'dropdown-menu-list';
     this.menuList.setAttribute('role', 'presentation');
     
-    // Create menu items
+    // Create menu items. Consecutive items that share a `group` are wrapped
+    // in a labelled role="group"; DOM order always matches `config.items`.
+    this.groupCount = 0;
+    let currentGroupName = null;
+    let currentGroupEl = null;
     this.config.items.forEach((item, index) => {
       const menuItem = this.createMenuItem(item, index);
-      this.menuList.appendChild(menuItem);
+      const groupName = typeof item.group === 'string' ? item.group.trim() : '';
+      if (!groupName) {
+        currentGroupName = null;
+        currentGroupEl = null;
+        this.menuList.appendChild(menuItem);
+        return;
+      }
+      if (groupName !== currentGroupName) {
+        this.groupCount += 1;
+        currentGroupName = groupName;
+        currentGroupEl = this.createGroup(groupName, `${this.menu.id}-group-${this.groupCount}`);
+        this.menuList.appendChild(currentGroupEl);
+      }
+      currentGroupEl.appendChild(menuItem);
     });
     
     this.menu.appendChild(this.menuList);
@@ -167,6 +184,29 @@ class Dropdown {
     });
 
     return menuItem;
+  }
+
+  /**
+   * A labelled group of options (APG listbox with grouped options). The
+   * heading is not an option: it takes no focus and is skipped by arrow keys.
+   */
+  createGroup(name, labelId) {
+    const group = document.createElement('div');
+    group.className = 'dropdown-menu-group';
+    group.setAttribute('role', 'group');
+    group.setAttribute('aria-labelledby', labelId);
+
+    const label = document.createElement('div');
+    label.className = 'dropdown-menu-group-label label-small';
+    label.id = labelId;
+    label.setAttribute('role', 'presentation');
+    label.textContent = name;
+    // A heading cannot take focus, so a click on it would drop focus to
+    // <body> and the focusout handler would close the menu. Keep focus put.
+    label.addEventListener('mousedown', (e) => e.preventDefault());
+
+    group.appendChild(label);
+    return group;
   }
 
   getMenuItems() {
@@ -369,18 +409,25 @@ class Dropdown {
 
   updateMenuHeight() {
     const itemCount = this.config.items.length;
+    const groupCount = this.groupCount || 0;
     const itemHeight = 40; // Height of each menu item
-    const gap = 4; // Gap between items
+    const groupLabelHeight = 28; // Height of each group heading (.dropdown-menu-group-label)
+    const gap = 4; // Gap between rows (items and group headings)
     const padding = 24; // Total padding (12px top + 12px bottom)
     const maxItems = 6; // Maximum items before scrolling
+    const rowCount = itemCount + groupCount;
     
-    // Calculate height: (itemHeight * itemCount) + (gap * (itemCount - 1)) + padding
-    let calculatedHeight = (itemHeight * itemCount) + (gap * Math.max(0, itemCount - 1)) + padding;
+    // Calculate height: rows + (gap * (rowCount - 1)) + padding
+    let calculatedHeight =
+      (itemHeight * itemCount) +
+      (groupLabelHeight * groupCount) +
+      (gap * Math.max(0, rowCount - 1)) +
+      padding;
     
     // Cap at max height for 6 items (284px) to enable scrolling
     const maxHeight = (itemHeight * maxItems) + (gap * (maxItems - 1)) + padding;
     
-    if (itemCount <= maxItems) {
+    if (calculatedHeight <= maxHeight) {
       // Set exact height for 6 or fewer items
       this.menu.style.height = `${calculatedHeight}px`;
       this.menu.style.maxHeight = `${calculatedHeight}px`;
@@ -536,6 +583,11 @@ class Dropdown {
         itemLabel.style.overflow = originalLabelOverflow;
         itemLabel.style.textOverflow = originalLabelTextOverflow;
       }
+    });
+    
+    // Group headings can be wider than every option
+    this.menuList.querySelectorAll('.dropdown-menu-group-label').forEach(groupLabel => {
+      maxMenuItemWidth = Math.max(maxMenuItemWidth, groupLabel.scrollWidth);
     });
     
     // Restore menu styles

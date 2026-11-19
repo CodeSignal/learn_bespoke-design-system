@@ -181,6 +181,24 @@
       </div>
     </div>
 
+    <!-- Grouped Options -->
+    <div class="test-section">
+      <h2>Grouped Options</h2>
+      <div class="test-row">
+        <div class="test-item">
+          <label>Two groups</label>
+          <div id="dropdown-grouped" style="width: 240px;"></div>
+        </div>
+        <div class="test-item">
+          <label>Groups with scrolling and an ungrouped option</label>
+          <div id="dropdown-grouped-long" style="width: 240px;"></div>
+        </div>
+      </div>
+      <div class="test-output">
+        <strong>Selected Value:</strong> <span id="output-grouped">None</span>
+      </div>
+    </div>
+
     <!-- Many Options -->
     <div class="test-section">
       <h2>Many Options</h2>
@@ -283,6 +301,35 @@
       }
     });
 
+    // Grouped options
+    const groupedItems = [
+      { value: 'gpt-6-luna', label: 'GPT-6 Luna', group: 'OpenAI' },
+      { value: 'gpt-6.2-sol', label: 'GPT-6.2 Sol', group: 'OpenAI' },
+      { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5', group: 'Anthropic' },
+      { value: 'claude-haiku-5-5', label: 'Claude Haiku 5.5', group: 'Anthropic' }
+    ];
+
+    const dropdownGrouped = new Dropdown('#dropdown-grouped', {
+      items: groupedItems,
+      placeholder: 'Select model',
+      onSelect: (value, item) => {
+        document.getElementById('output-grouped').textContent = value || 'None';
+        console.log('Selected:', value, item);
+      }
+    });
+
+    const dropdownGroupedLong = new Dropdown('#dropdown-grouped-long', {
+      items: [
+        { value: 'auto', label: 'Automatic' },
+        ...groupedItems,
+        { value: 'gpt-6.1-terra', label: 'GPT-6.1 Terra', group: 'OpenAI' },
+        { value: 'gpt-6.2-astra', label: 'GPT-6.2 Astra', group: 'OpenAI' },
+        { value: 'local-small', label: 'Local Small', group: 'Self-hosted' }
+      ],
+      placeholder: 'Select model',
+      selectedValue: 'claude-haiku-5-5'
+    });
+
     // Many options
     const dropdownMany = new Dropdown('#dropdown-many', {
       items: manyItems,
@@ -309,6 +356,8 @@
       preselected: dropdownPreselected,
       custom: dropdownCustom,
       many: dropdownMany,
+      grouped: dropdownGrouped,
+      groupedLong: dropdownGroupedLong,
       grow: dropdownGrow
     };
   </script>
