@@ -11,6 +11,7 @@
   --Colors-Dropdown-Icon-Active: var(--Colors-Icon-Primary);
   --Colors-Dropdown-Panel: var(--Colors-Backgrounds-Main-Top);
   --Colors-Dropdown-Panel-Stroke: var(--Colors-Stroke-Default);
+  --Colors-Dropdown-Divider: var(--Colors-Stroke-Default);
   --Colors-Dropdown-Toggle: var(--Colors-Backgrounds-Main-Top);
   --Colors-Dropdown-Toggle-Background: var(--Colors-Backgrounds-Main-Top);
   --Colors-Dropdown-Toggle-Stroke: var(--Colors-Stroke-Default);
@@ -215,6 +216,38 @@
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none;
+}
+
+/*
+ * In a scrolling menu a heading stays pinned to the top while its group is in
+ * view. Sticky offsets are measured from inside the list's padding, so the
+ * negative top moves the heading up over that padding: no option shows through
+ * above it. It needs the panel background to cover the options behind it.
+ */
+.dropdown-menu-list.has-groups .dropdown-menu-group-label {
+  position: sticky;
+  top: calc(-1 * var(--UI-Spacing-spacing-mxs));
+  z-index: 1;
+  background: var(--Colors-Dropdown-Panel);
+}
+
+/* Keep a keyboard-focused option clear of the pinned heading when it scrolls into view */
+.dropdown-menu-list.has-groups {
+  scroll-padding-top: 32px;
+}
+
+/*
+ * A rule between a group and its neighbour. The row is 9px tall with the 1px
+ * line centred; must match dividerHeight in dropdown.js.
+ */
+.dropdown-menu-divider {
+  flex-shrink: 0;
+  box-sizing: border-box;
+  height: 9px;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  background: var(--Colors-Dropdown-Divider);
+  background-clip: padding-box;
 }
 
 /* Menu Items (div[role=option]; not <button> — D3) */

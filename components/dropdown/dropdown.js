@@ -92,28 +92,39 @@ class Dropdown {
     
     // Create menu items. A group entry ({ label, items }) renders its options
     // inside a labelled role="group"; DOM order always matches `this.options`.
+    // A divider separates a group from whatever sits next to it.
     this.groupCount = 0;
+    this.dividerCount = 0;
     let optionIndex = 0;
+    let previousWasGroup = false;
+    let hasEntries = false;
     this.config.items.forEach((entry) => {
-      if (!Dropdown.isGroup(entry)) {
-        this.menuList.appendChild(this.createMenuItem(entry, optionIndex));
-        optionIndex += 1;
-        return;
-      }
-      if (entry.items.length === 0) return;
-      const label = typeof entry.label === 'string' ? entry.label.trim() : '';
+      const isGroupEntry = Dropdown.isGroup(entry);
+      if (isGroupEntry && entry.items.length === 0) return;
+      const label = isGroupEntry && typeof entry.label === 'string' ? entry.label.trim() : '';
       // A group without a label has nothing to announce: render its options plainly.
+      const rendersAsGroup = Boolean(label);
+
+      if (hasEntries && (rendersAsGroup || previousWasGroup)) {
+        this.dividerCount += 1;
+        this.menuList.appendChild(this.createDivider());
+      }
+
       let parent = this.menuList;
-      if (label) {
+      if (rendersAsGroup) {
         this.groupCount += 1;
         parent = this.createGroup(label, `${this.menu.id}-group-${this.groupCount}`);
         this.menuList.appendChild(parent);
       }
-      entry.items.forEach((item) => {
+      (isGroupEntry ? entry.items : [entry]).forEach((item) => {
         parent.appendChild(this.createMenuItem(item, optionIndex));
         optionIndex += 1;
       });
+      previousWasGroup = rendersAsGroup;
+      hasEntries = true;
     });
+    // Headings stay pinned while their group scrolls; see .has-groups in dropdown.css.
+    this.menuList.classList.toggle('has-groups', this.groupCount > 0);
     
     this.menu.appendChild(this.menuList);
     
@@ -212,7 +223,7 @@ class Dropdown {
     group.setAttribute('aria-labelledby', labelId);
 
     const label = document.createElement('div');
-    label.className = 'dropdown-menu-group-label label-small';
+    label.className = 'dropdown-menu-group-label body-xsmall';
     label.id = labelId;
     label.setAttribute('role', 'presentation');
     label.textContent = name;
@@ -222,6 +233,14 @@ class Dropdown {
 
     group.appendChild(label);
     return group;
+  }
+
+  /** A thin rule between a group and its neighbour. Decorative: groups are already labelled. */
+  createDivider() {
+    const divider = document.createElement('div');
+    divider.className = 'dropdown-menu-divider';
+    divider.setAttribute('role', 'presentation');
+    return divider;
   }
 
   getMenuItems() {
@@ -425,17 +444,20 @@ class Dropdown {
   updateMenuHeight() {
     const itemCount = this.options.length;
     const groupCount = this.groupCount || 0;
+    const dividerCount = this.dividerCount || 0;
     const itemHeight = 40; // Height of each menu item
     const groupLabelHeight = 28; // Height of each group heading (.dropdown-menu-group-label)
-    const gap = 4; // Gap between rows (items and group headings)
+    const dividerHeight = 9; // Height of each divider row (.dropdown-menu-divider)
+    const gap = 4; // Gap between rows (items, group headings and dividers)
     const padding = 24; // Total padding (12px top + 12px bottom)
     const maxItems = 6; // Maximum items before scrolling
-    const rowCount = itemCount + groupCount;
+    const rowCount = itemCount + groupCount + dividerCount;
     
     // Calculate height: rows + (gap * (rowCount - 1)) + padding
     let calculatedHeight =
       (itemHeight * itemCount) +
       (groupLabelHeight * groupCount) +
+      (dividerHeight * dividerCount) +
       (gap * Math.max(0, rowCount - 1)) +
       padding;
     

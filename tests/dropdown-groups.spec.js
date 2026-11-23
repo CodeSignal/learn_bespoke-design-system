@@ -243,6 +243,171 @@ for (const colorScheme of ['light', 'dark']) {
       expect(Math.round(long.menuHeight)).toBeLessThanOrEqual(286);
     });
 
+    test('a divider separates a group from its neighbours, and nothing else', async ({ page }) => {
+      const rows = (selector) =>
+        page.evaluate((sel) => {
+          const list = document.querySelector(`${sel} .dropdown-menu-list`);
+          return Array.from(list.children).map((child) => {
+            if (child.classList.contains('dropdown-menu-divider')) return 'divider';
+            if (child.getAttribute('role') === 'group') {
+              return `group:${document.getElementById(child.getAttribute('aria-labelledby')).textContent}`;
+            }
+            return `option:${child.getAttribute('data-value')}`;
+          });
+        }, selector);
+
+      expect(await rows(GROUPED)).toEqual(['group:OpenAI', 'divider', 'group:Anthropic']);
+      expect(await rows(GROUPED_LONG)).toEqual([
+        'option:auto',
+        'divider',
+        'group:OpenAI',
+        'divider',
+        'group:Anthropic',
+        'divider',
+        'group:Self-hosted',
+      ]);
+      expect(await page.locator('#dropdown-basic .dropdown-menu-divider').count()).toBe(0);
+
+      const mixed = await page.evaluate(() => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const dropdown = new window.Dropdown(host, {
+          items: [
+            { label: 'Group', items: [{ value: 'a', label: 'A' }] },
+            { value: 'b', label: 'B' },
+            { value: 'c', label: 'C' },
+          ],
+        });
+        const result = Array.from(host.querySelector('.dropdown-menu-list').children).map((child) =>
+          child.classList.contains('dropdown-menu-divider') ? 'divider' : child.getAttribute('role'),
+        );
+        dropdown.destroy();
+        host.remove();
+        return result;
+      });
+      // One divider after the group; none between the two plain options.
+      expect(mixed).toEqual(['group', 'divider', 'option', 'option']);
+    });
+
+    test('dividers are decorative and 9px tall with a visible 1px rule', async ({ page }) => {
+      await page.locator(`${GROUPED} .dropdown-toggle`).click();
+      const divider = await page.locator(`${GROUPED} .dropdown-menu-divider`).first().evaluate((el) => {
+        const style = getComputedStyle(el);
+        return {
+          role: el.getAttribute('role'),
+          height: el.getBoundingClientRect().height,
+          ruleHeight: el.clientHeight,
+          hasColor: style.backgroundColor !== 'rgba(0, 0, 0, 0)',
+        };
+      });
+      expect(divider).toEqual({ role: 'presentation', height: 9, ruleHeight: 1, hasColor: true });
+    });
+
+    test('headings are written in sentence case, not uppercased', async ({ page }) => {
+      const transform = await page
+        .locator(`${GROUPED} .dropdown-menu-group-label`)
+        .first()
+        .evaluate((el) => getComputedStyle(el).textTransform);
+      expect(transform).toBe('none');
+    });
+
+    test('a heading stays pinned to the top while its group scrolls, then gives way to the next', async ({ page }) => {
+      // Two groups that are each taller than the menu, so the hand-over is visible.
+      const result = await page.evaluate(() => {
+        const host = document.createElement('div');
+        host.style.width = '240px';
+        document.body.appendChild(host);
+        const options = (prefix) =>
+          Array.from({ length: 8 }, (_, i) => ({ value: `${prefix}-${i}`, label: `${prefix} ${i}` }));
+        const dropdown = new window.Dropdown(host, {
+          items: [
+            { label: 'First', items: options('first') },
+            { label: 'Second', items: options('second') },
+          ],
+        });
+        dropdown.open();
+
+        const list = host.querySelector('.dropdown-menu-list');
+        const headingOffsets = () => {
+          const listTop = list.getBoundingClientRect().top;
+          return Object.fromEntries(
+            Array.from(list.querySelectorAll('.dropdown-menu-group-label')).map((h) => [
+              h.textContent,
+              Math.round(h.getBoundingClientRect().top - listTop),
+            ]),
+          );
+        };
+        const scrollOptionToMiddle = (value) => {
+          const option = list.querySelector(`[role="option"][data-value="${value}"]`);
+          list.scrollTop += option.getBoundingClientRect().top - list.getBoundingClientRect().top - 120;
+        };
+
+        const atStart = headingOffsets();
+        scrollOptionToMiddle('first-5');
+        const insideFirst = headingOffsets();
+        scrollOptionToMiddle('second-5');
+        const insideSecond = headingOffsets();
+
+        dropdown.destroy();
+        host.remove();
+        return { atStart, insideFirst, insideSecond };
+      });
+
+      // At rest the first heading sits below the list's top padding.
+      expect(result.atStart.First).toBeGreaterThan(0);
+      // Deep inside the first group its heading is pinned to the top edge.
+      expect(result.insideFirst.First).toBe(0);
+      expect(result.insideFirst.Second).toBeGreaterThan(0);
+      // Deep inside the second group the first heading has left and the second holds the top.
+      expect(result.insideSecond.First).toBeLessThan(0);
+      expect(result.insideSecond.Second).toBe(0);
+    });
+
+    test('a pinned heading covers the options behind it', async ({ page }) => {
+      await page.locator(`${GROUPED_LONG} .dropdown-toggle`).click();
+      const heading = await page
+        .locator(`${GROUPED_LONG} .dropdown-menu-group-label`)
+        .first()
+        .evaluate((el) => {
+          const style = getComputedStyle(el);
+          // rgb(r, g, b) is opaque; rgba(r, g, b, a) carries its alpha as the fourth number.
+          const channels = style.backgroundColor.match(/[\d.]+/g).map(Number);
+          return {
+            position: style.position,
+            alpha: channels.length === 4 ? channels[3] : 1,
+            matchesPanel: style.backgroundColor === getComputedStyle(el.closest('.dropdown-menu')).backgroundColor,
+          };
+        });
+      expect(heading).toEqual({ position: 'sticky', alpha: 1, matchesPanel: true });
+    });
+
+    test('an option focused with the keyboard is not hidden behind a pinned heading', async ({ page }) => {
+      await page.locator(`${GROUPED_LONG} .dropdown-toggle`).focus();
+      await page.keyboard.press('End');
+      expect(await focusedOption(page)).toBe('local-small');
+
+      // Walk back up through the list; at every step the focused option must sit
+      // fully below whichever heading is pinned at the top.
+      for (let step = 0; step < 7; step += 1) {
+        await page.keyboard.press('ArrowUp');
+        const overlap = await page.evaluate((sel) => {
+          const list = document.querySelector(`${sel} .dropdown-menu-list`);
+          const listTop = list.getBoundingClientRect().top;
+          const focused = document.activeElement.getBoundingClientRect();
+          const pinned = Array.from(list.querySelectorAll('.dropdown-menu-group-label'))
+            .map((h) => h.getBoundingClientRect())
+            .filter((r) => Math.round(r.top - listTop) === 0);
+          const pinnedBottom = pinned.length ? Math.max(...pinned.map((r) => r.bottom)) : listTop;
+          return {
+            value: document.activeElement.getAttribute('data-value'),
+            hiddenPx: Math.max(0, Math.round(pinnedBottom - focused.top)),
+          };
+        }, GROUPED_LONG);
+        expect(overlap.hiddenPx, `${overlap.value} is partly behind a pinned heading`).toBe(0);
+      }
+      expect(await focusedOption(page)).toBe('auto');
+    });
+
     test('heading height matches the value used for the menu height calculation', async ({ page }) => {
       await page.locator(`${GROUPED} .dropdown-toggle`).click();
       const height = await page

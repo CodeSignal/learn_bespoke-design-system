@@ -82,7 +82,9 @@ new Dropdown('#model', {
 - The toggle shows only the selected option's `label`, so keep labels meaningful without their heading.
 - Pass an already-translated string as the group `label`; it is the group's accessible name.
 - A group with no `items` is not rendered. Groups are one level deep.
-- A heading counts toward the menu height, which still scrolls beyond the height of six options.
+- A thin divider separates a group from whatever sits next to it, including a plain option before or after it. Two plain options next to each other get no divider.
+- In a scrolling menu, a heading stays pinned to the top while its group is in view, and an option reached with the keyboard scrolls clear of it.
+- Headings and dividers count toward the menu height, which still scrolls beyond the height of six options.
 
 ## Keyboard
 
@@ -101,7 +103,7 @@ Select-only combobox pattern (APG):
 - Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup. The accessible name comes from the visible label (`placeholder` when nothing is selected). There is no separate i18n runtime; pass a translated `placeholder`.
 - Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
 - Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
-- Grouped options sit inside `role="group"` elements named by their heading through `aria-labelledby` (APG listbox with grouped options). The heading itself is presentational.
+- Grouped options sit inside `role="group"` elements named by their heading through `aria-labelledby` (APG listbox with grouped options). The heading itself is presentational, and so are the dividers between groups.
 - Every option exposes `aria-selected="true"` or `"false"`; the checkmark SVG is decorative (`aria-hidden`) and is not the only selection cue.
 
 ## API Methods
