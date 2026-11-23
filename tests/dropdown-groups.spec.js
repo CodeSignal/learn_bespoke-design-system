@@ -2,9 +2,9 @@ import { test, expect } from '@playwright/test';
 import { expectNoAxeViolations } from './helpers/a11y.js';
 
 /**
- * Grouped options: items with a `group` render under a heading inside a
- * labelled role="group". Headings are not options, so keyboard navigation and
- * selection behave exactly as in an ungrouped dropdown.
+ * Grouped options: a group entry ({ label, items }) renders its options under
+ * a heading inside a labelled role="group". Headings are not options, so
+ * keyboard navigation and selection behave exactly as in an ungrouped dropdown.
  */
 
 const GROUPED = '#dropdown-grouped';
@@ -43,7 +43,7 @@ for (const colorScheme of ['light', 'dark']) {
       await page.waitForFunction(() => window.testDropdowns?.grouped);
     });
 
-    test('renders consecutive items with the same group under one labelled group', async ({ page }) => {
+    test('renders each group entry as a labelled group of its options', async ({ page }) => {
       expect(await groupStructure(page, GROUPED)).toEqual([
         {
           name: 'OpenAI',
@@ -60,13 +60,12 @@ for (const colorScheme of ['light', 'dark']) {
       ]);
     });
 
-    test('keeps item order, leaves ungrouped items outside groups and starts a new group when the name changes', async ({
-      page,
-    }) => {
+    test('keeps entry order and leaves plain options outside groups', async ({ page }) => {
       const order = await page.evaluate((sel) => {
         const root = document.querySelector(sel);
         return Array.from(root.querySelectorAll('[role="option"]')).map((o) => ({
           value: o.getAttribute('data-value'),
+          index: Number(o.getAttribute('data-index')),
           group: o.closest('[role="group"]')
             ? document.getElementById(o.closest('[role="group"]').getAttribute('aria-labelledby')).textContent
             : null,
@@ -74,22 +73,92 @@ for (const colorScheme of ['light', 'dark']) {
       }, GROUPED_LONG);
 
       expect(order).toEqual([
-        { value: 'auto', group: null },
-        { value: 'gpt-6-luna', group: 'OpenAI' },
-        { value: 'gpt-6.2-sol', group: 'OpenAI' },
-        { value: 'claude-sonnet-5-5', group: 'Anthropic' },
-        { value: 'claude-haiku-5-5', group: 'Anthropic' },
-        { value: 'gpt-6.1-terra', group: 'OpenAI' },
-        { value: 'gpt-6.2-astra', group: 'OpenAI' },
-        { value: 'local-small', group: 'Self-hosted' },
+        { value: 'auto', index: 0, group: null },
+        { value: 'gpt-6-luna', index: 1, group: 'OpenAI' },
+        { value: 'gpt-6.2-sol', index: 2, group: 'OpenAI' },
+        { value: 'gpt-6.1-terra', index: 3, group: 'OpenAI' },
+        { value: 'gpt-6.2-astra', index: 4, group: 'OpenAI' },
+        { value: 'claude-sonnet-5-5', index: 5, group: 'Anthropic' },
+        { value: 'claude-haiku-5-5', index: 6, group: 'Anthropic' },
+        { value: 'local-small', index: 7, group: 'Self-hosted' },
       ]);
-      // "OpenAI" appears twice because its items are not consecutive.
-      expect((await groupStructure(page, GROUPED_LONG)).map((g) => g.name)).toEqual([
-        'OpenAI',
-        'Anthropic',
-        'OpenAI',
-        'Self-hosted',
-      ]);
+    });
+
+    test('skips empty groups and renders an unlabelled group as plain options', async ({ page }) => {
+      const rendered = await page.evaluate(() => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const dropdown = new window.Dropdown(host, {
+          items: [
+            { label: 'Empty', items: [] },
+            { items: [{ value: 'plain', label: 'Plain' }] },
+            { label: 'Named', items: [{ value: 'named', label: 'Named option' }] },
+          ],
+        });
+        const result = {
+          headings: Array.from(host.querySelectorAll('.dropdown-menu-group-label')).map((h) => h.textContent),
+          options: Array.from(host.querySelectorAll('[role="option"]')).map((o) => ({
+            value: o.getAttribute('data-value'),
+            grouped: Boolean(o.closest('[role="group"]')),
+          })),
+        };
+        dropdown.destroy();
+        host.remove();
+        return result;
+      });
+
+      expect(rendered).toEqual({
+        headings: ['Named'],
+        options: [
+          { value: 'plain', grouped: false },
+          { value: 'named', grouped: true },
+        ],
+      });
+    });
+
+    test('setValue, getValue and onSelect work with option values inside groups', async ({ page }) => {
+      const result = await page.evaluate(() => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const selections = [];
+        const dropdown = new window.Dropdown(host, {
+          items: [
+            { value: 'auto', label: 'Automatic' },
+            { label: 'OpenAI', items: [{ value: 'gpt-6-luna', label: 'GPT-6 Luna' }] },
+          ],
+          selectedValue: 'gpt-6-luna',
+          onSelect: (value, item) => selections.push([value, item]),
+        });
+        const initialLabel = host.querySelector('.dropdown-toggle-label').textContent;
+        dropdown.setValue('OpenAI'); // a group label is not a value
+        const afterGroupLabel = dropdown.getValue();
+        dropdown.setValue('auto');
+        const afterPlain = dropdown.getValue();
+        dropdown.setValue('gpt-6-luna');
+        const out = {
+          initialLabel,
+          afterGroupLabel,
+          afterPlain,
+          final: dropdown.getValue(),
+          finalLabel: host.querySelector('.dropdown-toggle-label').textContent,
+          selections,
+        };
+        dropdown.destroy();
+        host.remove();
+        return out;
+      });
+
+      expect(result).toEqual({
+        initialLabel: 'GPT-6 Luna',
+        afterGroupLabel: 'gpt-6-luna',
+        afterPlain: 'auto',
+        final: 'gpt-6-luna',
+        finalLabel: 'GPT-6 Luna',
+        selections: [
+          ['auto', { value: 'auto', label: 'Automatic' }],
+          ['gpt-6-luna', { value: 'gpt-6-luna', label: 'GPT-6 Luna' }],
+        ],
+      });
     });
 
     test('arrow keys, Home and End move across groups and skip headings', async ({ page }) => {

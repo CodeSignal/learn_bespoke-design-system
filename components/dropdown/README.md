@@ -43,7 +43,7 @@ const dropdown = new Dropdown('#my-dropdown', {
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `items` | Array | `[]` | Array of objects with `value` and `label` properties, and an optional `group` (see [Grouped options](#grouped-options)). |
+| `items` | Array | `[]` | Array of options (`{ value, label }`) and, optionally, group entries (`{ label, items }`; see [Grouped options](#grouped-options)). |
 | `placeholder` | String | `'Select option'` | Text displayed when no item is selected. This is also the combobox accessible name until a value is chosen, so pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value. |
 | `width` | String/Number | `'auto'` | Fixed width of the dropdown (e.g., `200`, `'100%'`). Ignored if `growToFit` is true. |
@@ -52,23 +52,36 @@ const dropdown = new Dropdown('#my-dropdown', {
 
 ## Grouped options
 
-Give items a `group` to show them under a heading. Consecutive items with the same `group` form one group; items without a `group` are rendered on their own. Options stay in the order you pass them.
+To show options under a heading, put them in a group entry: an object with a `label` and its own `items`. Group entries and plain options can be mixed in the same array, and options appear in the order you pass them.
 
 ```javascript
 new Dropdown('#model', {
   placeholder: 'Select model',
   items: [
-    { value: 'gpt-6-luna', label: 'GPT-6 Luna', group: 'OpenAI' },
-    { value: 'gpt-6.2-sol', label: 'GPT-6.2 Sol', group: 'OpenAI' },
-    { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5', group: 'Anthropic' },
-    { value: 'claude-haiku-5-5', label: 'Claude Haiku 5.5', group: 'Anthropic' }
+    { value: 'auto', label: 'Automatic' },
+    {
+      label: 'OpenAI',
+      items: [
+        { value: 'gpt-6-luna', label: 'GPT-6 Luna' },
+        { value: 'gpt-6.2-sol', label: 'GPT-6.2 Sol' }
+      ]
+    },
+    {
+      label: 'Anthropic',
+      items: [
+        { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5' },
+        { value: 'claude-haiku-5-5', label: 'Claude Haiku 5.5' }
+      ]
+    }
   ]
 });
 ```
 
 - Headings are not options: they cannot be focused or selected, and arrow keys, Home and End skip them.
+- `selectedValue`, `getValue()`, `setValue()` and `onSelect` work with option values exactly as in an ungrouped dropdown; `onSelect` receives the option object, not its group.
 - The toggle shows only the selected option's `label`, so keep labels meaningful without their heading.
-- Pass an already-translated string as `group`; it is the group's accessible name.
+- Pass an already-translated string as the group `label`; it is the group's accessible name.
+- A group with no `items` is not rendered. Groups are one level deep.
 - A heading counts toward the menu height, which still scrolls beyond the height of six options.
 
 ## Keyboard

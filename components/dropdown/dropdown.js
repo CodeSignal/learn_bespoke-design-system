@@ -27,6 +27,9 @@ class Dropdown {
       ...options
     };
 
+    // Selectable options in menu order, with group entries flattened out.
+    this.options = Dropdown.flattenOptions(this.config.items);
+
     // State
     this.isOpen = false;
     this.selectedValue = this.config.selectedValue ?? null;
@@ -87,27 +90,29 @@ class Dropdown {
     this.menuList.className = 'dropdown-menu-list';
     this.menuList.setAttribute('role', 'presentation');
     
-    // Create menu items. Consecutive items that share a `group` are wrapped
-    // in a labelled role="group"; DOM order always matches `config.items`.
+    // Create menu items. A group entry ({ label, items }) renders its options
+    // inside a labelled role="group"; DOM order always matches `this.options`.
     this.groupCount = 0;
-    let currentGroupName = null;
-    let currentGroupEl = null;
-    this.config.items.forEach((item, index) => {
-      const menuItem = this.createMenuItem(item, index);
-      const groupName = typeof item.group === 'string' ? item.group.trim() : '';
-      if (!groupName) {
-        currentGroupName = null;
-        currentGroupEl = null;
-        this.menuList.appendChild(menuItem);
+    let optionIndex = 0;
+    this.config.items.forEach((entry) => {
+      if (!Dropdown.isGroup(entry)) {
+        this.menuList.appendChild(this.createMenuItem(entry, optionIndex));
+        optionIndex += 1;
         return;
       }
-      if (groupName !== currentGroupName) {
+      if (entry.items.length === 0) return;
+      const label = typeof entry.label === 'string' ? entry.label.trim() : '';
+      // A group without a label has nothing to announce: render its options plainly.
+      let parent = this.menuList;
+      if (label) {
         this.groupCount += 1;
-        currentGroupName = groupName;
-        currentGroupEl = this.createGroup(groupName, `${this.menu.id}-group-${this.groupCount}`);
-        this.menuList.appendChild(currentGroupEl);
+        parent = this.createGroup(label, `${this.menu.id}-group-${this.groupCount}`);
+        this.menuList.appendChild(parent);
       }
-      currentGroupEl.appendChild(menuItem);
+      entry.items.forEach((item) => {
+        parent.appendChild(this.createMenuItem(item, optionIndex));
+        optionIndex += 1;
+      });
     });
     
     this.menu.appendChild(this.menuList);
@@ -186,6 +191,16 @@ class Dropdown {
     return menuItem;
   }
 
+  /** True for a group entry: `{ label, items: [...] }`. */
+  static isGroup(entry) {
+    return Boolean(entry) && Array.isArray(entry.items);
+  }
+
+  /** The selectable options of an `items` array, in order, with groups flattened. */
+  static flattenOptions(items) {
+    return (items || []).flatMap((entry) => (Dropdown.isGroup(entry) ? entry.items : [entry]));
+  }
+
   /**
    * A labelled group of options (APG listbox with grouped options). The
    * heading is not an option: it takes no focus and is skipped by arrow keys.
@@ -218,7 +233,7 @@ class Dropdown {
     // Resolve from config with strict equality so numeric/`'1'` mismatches
     // match getItemByValue / selectItem (data-value is always a string).
     if (this.selectedValue == null) return -1;
-    return this.config.items.findIndex((item) => item.value === this.selectedValue);
+    return this.options.findIndex((item) => item.value === this.selectedValue);
   }
 
   focusOptionAt(index) {
@@ -408,7 +423,7 @@ class Dropdown {
   }
 
   updateMenuHeight() {
-    const itemCount = this.config.items.length;
+    const itemCount = this.options.length;
     const groupCount = this.groupCount || 0;
     const itemHeight = 40; // Height of each menu item
     const groupLabelHeight = 28; // Height of each group heading (.dropdown-menu-group-label)
@@ -652,7 +667,7 @@ class Dropdown {
   }
 
   getItemByValue(value) {
-    return this.config.items.find(item => item.value === value);
+    return this.options.find(item => item.value === value);
   }
 
   getValue() {
@@ -660,7 +675,7 @@ class Dropdown {
   }
 
   setValue(value) {
-    if (this.config.items.some(item => item.value === value)) {
+    if (this.options.some(item => item.value === value)) {
       this.selectItem(value);
     }
   }

@@ -645,7 +645,7 @@ const dropdown = new Dropdown(selector, options);
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `items` | Array | `[]` | Array of `{value, label}` objects. Add an optional `group` string to show consecutive items under a heading (`{value, label, group}`) |
+| `items` | Array | `[]` | Array of `{value, label}` options. To show options under a heading, nest them in a group entry: `{label, items: [{value, label}, ...]}`. Options and group entries can be mixed |
 | `placeholder` | String | `'Select option'` | Placeholder text. Also the combobox accessible name when nothing is selected; pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value |
 | `width` | String/Number | `'auto'` | Fixed width (ignored if `growToFit` is true) |
