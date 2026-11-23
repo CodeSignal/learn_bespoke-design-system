@@ -43,12 +43,48 @@ const dropdown = new Dropdown('#my-dropdown', {
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `items` | Array | `[]` | Array of objects with `value` and `label` properties. |
+| `items` | Array | `[]` | Array of options (`{ value, label }`) and, optionally, group entries (`{ label, items }`; see [Grouped options](#grouped-options)). |
 | `placeholder` | String | `'Select option'` | Text displayed when no item is selected. This is also the combobox accessible name until a value is chosen, so pass an already-translated string. |
 | `selectedValue` | String | `null` | Initial selected value. |
 | `width` | String/Number | `'auto'` | Fixed width of the dropdown (e.g., `200`, `'100%'`). Ignored if `growToFit` is true. |
 | `growToFit` | Boolean | `false` | If `true`, the dropdown automatically resizes to fit the selected content. |
 | `onSelect` | Function | `null` | Callback function triggered when an item is selected. Receives `(value, item)`. |
+
+## Grouped options
+
+To show options under a heading, put them in a group entry: an object with a `label` and its own `items`. Group entries and plain options can be mixed in the same array, and options appear in the order you pass them.
+
+```javascript
+new Dropdown('#model', {
+  placeholder: 'Select model',
+  items: [
+    { value: 'auto', label: 'Automatic' },
+    {
+      label: 'OpenAI',
+      items: [
+        { value: 'gpt-6-luna', label: 'GPT-6 Luna' },
+        { value: 'gpt-6.2-sol', label: 'GPT-6.2 Sol' }
+      ]
+    },
+    {
+      label: 'Anthropic',
+      items: [
+        { value: 'claude-sonnet-5-5', label: 'Claude Sonnet 5.5' },
+        { value: 'claude-haiku-5-5', label: 'Claude Haiku 5.5' }
+      ]
+    }
+  ]
+});
+```
+
+- Headings are not options: they cannot be focused or selected, and arrow keys, Home and End skip them.
+- `selectedValue`, `getValue()`, `setValue()` and `onSelect` work with option values exactly as in an ungrouped dropdown; `onSelect` receives the option object, not its group.
+- The toggle shows only the selected option's `label`, so keep labels meaningful without their heading.
+- Pass an already-translated string as the group `label`; it is the group's accessible name.
+- A group with no `items` is not rendered. Groups are one level deep.
+- A thin divider separates a group from whatever sits next to it, including a plain option before or after it. Two plain options next to each other get no divider.
+- In a scrolling menu, a heading stays pinned to the top while its group is in view, and an option reached with the keyboard scrolls clear of it.
+- Headings and dividers count toward the menu height, which still scrolls beyond the height of six options.
 
 ## Keyboard
 
@@ -67,6 +103,7 @@ Select-only combobox pattern (APG):
 - Toggle is a `<button role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` pointing at the popup. The accessible name comes from the visible label (`placeholder` when nothing is selected). There is no separate i18n runtime; pass a translated `placeholder`.
 - Popup panel is `role="listbox"`; the layout wrapper uses `role="presentation"` so options are owned by the listbox.
 - Options are plain elements with `role="option"` and `tabindex="-1"` (not `<button>`).
+- Grouped options sit inside `role="group"` elements named by their heading through `aria-labelledby` (APG listbox with grouped options). The heading itself is presentational, and so are the dividers between groups.
 - Every option exposes `aria-selected="true"` or `"false"`; the checkmark SVG is decorative (`aria-hidden`) and is not the only selection cue.
 
 ## API Methods
